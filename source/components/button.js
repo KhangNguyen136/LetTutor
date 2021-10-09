@@ -74,28 +74,6 @@ export function LoginButton({ onPress, title }) {
     )
 }
 
-export function DeleteButton({ onPress }) {
-    return (
-        <TouchableOpacity style={styles.DeleteButtonContainer} onPress={onPress} >
-            <GetIcon iconName={'delete'} source={'MaterialIcons'} size={26} color={'red'} />
-            <Text style={styles.DeleteButtonContent} > Delete </Text>
-        </TouchableOpacity>
-    )
-}
-
-export function BottomButton({ isEditMode, onSave, onUpdate, onDelete = null, saveTitle = 'Save' }) {
-    if (isEditMode == true)
-        return (
-            <View style={styles.BottomBtnContainer}>
-                <SaveButton onPress={onUpdate} width={'40%'} />
-                <DeleteButton onPress={onDelete} />
-            </View>
-        )
-    else
-        return (
-            <SaveButton onPress={onSave} width={'69%'} title={saveTitle} />
-        )
-}
 
 const styles = StyleSheet.create(
     {
@@ -143,28 +121,7 @@ const styles = StyleSheet.create(
             fontSize: 20,
             fontWeight: '600'
         },
-        DeleteButtonContainer: {
-            margin: 10,
-            width: '40%',
-            alignSelf: 'center',
-            flexDirection: 'row',
-            padding: 8,
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-            borderRadius: 8,
-            borderWidth: 0.5,
-            borderColor: 'red',
-            backgroundColor: 'white'
-        },
-        DeleteButtonContent: {
-            color: 'red',
-            fontSize: 20,
-            fontWeight: '500'
-        },
-        BottomBtnContainer: {
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-        },
+
 
     }
 )

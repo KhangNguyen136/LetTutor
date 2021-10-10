@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, Touchable } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import {
     MaterialIcons, Ionicons, MaterialCommunityIcons, FontAwesome5, FontAwesome,
     AntDesign, Entypo, Fontisto, Feather, Octicons
@@ -40,40 +40,32 @@ export function GetIcon({ iconName, source, size = 24, color = 'black' }) {
     }
 }
 
-export function SaveButton({ onPress, width = '69%', title = 'Save' }) {
-    return (
-        <TouchableOpacity style={{ ...styles.SaveButtonContainer, width: width }} onPress={onPress} >
-            <GetIcon iconName={'save'} source={'Entypo'} size={26} color={'white'} />
-            <Text style={styles.saveBtnContent} > {title} </Text>
-        </TouchableOpacity>
-    )
-}
 
-export function MyIconButton({ onPress, title, width = 200, color = '#0be881', iconName, iconSource, iconSize = 22, iconColor = 'black' }) {
+export function MyIconButtonLeft({ onPress, title, iconName, iconSource, iconSize = 22, iconColor = 'black', moreStyle, moreTitleStyle }) {
     return (
-        <TouchableOpacity style={{ ...styles.MyButtonCotainer, width: width, backgroundColor: color }} onPress={onPress} >
+        <TouchableOpacity style={[styles.MyButtonCotainer, moreStyle]} onPress={onPress} >
             <GetIcon iconName={iconName} source={iconSource} size={iconSize} color={iconColor} />
-            <Text style={styles.MyButtonContent} > {title} </Text>
+            <Text style={[styles.btnTitle, moreTitleStyle]} > {title} </Text>
         </TouchableOpacity>
     )
 }
 
-export function MyButton({ onPress, title, width = 200 }) {
+export function MyIconButtonRight({ onPress, title, iconName, iconSource, iconSize = 22, iconColor = 'black', moreStyle, moreTitleStyle }) {
     return (
-        <TouchableOpacity style={{ ...styles.MyButtonCotainer, width: width }} onPress={onPress} >
-            <Text style={styles.saveBtnContent} > {title} </Text>
+        <TouchableOpacity style={[styles.MyButtonCotainer, moreStyle]} onPress={onPress} >
+            <Text style={[styles.btnTitle, moreTitleStyle]} > {title} </Text>
+            <GetIcon iconName={iconName} source={iconSource} size={iconSize} color={iconColor} />
         </TouchableOpacity>
     )
 }
 
-export function LoginButton({ onPress, title }) {
+export function MyButton({ onPress, title, moreStyle, moreTitleStyle }) {
     return (
-        <TouchableOpacity style={{ ...styles.SaveButtonContainer, width: '96%' }} onPress={onPress} >
-            <Text style={styles.saveBtnContent} > {title} </Text>
+        <TouchableOpacity style={[styles.MyButtonCotainer, moreStyle]} onPress={onPress} >
+            <Text style={[styles.btnTitle, moreTitleStyle]} > {title} </Text>
         </TouchableOpacity>
     )
 }
-
 
 const styles = StyleSheet.create(
     {
@@ -84,41 +76,22 @@ const styles = StyleSheet.create(
             justifyContent: 'center',
         },
         MyButtonCotainer: {
-            margin: 5,
-            // minWidth: '40%',
-            alignSelf: 'center',
+            margin: 7,
             flexDirection: 'row',
-            padding: 10,
+            paddingVertical: 5,
+            paddingHorizontal: 10,
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: '#0be881',
-            borderRadius: 8,
+            borderRadius: 10,
             shadowColor: '#333',
             shadowOpacity: 0.1,
             shadowOffset: { width: 1, height: 1 },
 
         },
-        MyButtonContent: {
-            fontSize: 16,
-            fontWeight: '600'
-        },
-        SaveButtonContainer: {
-            margin: 10,
-            minWidth: '40%',
-            alignSelf: 'center',
-            flexDirection: 'row',
-            padding: 8,
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-            backgroundColor: '#3399ff',
-            borderRadius: 8,
-            shadowColor: '#333',
-            shadowOpacity: 0.1,
-            shadowOffset: { width: 1, height: 1 },
-        },
-        saveBtnContent: {
-            color: 'white',
-            fontSize: 20,
+        btnTitle: {
+            color: 'black',
+            fontSize: 17,
             fontWeight: '600'
         },
 

@@ -14,7 +14,7 @@ export default function ChatboxScreen() {
                 user: {
                     _id: 2,
                     name: 'Bot',
-                    avatar: require('../../../assets/botAvt.jpg'),
+                    avatar: require('../../../../assets/botAvt.jpg'),
                 },
             },
         ])

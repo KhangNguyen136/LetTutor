@@ -28,7 +28,12 @@ export const globalStyles = StyleSheet.create(
             alignItems: 'center',
             justifyContent: 'center',
             // backgroundColor: 'white'
-        }
+        },
+        authBtnContainer: {
+            backgroundColor: '#3399ff',
+            width: '96%',
+            alignSelf: 'center',
+        },
     }
 );
 

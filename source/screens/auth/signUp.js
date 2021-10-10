@@ -6,9 +6,10 @@ import LoadingIndicator from '../../components/loadingIndicator';
 import firebaseApp from '../../firebaseConfig';
 import TextInputCard from '../../components/TextInputCard';
 import PasswordTextInput from '../../components/passwordInput';
-import { LoginButton } from '../../components/button';
+import { MyButton } from '../../components/button';
 import { Formik } from 'formik';
 import { FlexCard } from '../../components/card';
+import { showMessage } from 'react-native-flash-message';
 
 export default function SignUp() {
     const [loading, setLoading] = React.useState(false)
@@ -20,22 +21,23 @@ export default function SignUp() {
                 var user = userCredential.user;
                 setLoading(false);
                 console.log('Sign up successfully')
+                showMessage({
+                    message: 'Sign up success',
+                    description: 'Auto log in after sign up.',
+                    type: 'success'
+                })
                 resetForm()
-                // firebaseApp.auth().signOut().then(() => {
-                //     // Sign-out successful.
-                //     console.log('Logged out after sign up successfully!')
-                // }).catch((error) => {
-                //     // An error happened.
-                //     console.log('Logged out after sign up failed!')
-                // });
-                // ...
             })
             .catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 setLoading(false);
-                // CheckInputFailed('Signed up failed', errorMessage)
                 console.log('Signed up failed', errorMessage)
+                showMessage({
+                    message: 'Registration failed',
+                    description: error.message,
+                    type: 'danger'
+                })
                 // ..
             });
     }
@@ -68,7 +70,7 @@ export default function SignUp() {
                         {/* <View style={{ height: 5 }} /> */}
                         <TextInputCard placeholder={'Display name'} value={values.displayName} onChangeValue={handleChange('displayName')} onBlur={handleBlur('displayName')} />
                         <View style={{ height: 20 }} />
-                        <LoginButton onPress={handleSubmit} title={'Sign up'} />
+                        <MyButton onPress={handleSubmit} title={'Sign up'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
                         <View style={{
                             flexDirection: 'row',
                             justifyContent: 'center',
@@ -91,19 +93,35 @@ export default function SignUp() {
 
 function CheckInput(email, pass, pass2, name) {
     if (validateEmail(email) === false) {
-        CheckInputFailed('Invalid email', 'Check your email and try again!')
+        showMessage({
+            message: "Invalid email",
+            description: 'Check your email and try again!',
+            type: 'warning'
+        })
         return false
     }
     if (checkPassword(pass) === false) {
-        CheckInputFailed('Invalid password', 'Password must contain more than 5 characters!')
+        showMessage({
+            message: "Invalid password",
+            description: 'Password must contain more than 5 characters!',
+            type: 'warning'
+        })
         return false
     }
     if (pass !== pass2) {
-        CheckInputFailed('Confirm password failed', 'Password and confirm password are not the same!')
+        showMessage({
+            message: 'Confirm password failed',
+            description: 'Password and confirm password are not the same!',
+            type: 'warning'
+        })
         return false
     }
     if (name === '') {
-        CheckInputFailed('Please enter display name!', 'We will use it to display your name in app')
+        showMessage({
+            message: 'Please enter display name!',
+            description: 'We will use it to display your name in app',
+            type: 'warning'
+        })
         return false
     }
     return true

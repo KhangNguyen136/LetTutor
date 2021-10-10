@@ -4,6 +4,7 @@ import MainBottomRoute from './routes/mainBottomRoute';
 import AuthStack from './routes/authStack';
 import { NavigationContainer } from '@react-navigation/native';
 import firebaseConfig from './firebaseConfig';
+import FlashMessage from 'react-native-flash-message';
 
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = React.useState(false)
@@ -36,6 +37,7 @@ export default function App() {
                     ) :
                     (<AuthStack />)
             }
+            <FlashMessage position={'top'} />
         </NavigationContainer>
     )
 

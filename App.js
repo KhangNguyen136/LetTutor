@@ -7,6 +7,7 @@ export default function App() {
   return (
     <Provider store={appStore}>
       <MyApp />
+      {/* <FlashMessage position='top' /> */}
     </Provider>
   );
 }

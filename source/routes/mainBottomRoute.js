@@ -1,24 +1,67 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/main/home';
-import StudyRoomScreen from '../screens/main/studyRoom';
-import AccountInfoScreen from '../screens/main/accountInfo';
-import HistoryScreen from '../screens/main/feedback';
-import MessagesScreen from '../screens/main/messages';
+import HomeStack from './mainStack/homeStack';
+import UpcomingStack from './mainStack/upcomingStack';
+import TutorStack from './mainStack/tutorStack';
+import MessageStack from './mainStack/messageStack';
+import SettingStack from './mainStack/settingStack';
+import { GetIcon } from '../components/button';
 const Tab = createBottomTabNavigator();
 
 function MainBottomRoute({ navigation }) {
     return (
-        <Tab.Navigator initialRouteName="Home" screenOptions={{
-            headerTitleAlign: 'center'
-        }}>
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Message" component={MessagesScreen} />
-            <Tab.Screen name="Study" component={StudyRoomScreen} />
-            <Tab.Screen name="History" component={HistoryScreen} />
-            <Tab.Screen name="AccountInfo" component={AccountInfoScreen} options={{ title: 'User information' }} />
-        </Tab.Navigator>
+        <Tab.Navigator initialRouteName="Home" screenOptions={
+            ({ route }) => ({
+                headerTitleAlign: 'center',
+
+                tabBarIcon: ({ focused, color, size }) => {
+                    return (<TabBarIcon focused={focused} routeName={route.name} color={color} size={size} />)
+                },
+                headerShown: false
+            })
+
+        }>
+            <Tab.Screen name="HomeStack" component={HomeStack} />
+            <Tab.Screen name="MessageStack" component={MessageStack} />
+            <Tab.Screen name="UpcomingStack" component={UpcomingStack} />
+            <Tab.Screen name="TutorStack" component={TutorStack} />
+            <Tab.Screen name="SettingStack" component={SettingStack} />
+        </Tab.Navigator >
     );
+}
+
+function TabBarIcon({ focused, routeName, color, size }) {
+    let iconName;
+    let iconSource;
+    switch (routeName) {
+        case 'HomeStack':
+            iconName = focused ? 'home' : 'home-outline';
+            break;
+        case 'MessageStack':
+            iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles-outline';
+            iconSource = 'Ionicons'
+            break;
+        case 'UpcomingStack':
+            iconName = focused ? 'md-time' : 'md-time-outline';
+            iconSource = 'Ionicons'
+            break;
+        case 'TutorsStack':
+            iconName = focused ? 'md-people-sharp' : 'md-people-outline';
+            iconSource = 'Ionicons'
+            break;
+        default:
+            if (focused) {
+                iconName = 'settings'
+                iconSource = 'Ionicons'
+            }
+            else {
+                iconName = 'setting'
+                iconSource = 'AntDesign'
+            }
+    }
+    return (
+        <GetIcon iconName={iconName} size={size} color={color} source={iconSource} />
+    )
 }
 
 export default MainBottomRoute;

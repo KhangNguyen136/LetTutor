@@ -1,5 +1,5 @@
 import React from 'react';
-import ChatboxScreen from '../../screens/main/message/chatBox';
+import TutorInfo from '../../screens/main/tutor/tutorInfo';
 import TutorScreen from '../../screens/main/tutor/tutors';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -11,6 +11,7 @@ function TutorStack({ navigation }) {
         // screenOptions={{ headerTitleAlign: 'center' }}
         >
             <Stack.Screen name="Tutor" component={TutorScreen} />
+            <Stack.Screen name="TutorInfo" component={TutorInfo} />
         </Stack.Navigator>
     )
 }

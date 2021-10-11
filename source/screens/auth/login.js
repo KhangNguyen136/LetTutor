@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../../styles/globalStyles';
 import { Formik } from 'formik';
-import firebaseApp from '../../firebaseConfig';
+import firebaseApp from '../../firebase';
 // import { Success, CheckInputFailed } from '../../Components/AlertMsg/messageAlert';
 import TextInputCard from '../../components/TextInputCard'
 import PasswordTextInput from '../../components/passwordInput';

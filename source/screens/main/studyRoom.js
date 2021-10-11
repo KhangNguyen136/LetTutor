@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, SafeAreaView } from 'react-native';
 
-export default function HistoryScreen() {
+export default function StudyRoom() {
     return (
         <SafeAreaView>
-            <Text>History screen</Text>
+            <Text>Study room</Text>
         </SafeAreaView>
     )
 }

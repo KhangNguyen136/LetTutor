@@ -21,11 +21,11 @@ function MainBottomRoute({ navigation }) {
             })
 
         }>
-            <Tab.Screen name="HomeStack" component={HomeStack} />
-            <Tab.Screen name="MessageStack" component={MessageStack} />
-            <Tab.Screen name="UpcomingStack" component={UpcomingStack} />
-            <Tab.Screen name="TutorStack" component={TutorStack} />
-            <Tab.Screen name="SettingStack" component={SettingStack} />
+            <Tab.Screen name="HomeStack" component={HomeStack} options={{ title: 'Home' }} />
+            <Tab.Screen name="MessageStack" component={MessageStack} options={{ title: 'Message' }} />
+            <Tab.Screen name="UpcomingStack" component={UpcomingStack} options={{ title: 'Upcoming' }} />
+            <Tab.Screen name="TutorStack" component={TutorStack} options={{ title: 'Tutors' }} />
+            <Tab.Screen name="SettingStack" component={SettingStack} options={{ title: 'Other' }} />
         </Tab.Navigator >
     );
 }
@@ -45,7 +45,7 @@ function TabBarIcon({ focused, routeName, color, size }) {
             iconName = focused ? 'md-time' : 'md-time-outline';
             iconSource = 'Ionicons'
             break;
-        case 'TutorsStack':
+        case 'TutorStack':
             iconName = focused ? 'md-people-sharp' : 'md-people-outline';
             iconSource = 'Ionicons'
             break;

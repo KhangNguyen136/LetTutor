@@ -7,7 +7,7 @@ import { globalStyles } from '../../styles/globalStyles';
 import { validateEmail } from './login';
 import LoadingIndicator from '../../components/loadingIndicator';
 // import { CheckInputFailed, Success } from '../../Components/AlertMsg/messageAlert';
-import firebaseApp from '../../firebaseConfig';
+import firebaseApp from '../../firebase';
 
 export default function ForgotPassword({ navigation }) {
     const [email, setEmail] = React.useState('')

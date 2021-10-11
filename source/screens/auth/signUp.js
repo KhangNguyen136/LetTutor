@@ -3,7 +3,7 @@ import { View, SafeAreaView, Text, Image, TouchableOpacity } from 'react-native'
 import { globalStyles } from '../../styles/globalStyles';
 import { useNavigation } from '@react-navigation/core';
 import LoadingIndicator from '../../components/loadingIndicator';
-import firebaseApp from '../../firebaseConfig';
+import firebaseApp from '../../firebase';
 import TextInputCard from '../../components/TextInputCard';
 import PasswordTextInput from '../../components/passwordInput';
 import { MyButton } from '../../components/button';

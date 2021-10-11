@@ -3,13 +3,18 @@ import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image } from 'react
 import { IconButton } from '../button';
 import { Rating } from 'react-native-ratings';
 import ListTag from './listTag';
+import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 
 export default function ListTutor({ data, searchKey = '' }) {
+    const navigation = useNavigation()
     const Tutor = ({ item }) => {
         icon = item.liked ? 'heart' : 'hearto'
+        const toDetail = () => {
+            navigation.navigate('TutorStack', { screen: 'TutorInfo' })
+        }
         return (
-            <TouchableOpacity style={{ marginHorizontal: 5 }} >
+            <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={toDetail} >
                 <Card>
                     <View style={{ flexDirection: 'row' }} >
                         <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>

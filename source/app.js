@@ -3,7 +3,7 @@ import SplashScreen from './screens/SplashScreen';
 import MainBottomRoute from './routes/mainBottomRoute';
 import AuthStack from './routes/authStack';
 import { NavigationContainer } from '@react-navigation/native';
-import firebaseConfig from './firebaseConfig';
+import firebaseConfig from './firebase';
 import FlashMessage from 'react-native-flash-message';
 
 export default function App() {

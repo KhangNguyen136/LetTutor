@@ -1,14 +1,12 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image } from 'react-native';
 import { IconButton } from '../button';
+import { outputDate } from '../../styles/outputDate';
 import { useNavigation } from '@react-navigation/core';
 
 export default function ListMessage({ data, searchKey = '' }) {
     const navigation = useNavigation()
-    const outputDate = (date) => {
-        const str = date.toISOString().slice(0, 16).replace(/-/g, "/").replace("T", " ");
-        return str
-    }
+
     const Message = ({ item }) => {
         const toChatBox = () => {
             navigation.navigate('Chatbox', {

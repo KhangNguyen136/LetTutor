@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, SafeAreaView } from 'react-native';
 
-export default function GuideScreen() {
+export default function BookingHistory() {
     return (
         <SafeAreaView>
-            <Text>Guide screen</Text>
+            <Text>History screen</Text>
         </SafeAreaView>
     )
 }

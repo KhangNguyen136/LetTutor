@@ -1,10 +1,12 @@
 import React from 'react';
 import { Text, SafeAreaView } from 'react-native';
+import ListUpcoming from '../../components/list/listUpcoming';
+import { globalStyles } from '../../styles/globalStyles';
 
 export default function UpcomingScreen() {
     return (
-        <SafeAreaView>
-            <Text>Study room screen</Text>
+        <SafeAreaView style={globalStyles.container} >
+            <ListUpcoming />
         </SafeAreaView>
     )
 }

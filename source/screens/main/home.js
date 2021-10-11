@@ -7,13 +7,19 @@ import { globalStyles } from '../../styles/globalStyles';
 
 export default function HomeScreen({ navigation }) {
     const date = new Date()
+    React.useEffect(() => {
+
+    }, [])
+    const toStudyRoom = () => {
+        navigation.navigate('UpcomingStack', { screen: 'StudyRoom' })
+    }
     const LessonOverview = () => {
         return (
             <View style={styles.lessonOverview} >
                 <Text style={{ ...styles.lessonOverviewContent, fontSize: 16 }}>Total lesson time is 13 hours 6 minutes</Text>
                 <Text style={styles.lessonOverviewContent} >Upcoming Lesson:</Text>
                 <Text style={styles.lessonOverviewContent}>{date.toString().substr(0, 24)}</Text>
-                <MyButton title={'Enter lesson room'} />
+                <MyButton title={'Enter lesson room'} onPress={toStudyRoom} />
             </View>
         )
     }
@@ -22,7 +28,7 @@ export default function HomeScreen({ navigation }) {
             <LessonOverview />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10, alignItems: 'center' }} >
                 <Text style={{ fontSize: 16, fontWeight: '600', textDecorationLine: 'underline' }} >Recommended tutors: </Text>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate("Tutors")} >
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate("TutorStack")} >
                     <Text style={{ color: '#3498db' }} >See all</Text>
                     <GetIcon iconName={'right'} source={'AntDesign'} size={14} color={'#3498db'} />
                 </TouchableOpacity>

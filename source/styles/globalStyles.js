@@ -10,15 +10,6 @@ export const globalStyles = StyleSheet.create(
             // paddingBottom: 
             // backgroundColor: '#fff',
         },
-        SaveButton: {
-            width: '80%',
-            paddingVertical: 0,
-            height: 30,
-            tintColor: 'black',
-            color: 'white',
-            borderRadius: 8,
-
-        },
         loading: {
             position: 'absolute',
             left: 0,
@@ -34,6 +25,9 @@ export const globalStyles = StyleSheet.create(
             width: '96%',
             alignSelf: 'center',
         },
+        // img: {
+        //     width:
+        // }
     }
 );
 

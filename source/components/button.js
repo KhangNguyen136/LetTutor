@@ -15,7 +15,7 @@ export function IconButton({ iconName, onPress, source, size, color = 'black' })
     );
 }
 
-export function GetIcon({ iconName, source, size = 24, color = 'black' }) {
+export function GetIcon({ iconName, source, size = 20, color = 'black' }) {
     switch (source) {
         case 'Fontisto':
             return <Fontisto name={iconName} size={size} color={color} />
@@ -78,7 +78,7 @@ const styles = StyleSheet.create(
         MyButtonCotainer: {
             margin: 7,
             flexDirection: 'row',
-            paddingVertical: 5,
+            paddingVertical: 8,
             paddingHorizontal: 10,
             alignItems: 'center',
             justifyContent: 'center',

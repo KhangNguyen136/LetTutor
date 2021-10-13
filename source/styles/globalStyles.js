@@ -6,9 +6,6 @@ export const globalStyles = StyleSheet.create(
             flex: 1,
             alignSelf: 'center',
             width: '99%',
-            flexDirection: 'column',
-            // paddingBottom: 
-            // backgroundColor: '#fff',
         },
         loading: {
             position: 'absolute',
@@ -18,7 +15,6 @@ export const globalStyles = StyleSheet.create(
             bottom: 0,
             alignItems: 'center',
             justifyContent: 'center',
-            // backgroundColor: 'white'
         },
         authBtnContainer: {
             backgroundColor: '#3399ff',

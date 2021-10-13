@@ -1,45 +1,37 @@
 import React from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Text } from 'react-native';
 import { GetIcon } from './button';
 
-export default function TextInputCard({ value, placeholder, onChangeValue, onBlur, keyboardType = 'default', isEdit = true }) {
+export default function TextInputCard({ value, title, placeholder, onChangeValue, onBlur, keyboardType = 'default', isEdit = true }) {
     var iconName
     var source
-    switch (placeholder) {
-        case 'Identity card':
-            iconName = 'idcard'
-            source = 'AntDesign'
+    switch (title) {
+
+        case 'Country: ':
+            iconName = 'flag'
+            source = 'Feather'
             break;
-        case 'Address':
-            iconName = 'address'
-            source = 'Entypo'
-            break;
-        case "Note":
-            iconName = 'text'
-            source = 'Entypo'
-            break;
-        case 'Enter price':
-            iconName = 'price-tag'
-            source = 'Entypo'
-            break;
-        case 'Phone number or Email':
-            iconName = 'user-circle-o'
+        case 'Birthday: ':
+            iconName = 'birthday-cake'
             source = 'FontAwesome'
             break;
-        case 'Your email':
+        case 'Phone number: ':
+            iconName = 'phone'
+            source = 'SimpleLineIcons'
+            break;
+        case 'Email: ':
             iconName = 'email'
             source = 'Entypo'
             break;
-        // case 'Enter room name':
-        //     iconName =
-        //     source = 
-        default:
-            iconName = 'pencil-square-o'
-            source = 'FontAwesome'
+
+        case 'Name: ':
+            iconName = 'user'
+            source = 'AntDesign'
     }
     return (
         <View style={styles.container} >
-            <GetIcon iconName={iconName} size={26} source={source} />
+            <GetIcon iconName={iconName} size={20} source={source} />
+            <Text style={styles.title}>{title}</Text>
             <View style={styles.contentArea}>
                 <TextInput style={styles.content}
                     value={value}
@@ -57,22 +49,19 @@ export default function TextInputCard({ value, placeholder, onChangeValue, onBlu
 
 const styles = StyleSheet.create({
     container: {
-        height: 50,
         flexDirection: 'row',
-        marginHorizontal: 10,
-        marginVertical: 5,
+        margin: 5,
         alignItems: 'center',
+
+    },
+    content: {
+        fontSize: 16,
+        padding: 5,
+    },
+    contentArea: {
+        flex: 1,
         borderBottomWidth: 0.25,
         borderColor: 'black'
     },
-    content: {
-        flex: 1,
-        fontSize: 18,
-    },
-    contentArea: {
-        marginHorizontal: 5,
-        padding: 10,
-        flex: 1,
-
-    }
+    title: { fontSize: 16, fontWeight: '500', marginLeft: 4 }
 })

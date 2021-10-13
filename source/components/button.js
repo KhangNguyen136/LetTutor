@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import {
     MaterialIcons, Ionicons, MaterialCommunityIcons, FontAwesome5, FontAwesome,
-    AntDesign, Entypo, Fontisto, Feather, Octicons
+    AntDesign, Entypo, Fontisto, Feather, Octicons, SimpleLineIcons
 } from '@expo/vector-icons';
 
 export function IconButton({ iconName, onPress, source, size, color = 'black' }) {
@@ -35,6 +35,8 @@ export function GetIcon({ iconName, source, size = 20, color = 'black' }) {
             return (<Feather name={iconName} size={size} color={color} />)
         case 'Octicons':
             return (<Octicons name={iconName} size={size} color={color} />)
+        case 'SimpleLineIcons':
+            return (<SimpleLineIcons name={iconName} size={size} color={color} />)
         default:
             return (<Ionicons name={iconName} size={size} color={color} />)
     }

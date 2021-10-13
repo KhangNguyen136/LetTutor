@@ -6,15 +6,6 @@ export default function TextInputCard({ value, title, placeholder, onChangeValue
     var iconName
     var source
     switch (title) {
-
-        case 'Country: ':
-            iconName = 'flag'
-            source = 'Feather'
-            break;
-        case 'Birthday: ':
-            iconName = 'birthday-cake'
-            source = 'FontAwesome'
-            break;
         case 'Phone number: ':
             iconName = 'phone'
             source = 'SimpleLineIcons'
@@ -29,9 +20,11 @@ export default function TextInputCard({ value, title, placeholder, onChangeValue
             source = 'AntDesign'
     }
     return (
-        <View style={styles.container} >
-            <GetIcon iconName={iconName} size={20} source={source} />
-            <Text style={styles.title}>{title}</Text>
+        <View>
+            <View style={styles.container} >
+                <GetIcon iconName={iconName} size={20} source={source} />
+                <Text style={styles.title}>{title}</Text>
+            </View>
             <View style={styles.contentArea}>
                 <TextInput style={styles.content}
                     value={value}
@@ -59,9 +52,12 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     contentArea: {
-        flex: 1,
-        borderBottomWidth: 0.25,
-        borderColor: 'black'
+        // flex: 1,
+        borderWidth: 0.25,
+        borderColor: 'black',
+        margin: 5,
+        borderRadius: 8,
+        padding: 2
     },
     title: { fontSize: 16, fontWeight: '500', marginLeft: 4 }
 })

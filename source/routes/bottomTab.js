@@ -1,14 +1,15 @@
 import React from 'react';
+import { TouchableOpacity, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeStack from './mainStack/homeStack';
-import UpcomingStack from './mainStack/upcomingStack';
-import TutorStack from './mainStack/tutorStack';
-import MessageStack from './mainStack/messageStack';
-import SettingStack from './mainStack/settingStack';
+import HomeScreen from '../screens/main/home';
+import Message from '../screens/main/message/messages';
+import Upcoming from '../screens/main/upcomingScreen';
+import Tutors from '../screens/main/tutor/tutors';
+import SettingScreen from '../screens/main/setting/settings';
 import { GetIcon } from '../components/button';
 const Tab = createBottomTabNavigator();
 
-function MainBottomRoute({ navigation }) {
+function BottomTab({ navigation }) {
     return (
         <Tab.Navigator initialRouteName="Home" screenOptions={
             ({ route }) => ({
@@ -17,15 +18,24 @@ function MainBottomRoute({ navigation }) {
                 tabBarIcon: ({ focused, color, size }) => {
                     return (<TabBarIcon focused={focused} routeName={route.name} color={color} size={size} />)
                 },
-                headerShown: false
+                // headerShown: false
             })
 
         }>
-            <Tab.Screen name="HomeStack" component={HomeStack} options={{ title: 'Home' }} />
-            <Tab.Screen name="MessageStack" component={MessageStack} options={{ title: 'Message' }} />
-            <Tab.Screen name="UpcomingStack" component={UpcomingStack} options={{ title: 'Upcoming' }} />
-            <Tab.Screen name="TutorStack" component={TutorStack} options={{ title: 'Tutors' }} />
-            <Tab.Screen name="SettingStack" component={SettingStack} options={{ title: 'Other' }} />
+            <Tab.Screen name="Home" component={HomeScreen} options={{
+                title: 'Home',
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => navigation.navigate('UserInfo')} >
+                        <Image style={{ width: 35, height: 35, borderRadius: 5, marginRight: 10 }}
+                            source={require('../../assets/botAvt.jpg')}
+                        />
+                    </TouchableOpacity>
+                )
+            }} />
+            <Tab.Screen name="Message" component={Message} options={{ title: 'Message' }} />
+            <Tab.Screen name="Upcoming" component={Upcoming} options={{ title: 'Upcoming' }} />
+            <Tab.Screen name="Tutors" component={Tutors} options={{ title: 'Tutors' }} />
+            <Tab.Screen name="Setting" component={SettingScreen} options={{ title: 'Other' }} />
         </Tab.Navigator >
     );
 }
@@ -34,18 +44,18 @@ function TabBarIcon({ focused, routeName, color, size }) {
     let iconName;
     let iconSource;
     switch (routeName) {
-        case 'HomeStack':
+        case 'Home':
             iconName = focused ? 'home' : 'home-outline';
             break;
-        case 'MessageStack':
+        case 'Message':
             iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles-outline';
             iconSource = 'Ionicons'
             break;
-        case 'UpcomingStack':
+        case 'Upcoming':
             iconName = focused ? 'md-time' : 'md-time-outline';
             iconSource = 'Ionicons'
             break;
-        case 'TutorStack':
+        case 'Tutors':
             iconName = focused ? 'md-people-sharp' : 'md-people-outline';
             iconSource = 'Ionicons'
             break;
@@ -64,4 +74,4 @@ function TabBarIcon({ focused, routeName, color, size }) {
     )
 }
 
-export default MainBottomRoute;
+export default BottomTab;

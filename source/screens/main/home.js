@@ -1,3 +1,4 @@
+import { StackActions } from '@react-navigation/routers';
 import React from 'react';
 import { Text, SafeAreaView, View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -11,7 +12,7 @@ export default function HomeScreen({ navigation }) {
 
     }, [])
     const toStudyRoom = () => {
-        navigation.navigate('UpcomingStack', { screen: 'StudyRoom' })
+        navigation.navigate('StudyRoom')
     }
     const LessonOverview = () => {
         return (
@@ -28,7 +29,7 @@ export default function HomeScreen({ navigation }) {
             <LessonOverview />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10, alignItems: 'center' }} >
                 <Text style={{ fontSize: 16, fontWeight: '600', textDecorationLine: 'underline' }} >Recommended tutors: </Text>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate("TutorStack")} >
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate("Tutors")} >
                     <Text style={{ color: '#3498db' }} >See all</Text>
                     <GetIcon iconName={'right'} source={'AntDesign'} size={14} color={'#3498db'} />
                 </TouchableOpacity>

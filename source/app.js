@@ -1,6 +1,6 @@
 import React from 'react';
 import SplashScreen from './screens/SplashScreen';
-import MainBottomRoute from './routes/mainBottomRoute';
+import MainStack from '../source/routes/mainStack';
 import AuthStack from './routes/authStack';
 import { NavigationContainer } from '@react-navigation/native';
 import firebaseConfig from './firebase';
@@ -33,7 +33,7 @@ export default function App() {
             {
                 isLoggedIn == true ?
                     (
-                        <MainBottomRoute />
+                        <MainStack />
                     ) :
                     (<AuthStack />)
             }

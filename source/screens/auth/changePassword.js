@@ -13,8 +13,8 @@ export default function ChangePassword(navigation) {
         <SafeAreaView >
             <Text style={styles.Title} >Change password</Text>
             <Text style={styles.content}>Enter the email with your account and we will send an email with instructions to reset your password</Text>
-            <Text style={styles.content}>Email address: </Text>
-            <TextInputCard placeholder={'Your email'} value={email} onChangeValue={setEmail} />
+            {/* <Text style={styles.content}>Email address: </Text> */}
+            <TextInputCard title={'Email address: '} placeholder={'Enter your email'} value={email} onChangeValue={setEmail} />
             <MyButton title={'Send instructions'} onPress={ok} />
         </SafeAreaView>
     )

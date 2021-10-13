@@ -9,7 +9,7 @@ export default function ListMessage({ data, searchKey = '' }) {
 
     const Message = ({ item }) => {
         const toChatBox = () => {
-            navigation.navigate('Chatbox', {
+            navigation.navigate('ChatBox', {
                 name: 'Juila'
             })
         }

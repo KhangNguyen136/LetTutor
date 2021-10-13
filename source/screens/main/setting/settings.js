@@ -8,7 +8,10 @@ import Card from '../../../components/card';
 import SettingBtn from '../../../components/settingBtn';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function SettingScreen({ navigation }) {
+export default function SettingScreen({ navigation, route }) {
+    React.useEffect(() => {
+
+    }, [])
     const logOut = (showMessage) => {
         firebaseApp.auth().signOut().then(() => {
             console.log("Logged out successfully")
@@ -40,7 +43,7 @@ export default function SettingScreen({ navigation }) {
                     </TouchableOpacity>
                 </Card>
 
-                <SettingBtn title={'View feedbacks'} iconName={'feedback'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('ViewFeedbacks')} />
+                <SettingBtn title={'View feedbacks'} iconName={'feedback'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('ViewFeedback')} />
                 <SettingBtn title={'Booking history'} iconName={'bars'} iconSource={'AntDesign'} onPress={() => navigation.navigate('BookingHistory')} />
                 <SettingBtn title={'Session history'} iconName={'history'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('SessionHistory')} />
                 <SettingBtn title={'Advanced setting'} iconName={'setting'} iconSource={'AntDesign'} onPress={() => navigation.navigate('AdvancedSetting')} />

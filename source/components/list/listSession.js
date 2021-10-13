@@ -14,7 +14,7 @@ export default function ListSession({ data, search }) {
 
         }
         const seeTutorDetails = () => {
-            navigation.navigate('TutorStack', { sreen: 'tutorInfo' })
+            navigation.navigate('TutorInfo')
         }
         return (
             <View style={{ marginHorizontal: 2 }}  >

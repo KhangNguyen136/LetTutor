@@ -11,7 +11,7 @@ export default function ListTutor({ data, searchKey = '' }) {
     const Tutor = ({ item }) => {
         icon = item.liked ? 'heart' : 'hearto'
         const toDetail = () => {
-            navigation.navigate('TutorStack', { screen: 'TutorInfo' })
+            navigation.navigate('TutorInfo')
         }
         return (
             <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={toDetail} >

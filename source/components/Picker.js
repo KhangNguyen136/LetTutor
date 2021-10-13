@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
 import { GetIcon } from './button';
 import { Menu, MenuDivider, MenuItem } from 'react-native-material-menu';
+import IsSelectedView from './selectedView';
 
 export default function Picker({ setLanguage, title }) {
     const [value, setValue] = React.useState(languages[0])
@@ -44,15 +45,16 @@ export default function Picker({ setLanguage, title }) {
     }
     const ScreenItem = ({ item, onPress }) => {
         return (
-            <View>
+            <View  >
                 <MenuDivider color={'black'} />
                 <TouchableOpacity style={
                     {
-                        flexDirection: 'row', alignItems: 'center',
-                        padding: 5,
-                    }} onPress={onPress}>
-                    <GetIcon iconName={item.iconName} source={item.source} size={18} />
-                    <Text numberOfLines={1} style={{ fontSize: 17, marginHorizontal: 5, alignItems: 'center' }} >{item.value}</Text>
+                        flexDirection: 'row', alignItems: 'center', padding: 5, justifyContent: 'space-between'
+                    }} onPress={onPress} >
+                    <View style={{ flexDirection: 'row' }}>
+                        <GetIcon iconName={item.iconName} source={item.source} size={18} />
+                        <Text style={{ fontSize: 17, marginHorizontal: 5 }} >{item.value}</Text>
+                    </View>
                     <IsSelectedView isChoosen={item.value == value.value} paddingRight={18} iconSize={18} />
                 </TouchableOpacity>
             </View>
@@ -65,11 +67,12 @@ export default function Picker({ setLanguage, title }) {
                 <MenuDivider color={'black'} />
                 <TouchableOpacity style={
                     {
-                        flexDirection: 'row', alignItems: 'center',
-                        padding: 5,
+                        flexDirection: 'row', alignItems: 'center', padding: 5, justifyContent: 'space-between'
                     }} onPress={onPress}>
-                    <Image style={{ width: 30, height: 30, borderRadius: 6, marginRight: 5 }} source={item.img} />
-                    <Text style={{ fontSize: 18, marginRight: 5, alignItems: 'center' }} >{item.value}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                        <Image style={{ width: 30, height: 30, borderRadius: 6, marginRight: 5 }} source={item.img} />
+                        <Text style={{ fontSize: 17, marginRight: 5, alignItems: 'center' }} >{item.value}</Text>
+                    </View>
                     <IsSelectedView isChoosen={item.value == value.value} paddingRight={18} iconSize={18} />
                 </TouchableOpacity>
             </View>
@@ -93,7 +96,6 @@ export default function Picker({ setLanguage, title }) {
                     <Text style={{ marginLeft: 10, fontSize: 17 }} >{title} </Text>
                 </View>
                 <Menu
-                    // style={{ flex: 1 }}
                     visible={visible}
                     onRequestClose={hideMenu}
                     anchor={<PickerBtn onPress={showMenu} value={value.value} />}
@@ -101,26 +103,11 @@ export default function Picker({ setLanguage, title }) {
                     <FlatList data={items}
                         renderItem={Item}
                         keyExtractor={item => item.value} />
-                    <MenuDivider />
                 </Menu>
             </View>
         </View>
     )
 }
-
-export const IsSelectedView = ({ isChoosen, paddingRight = 0, iconSize = 24 }) => {
-    if (isChoosen)
-        return (
-            <View>
-                <GetIcon iconName={'checkcircle'} source={'AntDesign'} color={'blue'} size={iconSize} />
-            </View>
-        )
-    return (
-        <View style={{ width: paddingRight }} />
-    )
-}
-
-
 
 const styles = StyleSheet.create({
     container: {

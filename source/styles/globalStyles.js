@@ -21,9 +21,15 @@ export const globalStyles = StyleSheet.create(
             width: '96%',
             alignSelf: 'center',
         },
-        // img: {
-        //     width:
-        // }
+        avt: {
+            width: 80,
+            height: 80,
+            borderRadius: 8,
+        },
+        titleName: { fontWeight: '600', fontSize: 16 },
+        rowContainer: {
+            flexDirection: 'row', alignItems: 'center', padding: 5
+        }
     }
 );
 

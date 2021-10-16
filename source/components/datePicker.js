@@ -51,7 +51,7 @@ export default function MyDateTimePicker({ title, mode }) {
                         is24Hour={true}
                         display="default"
                         onChange={onChangeIOS}
-                        style={{ flex: 1 }}
+                        style={{ width: 130 }}
                     /> :
                     <AndroidDateTimePicker />
             }

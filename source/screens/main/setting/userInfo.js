@@ -15,9 +15,9 @@ export default function UserInfo({ navigation }) {
         <SafeAreaView style={globalStyles.container} >
             <Card>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                    <Image style={{ width: 100, height: 100, borderRadius: 8 }} source={require('../../../../assets/botAvt.jpg')} />
+                    <Image style={globalStyles.avt} source={require('../../../../assets/botAvt.jpg')} />
                     <View style={{ flex: 1 }} >
-                        <Text style={{ fontWeight: '600', fontSize: 16 }} >Khang Nguyen</Text>
+                        <Text style={globalStyles.titleName} >Khang Nguyen</Text>
                         <Text>Account id: asdd123dsd3434</Text>
                         <Text>Account type: student</Text>
                         <TouchableOpacity style={{ alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate('ChangePassword')} >

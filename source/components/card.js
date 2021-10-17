@@ -4,7 +4,7 @@ import { GetIcon } from './button';
 
 export default function Card(props) {
     return (
-        <View style={styles.card}>
+        <View style={styles.card} >
             {props.children}
         </View>
     )

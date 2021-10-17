@@ -28,7 +28,8 @@ export const globalStyles = StyleSheet.create(
         },
         titleName: { fontWeight: '600', fontSize: 16 },
         rowContainer: {
-            flexDirection: 'row', alignItems: 'center', padding: 5
+            flexDirection: 'row', alignItems: 'center', padding: 5,
+            flex: 1
         }
     }
 );

@@ -7,6 +7,7 @@ import { MyButton } from '../../../components/button';
 import Card from '../../../components/card';
 import SettingBtn from '../../../components/settingBtn';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as Linking from 'expo-linking';
 
 export default function SettingScreen({ navigation, route }) {
     React.useEffect(() => {
@@ -48,9 +49,10 @@ export default function SettingScreen({ navigation, route }) {
                 <SettingBtn title={'Session history'} iconName={'history'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('SessionHistory')} />
                 <SettingBtn title={'Advanced setting'} iconName={'setting'} iconSource={'AntDesign'} onPress={() => navigation.navigate('AdvancedSetting')} />
 
-                <SettingBtn title={'Website'} iconName={'web'} iconSource={'MaterialCommunityIcons'} />
+                <SettingBtn title={'Website'} iconName={'web'} iconSource={'MaterialCommunityIcons'}
+                    onPress={() => Linking.openURL('https://github.com/KhangNguyen136/LetTutor')} />
 
-                <SettingBtn title={'Facebook'} iconName={'facebook-square'} iconSource={'FontAwesome'} />
+                <SettingBtn title={'Facebook'} iconName={'facebook-square'} iconSource={'FontAwesome'} onPress={() => Linking.openURL('https://www.facebook.com/nguyenkhang136/')} />
                 <MyButton title={'Log out'} onPress={() => logOut(showMessage)} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
             </ScrollView>
         </SafeAreaView >

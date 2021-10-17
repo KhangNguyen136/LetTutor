@@ -9,6 +9,8 @@ import ChangePassword from '../screens/auth/changePassword';
 import AdvancedSetting from '../screens/main/setting/advancedSetting';
 import TutorInfo from '../screens/main/tutor/tutorInfo';
 import StudyRoom from '../screens/main/studyRoom';
+import ReportScreen from '../screens/main/tutor/report';
+import Reviews from '../screens/main/tutor/reviews';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -28,6 +30,9 @@ function MainStack({ navigation }) {
             <Stack.Screen name="AdvancedSetting" component={AdvancedSetting} options={{ title: 'Setting' }} />
             <Stack.Screen name="StudyRoom" component={StudyRoom} options={{ title: 'Meeting room' }} />
             <Stack.Screen name="TutorInfo" component={TutorInfo} />
+            <Stack.Screen name="Report" component={ReportScreen} />
+            <Stack.Screen name="Reviews" component={Reviews} />
+
 
         </Stack.Navigator>
     )

@@ -1,25 +1,32 @@
 import React from 'react';
-import { Text, SafeAreaView, Image, ScrollView, View } from 'react-native';
-import Tag from '../../../components/tag';
+import { Text, SafeAreaView, Image, ScrollView, View, TouchableOpacity } from 'react-native';
+import { GetIcon } from '../../../components/button';
 import Card from '../../../components/card';
 import { Rating } from 'react-native-ratings';
 import { globalStyles } from '../../../styles/globalStyles';
 import countryFlag from '../../../styles/countryFlag';
 import IconBtn from '../../../components/iconBtn';
-import { Video, AVPlaybackStatus } from 'expo-av';
+import { Video } from 'expo-av';
 import ListTag from '../../../components/list/listTag';
 import TableBooking from '../../../components/tableBooking';
 
 export default function TutorInfo({ navigation }) {
     const [data, setData] = React.useState(dataTest)
+    const scrollViewRef = React.useRef(null)
     const videoRef = React.useRef(null)
+    React.useEffect(() => {
+    }
+    )
+    const scrollToBook = () =>
+        scrollViewRef.current.scrollToEnd({ animated: true })
+
     return (
         <SafeAreaView style={globalStyles.container} >
-            <ScrollView>
+            <ScrollView ref={scrollViewRef}>
                 <Card>
                     <View style={{ ...globalStyles.rowContainer }} >
                         <Image style={globalStyles.avt} source={require('../../../../assets/botAvt.jpg')} />
-                        <View >
+                        <View style={{ flex: 1 }} >
                             <Text style={globalStyles.titleName} >{data.name}</Text>
                             {
                                 data.rating == -1 ?
@@ -28,10 +35,17 @@ export default function TutorInfo({ navigation }) {
                                         style={{ marginVertical: 3, alignSelf: 'flex-start' }}
                                         imageSize={16} />)
                             }
-                            <View style={globalStyles.rowContainer}>
-                                <Image source={countryFlag.Vietnam} style={{ width: 35, height: 20, marginRight: 3 }} />
-                                <Text>{data.country}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                                <View style={globalStyles.rowContainer}>
+                                    <Image source={countryFlag.Vietnam} style={{ width: 35, height: 20, marginRight: 3 }} />
+                                    <Text>{data.country}</Text>
+                                </View>
+                                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={scrollToBook} >
+                                    <Text style={{ color: '#3399ff' }} >Book</Text>
+                                    <GetIcon iconName={'down'} source={'AntDesign'} size={14} color={'#3399ff'} />
+                                </TouchableOpacity>
                             </View>
+
                         </View>
 
                     </View>
@@ -70,8 +84,10 @@ export default function TutorInfo({ navigation }) {
                         <Text style={{ paddingHorizontal: 5 }} >{data.interests}</Text>
                     </View>
                 </Card>
-                <Card>
-                    <Text> Booking: </Text>
+
+                <Card >
+                    <Text
+                        style={{ ...globalStyles.titleName, marginBottom: 3 }} > Booking: </Text>
                     <TableBooking />
                 </Card>
             </ScrollView>

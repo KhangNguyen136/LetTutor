@@ -111,10 +111,8 @@ export default function Picker({ setLanguage, title }) {
 
 const styles = StyleSheet.create({
     container: {
-        // height: 70,
         flexDirection: 'row',
         marginHorizontal: 10,
-        // marginVertical: 5,
         alignItems: 'center',
         justifyContent: 'space-between'
     },

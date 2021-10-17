@@ -6,7 +6,12 @@ import { outputDate } from '../../styles/outputDate';
 import Card from '../card';
 import { Rating } from 'react-native-ratings';
 
-export default function ListFeedback({ data, search }) {
+export default function ListFeedback({ data, search, filter = 'All' }) {
+    const filterData = (item) => {
+        if (filter == 'All')
+            return true
+        return item.rating == filter
+    }
     const navigation = useNavigation()
     const Feedback = ({ item }) => {
         return (
@@ -33,7 +38,7 @@ export default function ListFeedback({ data, search }) {
     }
     return (
         <FlatList
-            data={dataTest}
+            data={dataTest.filter(filterData)}
             renderItem={Feedback}
             keyExtractor={item => item.id.toString()}
         />

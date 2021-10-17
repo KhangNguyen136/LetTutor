@@ -6,8 +6,36 @@ import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 
-export default function ListTutor({ data, searchKey = '' }) {
+const defaultFilter = {
+    rating: 'All',
+    // country: 'All',
+    // tag: []
+}
+
+
+export default function ListTutor({ data, searchKey = '', filter = defaultFilter }) {
     const navigation = useNavigation()
+    const filterItem = (item) => {
+        if (!item.name.toLowerCase().includes(searchKey.toLocaleLowerCase()))
+            return false
+        // if (filter.country != 'All' && item.country != filter.country)
+        //     return false
+        if (filter.rating != 'All')
+            switch (filter.rating) {
+                case '5':
+                    return item.rating <= 5 && item.rating > 4
+                case '2':
+                    return item.rating <= 2 && item.rating > 1
+                case '3':
+                    return item.rating <= 3 && item.rating > 2
+                case '4':
+                    return item.rating <= 4 && item.rating > 3
+                default:
+                    return item.rating <= 1
+            }
+        return true
+
+    }
     const Tutor = ({ item }) => {
         icon = item.liked ? 'heart' : 'hearto'
         const toDetail = () => {
@@ -39,7 +67,7 @@ export default function ListTutor({ data, searchKey = '' }) {
     }
     return (
         <FlatList
-            data={dataTest.filter(checkName)}
+            data={dataTest.filter(filterItem)}
             renderItem={Tutor}
             keyExtractor={item => item.id.toString()}
         />

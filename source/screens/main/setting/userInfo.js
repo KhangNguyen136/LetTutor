@@ -20,10 +20,8 @@ export default function UserInfo({ navigation }) {
                         <Text style={globalStyles.titleName} >Khang Nguyen</Text>
                         <Text>Account id: asdd123dsd3434</Text>
                         <Text>Account type: student</Text>
-                        <TouchableOpacity style={{ alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate('ChangePassword')} >
-                            <Text style={{ color: '#3399ff' }} >Change password</Text>
-                            <GetIcon iconName={'right'} source={'AntDesign'} size={14} color={'#3399ff'} />
-                        </TouchableOpacity>
+
+
                     </View>
                 </View>
             </Card>

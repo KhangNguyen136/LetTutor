@@ -11,6 +11,7 @@ export default function TextInputCard({ value, title, placeholder, onChangeValue
             source = 'SimpleLineIcons'
             break;
         case 'Email: ':
+        case 'Email address: ':
             iconName = 'email'
             source = 'Entypo'
             break;
@@ -20,12 +21,12 @@ export default function TextInputCard({ value, title, placeholder, onChangeValue
             source = 'AntDesign'
     }
     return (
-        <View>
-            <View style={styles.container} >
+        <View style={styles.container} >
+            <View style={styles.titleContainer} >
                 <GetIcon iconName={iconName} size={20} source={source} />
                 <Text style={styles.title}>{title}</Text>
             </View>
-            <View style={styles.contentArea}>
+            <View style={styles.contentContainer}>
                 <TextInput style={styles.content}
                     value={value}
                     onChangeText={onChangeValue}
@@ -33,7 +34,7 @@ export default function TextInputCard({ value, title, placeholder, onChangeValue
                     onBlur={onBlur}
                     keyboardType={keyboardType}
                     editable={isEdit}
-
+                    multiline={true}
                 />
             </View>
         </View>
@@ -42,22 +43,24 @@ export default function TextInputCard({ value, title, placeholder, onChangeValue
 
 const styles = StyleSheet.create({
     container: {
+        margin: 3
+    },
+    titleContainer: {
         flexDirection: 'row',
-        margin: 5,
+        margin: 2,
         alignItems: 'center',
-
     },
     content: {
-        fontSize: 16,
+        fontSize: 15,
         padding: 5,
     },
-    contentArea: {
+    contentContainer: {
         // flex: 1,
         borderWidth: 0.25,
         borderColor: 'black',
-        margin: 5,
+        margin: 1,
         borderRadius: 8,
-        padding: 2
+        padding: 2,
     },
-    title: { fontSize: 16, fontWeight: '500', marginLeft: 4 }
+    title: { fontSize: 15, fontWeight: '500', marginLeft: 4 }
 })

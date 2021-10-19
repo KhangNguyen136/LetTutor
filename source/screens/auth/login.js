@@ -55,7 +55,7 @@ export default function Login(props) {
                         <View style={{ alignItems: 'center' }} >
                             <Image source={require('../../../assets/logo.png')} style={{ width: 200, height: 200, borderRadius: 40 }} />
                         </View>
-                        <TextInputCard placeholder={'Phone number or Email'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
+                        <TextInputCard title={'Email or phone number: '} placeholder={'Enter email/phone number'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
                         <View style={{ height: 10 }} />
                         <PasswordTextInput placeholder={'Password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
                         <View style={{ height: 10 }} />

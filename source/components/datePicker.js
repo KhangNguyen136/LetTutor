@@ -40,7 +40,7 @@ export default function MyDateTimePicker({ title, mode }) {
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', margin: 5 }} >
             <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                 <GetIcon iconName={'birthday-cake'} source={'FontAwesome'} />
-                <Text style={{ marginLeft: 10, fontSize: 17 }} >{title}</Text>
+                <Text style={{ marginLeft: 10, fontSize: 15 }} >{title}</Text>
             </View>
             {
                 isIOS ?

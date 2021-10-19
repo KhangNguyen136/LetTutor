@@ -11,6 +11,9 @@ import TutorInfo from '../screens/main/tutor/tutorInfo';
 import StudyRoom from '../screens/main/studyRoom';
 import ReportScreen from '../screens/main/tutor/report';
 import Reviews from '../screens/main/tutor/reviews';
+import BecomeTutor1 from '../screens/main/becomeTutor/step1';
+import BecomeTutor2 from '../screens/main/becomeTutor/step2';
+import BecomeTutor3 from '../screens/main/becomeTutor/step3';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -32,6 +35,10 @@ function MainStack({ navigation }) {
             <Stack.Screen name="TutorInfo" component={TutorInfo} />
             <Stack.Screen name="Report" component={ReportScreen} />
             <Stack.Screen name="Reviews" component={Reviews} />
+            <Stack.Screen name="BecomeTutor1" component={BecomeTutor1} options={{ title: 'Complete profile' }} />
+            <Stack.Screen name="BecomeTutor2" component={BecomeTutor2} options={{ title: 'Introduction' }} />
+            <Stack.Screen name="BecomeTutor3" component={BecomeTutor3} options={{ title: 'Approval' }} />
+
 
 
         </Stack.Navigator>

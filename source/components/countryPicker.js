@@ -4,17 +4,16 @@ import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'r
 import { GetIcon } from './button';
 import { Menu, MenuDivider, MenuItem } from 'react-native-material-menu';
 import IsSelectedView from './selectedView';
-export default function CountryPicker() {
-    const [value, setValue] = React.useState(listCountry[0])
+export default function CountryPicker({ value = 'All', didSelect, showIcon = true, }) {
+    // const [value, setValue] = React.useState(listCountry[0])
     const [visible, setVisible] = React.useState(false)
     const [key, setKey] = React.useState('')
     const [items, setItems] = React.useState(listCountry)
 
     const didSelectItem = (newValue) => {
         hideMenu()
-        if (newValue.value != value.value) {
-            setValue(newValue)
-            // setType(newValue.typeID)
+        if (newValue.value != value) {
+            didSelect(newValue.value)
         }
     };
     const hideMenu = () => {
@@ -32,7 +31,7 @@ export default function CountryPicker() {
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <MenuItem onPress={() => didSelectItem(item)} >{item.value}</MenuItem>
-                    <IsSelectedView isChoosen={item.value == value.value} />
+                    <IsSelectedView isChoosen={item.value == value} />
                 </View>
                 <MenuDivider color={'black'} />
             </View>
@@ -49,14 +48,16 @@ export default function CountryPicker() {
     return (
         <View style={styles.container} >
             <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                <GetIcon iconName={'flag'} source={'Feather'} />
-                <Text style={{ marginLeft: 10, fontSize: 17 }} >Country: </Text>
+                {showIcon &&
+                    <GetIcon iconName={'flag'} source={'Feather'} />
+                }
+                <Text style={{ marginLeft: 2, fontSize: 15 }} >Country: </Text>
             </View>
             <Menu
                 visible={visible}
                 style={{ maxHeight: 300 }}
                 onRequestClose={hideMenu}
-                anchor={<PickerBtn onPress={showMenu} value={value.value} />}
+                anchor={<PickerBtn onPress={showMenu} value={value} />}
             >
                 <View>
                     <TextInput style={{ fontSize: 14, padding: 5 }} placeholder={'Search'} value={key} onChangeText={searchUpdate} />
@@ -73,11 +74,11 @@ export default function CountryPicker() {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        margin: 5,
+        margin: 3,
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    title: { fontSize: 16, fontWeight: '500', marginLeft: 4 },
+    title: { fontWeight: '500', marginLeft: 4 },
     typeContainer: {
         padding: 5,
         flexDirection: 'row',
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     typeContent: {
-        fontSize: 17, fontWeight: '600',
+        fontWeight: '600',
         marginHorizontal: 5,
     }
 

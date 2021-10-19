@@ -72,28 +72,25 @@ export function MyButton({ onPress, title, moreStyle, moreTitleStyle }) {
 const styles = StyleSheet.create(
     {
         iconButton: {
-            flex: 1,
             paddingVertical: 5,
             paddingHorizontal: 5,
             justifyContent: 'center',
         },
         MyButtonCotainer: {
-            margin: 7,
-            flexDirection: 'row',
-            paddingVertical: 8,
-            paddingHorizontal: 10,
+            alignSelf: 'center',
+            margin: 5,
+            paddingVertical: 5,
+            paddingHorizontal: 7,
             alignItems: 'center',
-            justifyContent: 'center',
             backgroundColor: '#0be881',
             borderRadius: 10,
             shadowColor: '#333',
             shadowOpacity: 0.1,
             shadowOffset: { width: 1, height: 1 },
-
         },
         btnTitle: {
             color: 'black',
-            fontSize: 17,
+            fontSize: 16,
             fontWeight: '600'
         },
 

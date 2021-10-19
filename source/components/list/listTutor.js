@@ -42,7 +42,7 @@ export default function ListTutor({ data, searchKey = '', filter = defaultFilter
             navigation.navigate('TutorInfo')
         }
         return (
-            <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={toDetail} >
+            <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail} >
                 <Card>
                     <View style={{ flexDirection: 'row' }} >
                         <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>

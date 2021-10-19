@@ -14,7 +14,7 @@ export default function ListMessage({ data, searchKey = '' }) {
             })
         }
         return (
-            <TouchableOpacity style={{ marginHorizontal: 2 }} onPress={toChatBox} >
+            <TouchableOpacity style={styles.container} onPress={toChatBox} >
                 <View style={{ flexDirection: 'row' }} >
                     <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>
                     <View style={{ flex: 1, margin: 5 }} >
@@ -52,6 +52,11 @@ const styles = StyleSheet.create({
         // width: 100,
         // height: 20
         // width: 50
+    },
+    container: {
+        marginHorizontal: 2,
+        borderColor: 'gray',
+        borderBottomWidth: 0.5
     }
 })
 

@@ -8,6 +8,7 @@ import Card from '../../../components/card';
 import SettingBtn from '../../../components/settingBtn';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Linking from 'expo-linking';
+import { GetIcon } from '../../../components/button';
 
 export default function SettingScreen({ navigation, route }) {
     React.useEffect(() => {
@@ -34,16 +35,26 @@ export default function SettingScreen({ navigation, route }) {
         <SafeAreaView style={globalStyles.container} >
             <ScrollView>
                 <Card>
-                    <TouchableOpacity style={{ width: '96%', alignSelf: 'center', flexDirection: 'row', alignItems: 'center' }}
-                        onPress={() => navigation.navigate('UserInfo')} >
-                        <Image style={{ width: 80, height: 80, borderRadius: 10 }} source={require('../../../../assets/botAvt.jpg')} />
-                        <View style={{ alignContent: 'center' }}>
-                            <Text style={{ fontWeight: '500', fontSize: 16, margin: 2 }} >Nguyen Tan Khang</Text>
-                            <Text style={{ color: 'gray', fontSize: 13, margin: 2 }} >nguyentankhang136@gmail.com</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity style={{ width: '96%', alignSelf: 'center', flexDirection: 'row', alignItems: 'center' }}
+                            onPress={() => navigation.navigate('UserInfo')} >
+                            <Image style={{ width: 80, height: 80, borderRadius: 10 }} source={require('../../../../assets/botAvt.jpg')} />
+                            <View style={{ alignContent: 'center' }}>
+                                <Text style={{ fontWeight: '500', fontSize: 16, margin: 2 }} >Nguyen Tan Khang</Text>
+                                <Text style={{ color: 'gray', fontSize: 13, margin: 2 }} >nguyentankhang136@gmail.com</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate('ChangePassword')} >
+                            <Text style={{ color: '#3399ff', fontSize: 15 }} >Change password</Text>
+                            <GetIcon iconName={'right'} source={'AntDesign'} size={14} color={'#3399ff'} />
+                        </TouchableOpacity>
+                    </View>
                 </Card>
+                {
+                    true &&
+                    (<SettingBtn title={'Become tutor'} iconName={'teach'} iconSource={'MaterialCommunityIcons'} onPress={() => navigation.navigate('BecomeTutor1')} />)
 
+                }
                 <SettingBtn title={'View feedbacks'} iconName={'feedback'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('ViewFeedback')} />
                 <SettingBtn title={'Booking history'} iconName={'bars'} iconSource={'AntDesign'} onPress={() => navigation.navigate('BookingHistory')} />
                 <SettingBtn title={'Session history'} iconName={'history'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('SessionHistory')} />

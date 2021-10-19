@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import Card from './card';
 import { GetIcon } from './button';
-export default function FilterReview({ choosen, setFilter }) {
+export default function FilterReview({ choosen, setFilter, title = 'Filter:' }) {
     const FilterBtn = ({ item }) => {
         return (
             <TouchableOpacity style={item == choosen ? styles.filterBtnOnFocus : styles.filterBtn} onPress={() => setFilter(item)} >
@@ -15,7 +15,7 @@ export default function FilterReview({ choosen, setFilter }) {
     return (
         // <Card>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}  >
-            <Text >Filter:</Text>
+            <Text >{title}</Text>
             <FilterBtn item={'All'} />
             <FilterBtn item={'5'} />
             <FilterBtn item={'4'} />
@@ -36,7 +36,9 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: '#d63031',
         marginHorizontal: 3,
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     filterBtn: {
         flex: 1,
@@ -44,6 +46,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#dfe6e9',
         borderRadius: 3,
         marginHorizontal: 3,
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center'
     }
 })

@@ -12,8 +12,8 @@ export default function MessageScreen() {
     const updateSearch = (key) => setSearchKey(key)
     return (
         <SafeAreaView style={globalStyles.container} >
-            <SearchBox placeholder={"Search by tutor's name"} value={searchKey} textChange={updateSearch} />
             <FlexCard>
+                <SearchBox placeholder={"Search by tutor's name"} value={searchKey} textChange={updateSearch} />
                 <ListMessage searchKey={searchKey} />
             </FlexCard>
         </SafeAreaView>

@@ -8,18 +8,22 @@ import Card from '../card';
 
 const defaultFilter = {
     rating: 'All',
-    // country: 'All',
-    // tag: []
+    country: 'All',
+    tag: 'All'
 }
 
 
 export default function ListTutor({ data, searchKey = '', filter = defaultFilter }) {
     const navigation = useNavigation()
+    console.log(filter)
     const filterItem = (item) => {
         if (!item.name.toLowerCase().includes(searchKey.toLocaleLowerCase()))
             return false
-        // if (filter.country != 'All' && item.country != filter.country)
-        //     return false
+        if (filter.country != 'All' && item.country != filter.country)
+            return false
+        if (filter.tag != 'All')
+            if (!item.tag.find((tag) => tag == filter.tag))
+                return false
         if (filter.rating != 'All')
             switch (filter.rating) {
                 case '5':
@@ -94,42 +98,53 @@ const dataTest = [
         id: 0,
         name: 'John',
         rating: 4,
-        tag: ['tag1', 'tag2'],
-        intro: "Intro of John. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal."
+        tag: ['TOIEC', 'IELTS'],
+        intro: "Intro of John. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
+        country: 'Vietnam'
     },
     {
         id: 1,
         name: 'Anna',
         rating: 3.5,
-        tag: ['tag2'],
-        intro: "Intro of Anna. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal."
+        tag: ['English for kid', 'Conversational'],
+        intro: "Intro of Anna. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
+        country: 'USA'
+
     },
     {
         id: 2,
         name: 'Kelvin',
         rating: 4.5,
-        tag: ['tag1', 'tag3'],
-        intro: "Intro of Kelvin. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal."
+        tag: ['TOIEC', 'IELTS', 'English for business'],
+        intro: "Intro of Kelvin. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
+        country: 'China'
+
     },
     {
         id: 3,
         name: 'Jack',
         rating: 3.3,
-        tag: ['tag1', 'tag2', 'tag3'],
-        intro: "Intro of Jack. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal."
+        tag: ['English for business'],
+        intro: "Intro of Jack. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
+        country: 'Korea'
+
     },
     {
         id: 4,
         name: 'Jenny',
         rating: 4.4,
-        tag: ['tag1', 'tag2'],
-        intro: "Intro of Jenny. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal."
+        tag: ['TOIEC', 'STARTER'],
+        intro: "Intro of Jenny. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
+        country: 'Japan'
+
     },
     {
         id: 5,
         name: 'Paul',
         rating: 4,
-        tag: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6', 'tag7', 'tag8'],
-        intro: "Intro of Paul. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal."
+        tag: ['TOEFL', 'KET', 'PET'],
+        intro: "Intro of Paul. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
+        country: 'Russia'
+
     },
 ]

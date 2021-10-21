@@ -13,6 +13,7 @@ export default function TutorScreen() {
     const [searchKey, setSearchKey] = React.useState('');
     const [filterRating, setFilterRating] = React.useState('All')
     const [filterCountry, setFilterCountry] = React.useState('All')
+    const [tag, setTag] = React.useState('All')
 
     const updateSearch = (key) => setSearchKey(key)
     const updateCountry = (country) => setFilterCountry(country)
@@ -26,11 +27,11 @@ export default function TutorScreen() {
                     <CountryPicker value={filterCountry} didSelect={updateCountry} showIcon={false} />
                     {/* <View style={globalStyles.horizontalDivide} /> */}
                 </View>
-                <Picker data={specialies} title={'Specialies: '} />
+                <Picker didSelect={setTag} data={specialies} title={'Specialies: '} />
                 <FilterReview title={'Rating:'} setFilter={setFilterRating} choosen={filterRating} />
             </Card>
             <ListTutor searchKey={searchKey} filter={{
-                rating: filterRating
+                rating: filterRating, tag, country: filterCountry
             }} />
         </SafeAreaView>
     )

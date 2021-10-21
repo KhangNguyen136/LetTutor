@@ -20,7 +20,7 @@ export default function ChangePassword(navigation) {
                 </View>
                 <Text style={styles.content}>Enter the email with your account and we will send an email with instructions to reset your password</Text>
                 {/* <Text style={styles.content}>Email address: </Text> */}
-                <TextInputCard title={'Email address: '} placeholder={'Enter your email'} value={email} onChangeValue={setEmail} />
+                <TextInputCard title={'Email address'} placeholder={'Enter your email'} value={email} onChangeValue={setEmail} />
                 <MyButton title={'Send instructions'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} onPress={ok} />
 
             </Card>

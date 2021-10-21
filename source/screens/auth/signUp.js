@@ -60,15 +60,13 @@ export default function SignUp() {
                         </View>
                         <TextInputCard title={'Email or phone number'} placeholder={'Enter email/phone number'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
                         {/* <View style={{ height: 5 }} /> */}
-                        <PasswordTextInput placeholder={'Password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
-
+                        <PasswordTextInput title={'Password'} placeholder={'Enter password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
                         <Text style={{ paddingLeft: 10 }}>Must be contain at least 6 characters.</Text>
                         {/* <View style={{ height: 5 }} /> */}
-                        <PasswordTextInput placeholder={'Confirm password'} value={values.pass2} onChangeValue={handleChange('pass2')} onBlur={handleBlur('pass2')} />
-                        <Text style={{ paddingLeft: 10, marginBottom: 10 }}>Must be the same as password.</Text>
-
+                        <PasswordTextInput title={'Confirm password'} placeholder={'Enter password again'} value={values.pass2} onChangeValue={handleChange('pass2')} onBlur={handleBlur('pass2')} />
+                        <Text style={{ paddingLeft: 10, marginBottom: 0 }}>Must be the same as password.</Text>
                         {/* <View style={{ height: 5 }} /> */}
-                        <TextInputCard title={'Your name: '} placeholder={'Enter name'} value={values.displayName} onChangeValue={handleChange('displayName')} onBlur={handleBlur('displayName')} />
+                        <TextInputCard title={'Your name'} placeholder={'Enter name'} value={values.displayName} onChangeValue={handleChange('displayName')} onBlur={handleBlur('displayName')} />
                         <View style={{ height: 20 }} />
                         <MyButton onPress={handleSubmit} title={'Sign up'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
                         <View style={{

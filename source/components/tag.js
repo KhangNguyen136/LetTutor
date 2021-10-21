@@ -11,6 +11,7 @@ const Tag = ({ item }) => {
 
 const styles = StyleSheet.create({
     container: {
+        alignSelf: 'flex-start',
         borderRadius: 4,
         backgroundColor: '#81ecec',
         paddingHorizontal: 4,

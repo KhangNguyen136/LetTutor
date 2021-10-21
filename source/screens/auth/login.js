@@ -15,7 +15,7 @@ export default function Login(props) {
     const [loading, setLoading] = React.useState(false)
     const { navigation } = props
 
-    const LoginAcc = (email, password, setAccount) => {
+    const LoginAcc = (email, password, resetForm) => {
         firebaseApp.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 // Signed in
@@ -25,13 +25,11 @@ export default function Login(props) {
                     message: 'Logged in successfully',
                     type: 'success'
                 });
-                console.log("Logged in successfully")
             })
             .catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 setLoading(false)
-                console.log("Log in fail: ", errorMessage)
                 showMessage({
                     message: 'Login failed',
                     description: error.message,
@@ -55,9 +53,9 @@ export default function Login(props) {
                         <View style={{ alignItems: 'center' }} >
                             <Image source={require('../../../assets/logo.png')} style={{ width: 200, height: 200, borderRadius: 40 }} />
                         </View>
-                        <TextInputCard title={'Email or phone number: '} placeholder={'Enter email/phone number'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
+                        <TextInputCard title={'Email or phone number'} placeholder={'Enter email/phone number'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
                         <View style={{ height: 10 }} />
-                        <PasswordTextInput placeholder={'Password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
+                        <PasswordTextInput title={'Password'} placeholder={'Enter your password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
                         <View style={{ height: 10 }} />
                         <MyButton onPress={handleSubmit} title={'Login'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
                         <View style={{

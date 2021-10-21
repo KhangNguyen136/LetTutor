@@ -1,20 +1,23 @@
 import React from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Text } from 'react-native';
 import { GetIcon, IconButton } from './button';
 
-export default function PasswordTextInput({ value, placeholder, onChangeValue, onBlur }) {
+export default function PasswordTextInput({ title, value, placeholder, onChangeValue, onBlur }) {
     const [show, setShow] = React.useState(false)
     var showIcon = show ? 'eye' : 'eye-with-line'
     var source = 'MaterialIcons'
     var iconName = 'confirmation-num'
-    if (placeholder == 'Password' || placeholder == 'New password') {
+    if (title == 'Password' || title == 'New password') {
         source = 'AntDesign'
         iconName = 'key'
     }
     return (
         <View style={styles.container} >
-            <GetIcon iconName={iconName} size={26} source={source} />
-            <View style={styles.contentArea}>
+            <View style={styles.titleContainer} >
+                <GetIcon iconName={iconName} size={20} source={source} />
+                <Text style={styles.title}>{title}</Text>
+            </View>
+            <View style={styles.contentContainer}>
                 <TextInput style={styles.content}
                     value={value}
                     onChangeText={onChangeValue}
@@ -22,29 +25,34 @@ export default function PasswordTextInput({ value, placeholder, onChangeValue, o
                     onBlur={onBlur}
                     secureTextEntry={!show}
                 />
+                <IconButton iconName={showIcon} source={'Entypo'} onPress={() => setShow(!show)} size={18} />
             </View>
-            <IconButton iconName={showIcon} source={'Entypo'} onPress={() => setShow(!show)} />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: 40,
-        flexDirection: 'row',
-        marginHorizontal: 10,
-        marginVertical: 5,
-        alignItems: 'center',
-        borderBottomWidth: 0.25,
-        borderColor: 'black'
+        margin: 3
     },
     content: {
-        fontSize: 18,
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 2,
+        flex: 1
     },
-    contentArea: {
-        marginHorizontal: 5,
-        padding: 10,
-        flex: 1,
+    contentContainer: {
+        flexDirection: 'row',
+        borderWidth: 0.25,
+        borderColor: 'black',
+        borderRadius: 4, alignItems: 'center',
+        padding: 2,
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        margin: 2,
+        alignItems: 'center',
+    },
+    title: { fontSize: 17, fontWeight: '500', marginLeft: 4 }
 
-    }
 })

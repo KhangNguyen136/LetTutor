@@ -3,6 +3,9 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXApplication (3.2.0):
     - UMCore
+  - EXAV (9.2.3):
+    - ExpoModulesCore
+    - UMCore
   - EXConstants (11.0.2):
     - ExpoModulesCore
     - UMCore
@@ -18,46 +21,8 @@ PODS:
     - ExpoModulesCore
     - React-Core
     - UMCore
-  - EXJSONUtils (0.2.0)
   - EXKeepAwake (9.2.0):
     - UMCore
-  - EXManifests (0.2.1):
-    - EXJSONUtils
-  - expo-dev-client (0.6.0):
-    - EXManifests
-    - expo-dev-launcher
-    - expo-dev-menu
-    - expo-dev-menu-interface
-    - EXUpdatesInterface
-  - expo-dev-launcher (0.8.1):
-    - EXManifests
-    - expo-dev-launcher/Main (= 0.8.1)
-    - expo-dev-menu-interface
-    - EXUpdatesInterface
-    - React-Core
-  - expo-dev-launcher/Main (0.8.1):
-    - EXManifests
-    - expo-dev-launcher/Unsafe
-    - expo-dev-menu-interface
-    - EXUpdatesInterface
-    - React-Core
-  - expo-dev-launcher/Unsafe (0.8.1):
-    - EXManifests
-    - expo-dev-menu-interface
-    - EXUpdatesInterface
-    - React-Core
-  - expo-dev-menu (0.8.2):
-    - expo-dev-menu-interface
-    - expo-dev-menu/Main (= 0.8.2)
-    - React-Core
-  - expo-dev-menu-interface (0.4.1)
-  - expo-dev-menu/Main (0.8.2):
-    - expo-dev-menu-interface
-    - expo-dev-menu/Vendored
-    - React-Core
-  - expo-dev-menu/Vendored (0.8.2):
-    - expo-dev-menu-interface
-    - React-Core
   - ExpoModulesCore (0.2.0):
     - ExpoModulesCore/Core (= 0.2.0)
     - ExpoModulesCore/Interfaces (= 0.2.0)
@@ -77,7 +42,7 @@ PODS:
     - EXUpdatesInterface
     - React-Core
     - UMCore
-  - EXUpdatesInterface (0.4.0)
+  - EXUpdatesInterface (0.2.2)
   - FBLazyVector (0.63.4)
   - FBReactNativeSpec (0.63.4):
     - Folly (= 2020.01.13.00)
@@ -262,8 +227,6 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
-  - react-native-date-picker (4.1.0):
-    - React-Core
   - react-native-safe-area-context (3.2.0):
     - React-Core
   - React-RCTActionSheet (0.63.4):
@@ -326,9 +289,11 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
+  - RNDateTimePicker (3.5.2):
+    - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNReanimated (2.2.2):
+  - RNReanimated (2.2.3):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -373,23 +338,18 @@ PODS:
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXApplication (from `../node_modules/expo-application/ios`)
+  - EXAV (from `../node_modules/expo-av/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
-  - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
-  - EXManifests (from `../node_modules/expo-manifests/ios`)
-  - expo-dev-client (from `../node_modules/expo-dev-client`)
-  - expo-dev-launcher (from `../node_modules/expo-dev-launcher`)
-  - expo-dev-menu (from `../node_modules/expo-dev-menu`)
-  - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - EXStructuredHeaders (from `../node_modules/expo-structured-headers/ios`)
   - EXUpdates (from `../node_modules/expo-updates/ios`)
-  - EXUpdatesInterface (from `../node_modules/expo-dev-client/node_modules/expo-updates-interface/ios`)
+  - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
@@ -406,7 +366,6 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
-  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -418,6 +377,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -436,6 +396,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   EXApplication:
     :path: "../node_modules/expo-application/ios"
+  EXAV:
+    :path: "../node_modules/expo-av/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
   EXErrorRecovery:
@@ -446,20 +408,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-font/ios"
   EXImageLoader:
     :path: "../node_modules/expo-image-loader/ios"
-  EXJSONUtils:
-    :path: "../node_modules/expo-json-utils/ios"
   EXKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
-  EXManifests:
-    :path: "../node_modules/expo-manifests/ios"
-  expo-dev-client:
-    :path: "../node_modules/expo-dev-client"
-  expo-dev-launcher:
-    :path: "../node_modules/expo-dev-launcher"
-  expo-dev-menu:
-    :path: "../node_modules/expo-dev-menu"
-  expo-dev-menu-interface:
-    :path: "../node_modules/expo-dev-menu-interface"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
   EXSplashScreen:
@@ -469,7 +419,7 @@ EXTERNAL SOURCES:
   EXUpdates:
     :path: "../node_modules/expo-updates/ios"
   EXUpdatesInterface:
-    :path: "../node_modules/expo-dev-client/node_modules/expo-updates-interface/ios"
+    :path: "../node_modules/expo-updates-interface/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -498,8 +448,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
-  react-native-date-picker:
-    :path: "../node_modules/react-native-date-picker"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-RCTActionSheet:
@@ -522,6 +470,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -543,23 +493,18 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   EXApplication: 9ff2a206009d6e55bca6c20b3f33d07986b51ef3
+  EXAV: 67bcc1d0afeb1fab854b206c84b9f2afbd61d0cd
   EXConstants: 4cb52b6d8f636c767104a44bf7db3873e9c01a6f
   EXErrorRecovery: 404d827bc7d42f306c062d58a60b06afc4d082b3
   EXFileSystem: 0a04aba8da751b9ac954065911bcf166503f8267
   EXFont: 9846ba1bb6f5f5aed44e20eea3ac70693323832d
   EXImageLoader: d3531a3fe530b22925c19977cb53bb43e3821fe6
-  EXJSONUtils: f515cf71710855d7ba5bfc6752af3b9a6f6aad01
   EXKeepAwake: f4105ef469be7b283f66ce2d7234bb71ac80cd26
-  EXManifests: fdbb8a0c2cd5fc4acc1ae90b55ce91617aba9365
-  expo-dev-client: 97a9589d2ea0325a8dd4dff284fe3a4b9166bbce
-  expo-dev-launcher: 7a90ad1519263eda3e8675bf6712f2f89f8fe2a9
-  expo-dev-menu: 5b0593d3ad5f32e92e363f4cc061fe70666da31f
-  expo-dev-menu-interface: 508467f2ba2aedda7a44e5080cc1e9a43ab7375e
   ExpoModulesCore: 2734852616127a6c1fc23012197890a6f3763dc7
   EXSplashScreen: 847e0d8026731c1090bf269ede3e15ac87d88958
   EXStructuredHeaders: e52b880264d15b8ad07d36670226c29476af6334
   EXUpdates: 013d26649cb6ab4f8d8d80c35d3d4be150b47e7c
-  EXUpdatesInterface: e1c01b4f5ec76bd1d6cc714938f9edf5ef6379b9
+  EXUpdatesInterface: b68e78b912a03fff7901a5f46ec200c45e3506a5
   FBLazyVector: 3bb422f41b18121b71783a905c10e58606f7dc3e
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
@@ -574,7 +519,6 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
-  react-native-date-picker: 52937fb39322ee5f6c44a10117456b3fa4225d4c
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
@@ -586,8 +530,9 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
+  RNDateTimePicker: 7658208086d86d09e1627b5c34ba0cf237c60140
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNReanimated: 6ec2460b9c6c8f3b1403bd0eaa12d359a98650e3
+  RNReanimated: 8744fb15baf4c582367d910f4f32f5097fb350cb
   RNScreens: 21b73c94c9117e1110a79ee0ee80c93ccefed8ce
   UMAppLoader: 21af63390e55c82e037fb9752d93114a80ecf16e
   UMCore: ce3a4faa010239063b8343895b29a6d97b01069d
@@ -595,6 +540,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 2be431101b73604e64fbfffcf759336f9d8fccbb
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
 
-PODFILE CHECKSUM: 02193fb436aff2ac83e2773273ab947ba987ca5d
+PODFILE CHECKSUM: d69fab16f5acc3b2bf5081b9c8fe7d08eb7eee74
 
 COCOAPODS: 1.10.1

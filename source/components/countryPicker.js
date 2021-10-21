@@ -4,12 +4,14 @@ import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'r
 import { GetIcon } from './button';
 import { Menu, MenuDivider, MenuItem } from 'react-native-material-menu';
 import IsSelectedView from './selectedView';
+
 export default function CountryPicker({ value = 'All', didSelect, showIcon = true, }) {
     // const [value, setValue] = React.useState(listCountry[0])
+    const listItem = showIcon == true ? listCountry : all.concat(listCountry)
     const [visible, setVisible] = React.useState(false)
     const [key, setKey] = React.useState('')
-    const [items, setItems] = React.useState(listCountry)
-
+    const [items, setItems] = React.useState(listItem)
+    console.log(items)
     const didSelectItem = (newValue) => {
         hideMenu()
         if (newValue.value != value) {
@@ -24,7 +26,7 @@ export default function CountryPicker({ value = 'All', didSelect, showIcon = tru
     };
     const searchUpdate = (text) => {
         setKey(text)
-        setItems(listCountry.filter((item) => item.value.toLowerCase().includes(text.toLowerCase())))
+        setItems(listItem.filter((item) => item.value.toLowerCase().includes(text.toLowerCase())))
     }
     const Item = ({ item }) => {
         return (
@@ -59,10 +61,12 @@ export default function CountryPicker({ value = 'All', didSelect, showIcon = tru
                 onRequestClose={hideMenu}
                 anchor={<PickerBtn onPress={showMenu} value={value} />}
             >
-                <View>
+                <View style={{
+                    borderWidth: 1, borderColor: 'gray', flex: 1
+                }} >
                     <TextInput style={{ fontSize: 14, padding: 5 }} placeholder={'Search'} value={key} onChangeText={searchUpdate} />
                     <MenuDivider color={'black'} />
-                    <FlatList data={items} style={{}}
+                    <FlatList data={items}
                         renderItem={Item}
                         keyExtractor={item => item.value} />
                 </View>
@@ -94,6 +98,8 @@ const styles = StyleSheet.create({
 
 })
 
+const all = [{ label: 'All', value: 'All' }]
+
 const listCountry = [
     { label: 'Vietnam', value: 'Vietnam' },
     { label: 'USA', value: 'USA' },
@@ -118,3 +124,5 @@ const listCountry = [
     { label: 'Malaysia', value: 'Malaysia' },
 
 ]
+
+

@@ -14,6 +14,7 @@ export default function Picker({ data, searchable, title, didSelect }) {
     const didSelectItem = (newValue) => {
         hideMenu()
         if (newValue != value) {
+            didSelect(newValue)
             setValue(newValue)
             // setType(newValue.typeID)
         }
@@ -32,7 +33,7 @@ export default function Picker({ data, searchable, title, didSelect }) {
         return (
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
-                    <MenuItem onPress={() => didSelectItem(item)} >{item}</MenuItem>
+                    <MenuItem style={{ padding: 0, margin: 0, fontSize: 15 }} onPress={() => didSelectItem(item)} >{item}</MenuItem>
                     <IsSelectedView isChoosen={item == value} />
                 </View>
                 <MenuDivider color={'black'} />
@@ -60,10 +61,14 @@ export default function Picker({ data, searchable, title, didSelect }) {
                     {searchable &&
                         <TextInput style={{ fontSize: 14, padding: 5 }} placeholder={'Search'} value={key} onChangeText={searchUpdate} />
                     }
-                    <MenuDivider color={'black'} />
-                    <FlatList data={items} style={{}}
-                        renderItem={Item}
-                        keyExtractor={item => item} />
+                    <View style={{
+                        borderWidth: 1, borderColor: 'gray'
+                    }} >
+                        <MenuDivider color={'black'} />
+                        <FlatList data={items} style={{}}
+                            renderItem={Item}
+                            keyExtractor={item => item} />
+                    </View>
                 </View>
             </Menu>
         </View>
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
     },
     title: { fontWeight: '500', marginLeft: 4 },
     typeContainer: {
-        padding: 5,
+        padding: 3,
         flexDirection: 'row',
         borderWidth: 0.25,
         borderColor: 'gray',

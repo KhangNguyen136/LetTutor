@@ -72,8 +72,8 @@ export function MyButton({ onPress, title, moreStyle, moreTitleStyle }) {
 const styles = StyleSheet.create(
     {
         iconButton: {
-            paddingVertical: 5,
-            paddingHorizontal: 5,
+            paddingVertical: 3,
+            paddingHorizontal: 3,
             justifyContent: 'center',
         },
         MyButtonCotainer: {

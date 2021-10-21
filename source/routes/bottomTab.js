@@ -5,7 +5,7 @@ import HomeScreen from '../screens/main/home';
 import Message from '../screens/main/message/messages';
 import Upcoming from '../screens/main/upcomingScreen';
 import Tutors from '../screens/main/tutor/tutors';
-import SettingScreen from '../screens/main/setting/settings';
+import Other from '../screens/main/other/other';
 import { GetIcon } from '../components/button';
 const Tab = createBottomTabNavigator();
 
@@ -35,7 +35,7 @@ function BottomTab({ navigation }) {
             <Tab.Screen name="Message" component={Message} options={{ title: 'Message' }} />
             <Tab.Screen name="Upcoming" component={Upcoming} options={{ title: 'Upcoming' }} />
             <Tab.Screen name="Tutors" component={Tutors} options={{ title: 'Tutors' }} />
-            <Tab.Screen name="Setting" component={SettingScreen} options={{ title: 'Other' }} />
+            <Tab.Screen name="Other" component={Other} options={{ title: 'Other' }} />
         </Tab.Navigator >
     );
 }

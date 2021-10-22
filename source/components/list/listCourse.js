@@ -8,13 +8,13 @@ import Card from '../card';
 import Tag from '../tag';
 
 const defaultFilter = {
-    rating: 'All',
+    // rating: 'All',
     level: 'Level',
     tag: 'Specialies'
 }
 
 
-export default function ListEbook({ data, searchKey = '', filter = defaultFilter }) {
+export default function ListCourse({ data, searchKey = '', filter = defaultFilter }) {
     const navigation = useNavigation()
     const filterItem = (item) => {
         if (!item.name.toLowerCase().includes(searchKey.toLocaleLowerCase()))
@@ -40,10 +40,10 @@ export default function ListEbook({ data, searchKey = '', filter = defaultFilter
         return true
 
     }
-    const Ebook = ({ item }) => {
+    const Courese = ({ item }) => {
         icon = item.liked ? 'heart' : 'hearto'
         const toDetail = () => {
-            navigation.navigate('EbookDetail')
+            navigation.navigate('CourseDetail')
         }
         return (
             <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail} >
@@ -70,7 +70,7 @@ export default function ListEbook({ data, searchKey = '', filter = defaultFilter
     return (
         <FlatList
             data={dataTest.filter(filterItem)}
-            renderItem={Ebook}
+            renderItem={Courese}
             keyExtractor={item => item.id.toString()}
         />
     )
@@ -91,77 +91,77 @@ const styles = StyleSheet.create({
 const dataTest = [
     {
         id: 0,
-        name: 'book1',
+        name: 'Course1',
         rating: 4.6,
         tag: ['TOIEC', 'IELTS'],
-        intro: 'Intro for book1',
+        intro: 'Intro for Course1',
         level: 'Beginner'
     },
     {
         id: 1,
-        name: 'book2',
+        name: 'Course2',
         rating: 4,
         tag: ['English for kid', 'Conversational'],
-        intro: 'Intro for book2',
+        intro: 'Intro for Course2',
         level: 'Beginner'
     },
     {
         id: 2,
-        name: 'book3',
+        name: 'Course3',
         rating: 4.8,
         tag: ['TOIEC', 'IELTS', 'English for business'],
-        intro: 'Intro for book3',
+        intro: 'Intro for Course3',
         level: 'Advanced'
     },
     {
         id: 3,
-        name: 'book4',
+        name: 'Course4',
         rating: 3.5,
         tag: ['English for business'],
-        intro: 'Intro for book4',
+        intro: 'Intro for Course4',
         level: 'Intermediate'
     },
     {
         id: 4,
-        name: 'book5',
+        name: 'Course5',
         rating: 2.7,
         tag: ['TOIEC'],
-        intro: 'Intro for book5',
+        intro: 'Intro for Course5',
         level: 'Beginner'
 
     },
     {
         id: 5,
-        name: 'book6',
+        name: 'Course6',
         rating: 1,
         tag: ['TOEFL', 'KET', 'PET'],
-        intro: 'Intro for book6',
+        intro: 'Intro for Course6',
         level: 'Intermediate'
     },
     {
         id: 6,
-        name: 'book7',
+        name: 'Course6',
         rating: 1.6,
         tag: ['STARTER', 'MOVERS'],
-        intro: 'Intro for book7',
+        intro: 'Intro for Course7',
         level: 'Beginner'
 
     },
     {
         id: 7,
-        name: 'book8',
+        name: 'Course8',
         rating: 4.9,
         tag: ['MOVERS', 'FLYERS'],
-        intro: 'Intro for book8',
+        intro: 'Intro for Course8',
         level: 'Beginner'
 
     },
     {
         id: 8,
-        name: 'book9',
+        name: 'Course9',
         rating: 2.9,
         tag: ['PET', 'KET'],
-        intro: 'Intro for book9',
+        intro: 'Intro for Course9',
         level: 'Advanced'
 
     },

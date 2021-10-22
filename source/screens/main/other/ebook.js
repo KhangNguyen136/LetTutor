@@ -12,8 +12,8 @@ import Picker from '../../../components/picker';
 export default function Ebooks() {
     const [searchKey, setSearchKey] = React.useState('');
     const [filterRating, setFilterRating] = React.useState('All')
-    const [level, setLevel] = React.useState('All')
-    const [tag, setTag] = React.useState('All')
+    const [level, setLevel] = React.useState('Level')
+    const [tag, setTag] = React.useState('Specialies')
 
     const updateSearch = (key) => setSearchKey(key)
     const updateTag = (tag) => setTag(tag)
@@ -22,23 +22,21 @@ export default function Ebooks() {
     return (
         <SafeAreaView style={globalStyles.container} >
             <Card>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-                    <View style={{ flex: 1 }} >
-                        <SearchBox placeholder={"Search by book's name"} value={searchKey} textChange={updateSearch} />
-                    </View>
-                    <Picker data={levels} title={'Level: '} didSelect={updateLevel} />
-                    {/* <View style={globalStyles.horizontalDivide} /> */}
+                <SearchBox placeholder={"Search by book's name"} value={searchKey} textChange={updateSearch} />
+
+                <View style={{ flexDirection: 'row', marginBottom: 3 }} >
+                    <Picker data={specialies} value={tag} title={'Specialies'} didSelect={updateTag} />
+                    <Picker data={levels} value={level} title={'Level'} didSelect={updateLevel} />
                 </View>
-                <Picker data={specialies} title={'Specialies: '} didSelect={updateTag} />
                 <FilterReview title={'Rating:'} setFilter={setFilterRating} choosen={filterRating} />
             </Card>
             <ListEbook searchKey={searchKey} filter={{
                 rating: filterRating, level, tag
             }} />
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
 const specialies =
-    ['All', 'English for kid', 'English for business', 'Conversational', 'STARTER', 'MOVERS', 'FLYERS', 'KET', 'PET', 'IELTS', 'TOEFL', 'TOEIC']
-const levels = ['All', 'Beginner', 'Intermedia', 'Advanced']
+    ['English for kid', 'English for business', 'Conversational', 'STARTER', 'MOVERS', 'FLYERS', 'KET', 'PET', 'IELTS', 'TOEFL', 'TOEIC']
+export const levels = ['Beginner', 'Intermedia', 'Advanced']

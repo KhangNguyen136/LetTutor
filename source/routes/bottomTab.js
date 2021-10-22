@@ -2,7 +2,8 @@ import React from 'react';
 import { TouchableOpacity, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/main/home';
-import Message from '../screens/main/message/messages';
+// import Message from '../screens/main/message/messages';
+import Course from '../screens/main/course';
 import Upcoming from '../screens/main/upcomingScreen';
 import Tutors from '../screens/main/tutor/tutors';
 import Other from '../screens/main/other/other';
@@ -24,15 +25,21 @@ function BottomTab({ navigation }) {
         }>
             <Tab.Screen name="Home" component={HomeScreen} options={{
                 title: 'Home',
+                headerLeft: () => (
+                    <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('Message')} >
+                        <GetIcon iconName={'message1'} source={'AntDesign'} />
+                    </TouchableOpacity>
+                ),
                 headerRight: () => (
                     <TouchableOpacity onPress={() => navigation.navigate('UserInfo')} >
                         <Image style={{ width: 35, height: 35, borderRadius: 5, marginRight: 10 }}
                             source={require('../../assets/botAvt.jpg')}
                         />
                     </TouchableOpacity>
-                )
+                ),
+
             }} />
-            <Tab.Screen name="Message" component={Message} options={{ title: 'Message' }} />
+            <Tab.Screen name="Course" component={Course} options={{ title: 'Course' }} />
             <Tab.Screen name="Upcoming" component={Upcoming} options={{ title: 'Upcoming' }} />
             <Tab.Screen name="Tutors" component={Tutors} options={{ title: 'Tutors' }} />
             <Tab.Screen name="Other" component={Other} options={{ title: 'Other' }} />
@@ -47,9 +54,9 @@ function TabBarIcon({ focused, routeName, color, size }) {
         case 'Home':
             iconName = focused ? 'home' : 'home-outline';
             break;
-        case 'Message':
-            iconName = focused ? 'chatbubbles-sharp' : 'chatbubbles-outline';
-            iconSource = 'Ionicons'
+        case 'Course':
+            iconName = focused ? 'bookmark' : 'bookmark-o';
+            iconSource = 'FontAwesome'
             break;
         case 'Upcoming':
             iconName = focused ? 'md-time' : 'md-time-outline';

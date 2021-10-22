@@ -50,6 +50,8 @@ export default function OtherScreen({ navigation, route }) {
                         </TouchableOpacity>
                     </View>
                 </Card>
+                <OtherButton title={'Messages'} iconName={'message1'} iconSource={'AntDesign'} so onPress={() => navigation.navigate('Message')} />
+
                 {
                     true &&
                     (<OtherButton title={'Become tutor'} iconName={'teach'} iconSource={'MaterialCommunityIcons'} onPress={() => navigation.navigate('BecomeTutor1')} />)

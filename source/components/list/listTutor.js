@@ -8,20 +8,19 @@ import Card from '../card';
 
 const defaultFilter = {
     rating: 'All',
-    country: 'All',
-    tag: 'All'
+    country: 'Country',
+    tag: 'Specialies'
 }
 
 
 export default function ListTutor({ data, searchKey = '', filter = defaultFilter }) {
     const navigation = useNavigation()
-    console.log(filter)
     const filterItem = (item) => {
         if (!item.name.toLowerCase().includes(searchKey.toLocaleLowerCase()))
             return false
-        if (filter.country != 'All' && item.country != filter.country)
+        if (filter.country != 'Country' && item.country != filter.country)
             return false
-        if (filter.tag != 'All')
+        if (filter.tag != 'Specialies')
             if (!item.tag.find((tag) => tag == filter.tag))
                 return false
         if (filter.rating != 'All')

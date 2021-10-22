@@ -5,13 +5,11 @@ import { GetIcon } from './button';
 import { Menu, MenuDivider, MenuItem } from 'react-native-material-menu';
 import IsSelectedView from './selectedView';
 
-export default function CountryPicker({ value = 'All', didSelect, showIcon = true, }) {
+export default function CountryPicker({ value, didSelect }) {
     // const [value, setValue] = React.useState(listCountry[0])
-    const listItem = showIcon == true ? listCountry : all.concat(listCountry)
     const [visible, setVisible] = React.useState(false)
     const [key, setKey] = React.useState('')
-    const [items, setItems] = React.useState(listItem)
-    console.log(items)
+    const [items, setItems] = React.useState(listCountry)
     const didSelectItem = (newValue) => {
         hideMenu()
         if (newValue.value != value) {
@@ -50,9 +48,7 @@ export default function CountryPicker({ value = 'All', didSelect, showIcon = tru
     return (
         <View style={styles.container} >
             <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                {showIcon &&
-                    <GetIcon iconName={'flag'} source={'Feather'} />
-                }
+                <GetIcon iconName={'flag'} source={'Feather'} />
                 <Text style={{ marginLeft: 2, fontSize: 15 }} >Country: </Text>
             </View>
             <Menu
@@ -84,12 +80,12 @@ const styles = StyleSheet.create({
     },
     title: { fontWeight: '500', marginLeft: 4 },
     typeContainer: {
-        padding: 5,
+        padding: 3,
         flexDirection: 'row',
         borderWidth: 0.25,
         borderColor: 'gray',
         alignItems: 'center',
-        borderRadius: 10,
+        borderRadius: 6,
     },
     typeContent: {
         fontWeight: '600',
@@ -98,9 +94,7 @@ const styles = StyleSheet.create({
 
 })
 
-const all = [{ label: 'All', value: 'All' }]
-
-const listCountry = [
+export const listCountry = [
     { label: 'Vietnam', value: 'Vietnam' },
     { label: 'USA', value: 'USA' },
     { label: 'England', value: 'England' },

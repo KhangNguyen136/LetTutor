@@ -6,28 +6,28 @@ import ListTutor from '../../../components/list/listTutor';
 import { globalStyles } from '../../../styles/globalStyles';
 import FilterReview from '../../../components/filterRating';
 import Card from '../../../components/card';
-import CountryPicker from '../../../components/countryPicker';
+import CountryFilter from '../../../components/countryFilter';
 import Picker from '../../../components/picker';
 
 export default function TutorScreen() {
     const [searchKey, setSearchKey] = React.useState('');
     const [filterRating, setFilterRating] = React.useState('All')
-    const [filterCountry, setFilterCountry] = React.useState('All')
-    const [tag, setTag] = React.useState('All')
+    const [filterCountry, setFilterCountry] = React.useState('Country')
+    const [tag, setTag] = React.useState('Specialies')
 
     const updateSearch = (key) => setSearchKey(key)
     const updateCountry = (country) => setFilterCountry(country)
     return (
         <SafeAreaView style={globalStyles.container} >
             <Card>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-                    <View style={{ flex: 1 }} >
-                        <SearchBox placeholder={"Search by tutor's name"} value={searchKey} textChange={updateSearch} />
-                    </View>
-                    <CountryPicker value={filterCountry} didSelect={updateCountry} showIcon={false} />
+                <SearchBox placeholder={"Search by tutor's name"} value={searchKey} textChange={updateSearch} />
+
+                <View style={{ flexDirection: 'row', margin: 3, marginEnd: 10 }} >
+
+                    <CountryFilter value={filterCountry} didSelect={updateCountry} title={'Country'} />
+                    <Picker didSelect={setTag} value={tag} data={specialies} title={'Specialies'} />
                     {/* <View style={globalStyles.horizontalDivide} /> */}
                 </View>
-                <Picker didSelect={setTag} data={specialies} title={'Specialies: '} />
                 <FilterReview title={'Rating:'} setFilter={setFilterRating} choosen={filterRating} />
             </Card>
             <ListTutor searchKey={searchKey} filter={{
@@ -37,5 +37,5 @@ export default function TutorScreen() {
     )
 }
 
-const specialies =
-    ['All', 'English for kid', 'English for business', 'Conversational', 'STARTER', 'MOVERS', 'FLYERS', 'KET', 'PET', 'IELTS', 'TOEFL', 'TOEIC']
+export const specialies =
+    ['English for kid', 'English for business', 'Conversational', 'STARTER', 'MOVERS', 'FLYERS', 'KET', 'PET', 'IELTS', 'TOEFL', 'TOEIC']

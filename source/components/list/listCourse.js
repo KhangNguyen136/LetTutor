@@ -6,11 +6,12 @@ import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 import Tag from '../tag';
+import { globalStyles } from '../../styles/globalStyles';
 
 const defaultFilter = {
-    // rating: 'All',
     level: 'Level',
-    tag: 'Specialies'
+    tag: 'Specialies',
+    sort: 'Sort by'
 }
 
 
@@ -24,52 +25,65 @@ export default function ListCourse({ data, searchKey = '', filter = defaultFilte
         if (filter.tag != 'Specialies')
             if (!item.tag.find((tag) => tag == filter.tag))
                 return false
-        if (filter.rating != 'All')
-            switch (filter.rating) {
-                case '5':
-                    return item.rating <= 5 && item.rating > 4
-                case '2':
-                    return item.rating <= 2 && item.rating > 1
-                case '3':
-                    return item.rating <= 3 && item.rating > 2
-                case '4':
-                    return item.rating <= 4 && item.rating > 3
-                default:
-                    return item.rating <= 1
-            }
         return true
 
+    }
+    const sortBy = (arr) => {
+        if (filter.sort == 'Sort by')
+            return arr
+        const n = arr.length
+        const result = arr
+        if (filter.sort == 'Level ascending') {
+            for (let i = 0; i < n; i++)
+                for (let j = i + 1; j < n; j++)
+                    if (result[i].nLevel > result[j].nLevel) {
+                        let temp = result[i]
+                        result[i] = result[j]
+                        result[j] = temp
+                    }
+            return result
+        }
+        for (let i = 0; i < n; i++)
+            for (let j = i + 1; j < n; j++)
+                if (result[i].nLevel < result[j].nLevel) {
+                    let temp = result[i]
+                    result[i] = result[j]
+                    result[j] = temp
+                }
+        return result
     }
     const Courese = ({ item }) => {
         icon = item.liked ? 'heart' : 'hearto'
         const toDetail = () => {
-            navigation.navigate('CourseDetail')
+            navigation.navigate('CourseDetail', { data: item })
         }
         return (
             <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail} >
                 <Card>
-                    <View style={{ flexDirection: 'row' }} >
-                        <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>
-                        <View style={{ flex: 1, margin: 5 }} >
-                            <Text style={{ fontWeight: '500' }} >{item.name}</Text>
-                            <Rating readonly={true}
-                                startingValue={item.rating}
-                                style={{ marginVertical: 3, alignSelf: 'flex-start' }}
-                                imageSize={20}
-                            />
+                    <View style={{ flexDirection: 'row', alignItems: 'center', }} >
+                        <Image source={{ uri: item.img }} style={styles.img}  ></Image>
+                        <View style={{ flex: 1, margin: 5, justifyContent: 'flex-end' }} >
+                            <Text style={{ fontWeight: '500', fontSize: 18 }} >{item.name}</Text>
                             <ListTag tags={item.tag} />
+                            <Text style={{ maxHeight: 60, fontSize: 14, margin: 5 }}>{item.intro}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                                <Text style={globalStyles.title2} > Level: </Text>
+                                <Tag item={item.level} />
+                                <Text> - {item.nlesson} lessons </Text>
+
+                            </View>
                         </View>
-                        <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
+                        {/* <IconButton iconName={icon} color={'pink'} source={'AntDesign'} /> */}
+
                     </View>
-                    <Text style={{ maxHeight: 60, fontSize: 13 }}>{item.intro}</Text>
-                    <Tag item={item.level} />
+
                 </Card>
             </TouchableOpacity>
         )
     }
     return (
         <FlatList
-            data={dataTest.filter(filterItem)}
+            data={sortBy(dataTest.filter(filterItem))}
             renderItem={Courese}
             keyExtractor={item => item.id.toString()}
         />
@@ -78,8 +92,8 @@ export default function ListCourse({ data, searchKey = '', filter = defaultFilte
 
 const styles = StyleSheet.create({
     img: {
-        width: 60,
-        height: 60,
+        width: 100,
+        height: 100,
         borderRadius: 10,
         margin: 5
     },
@@ -94,8 +108,11 @@ const dataTest = [
         name: 'Course1',
         rating: 4.6,
         tag: ['TOIEC', 'IELTS'],
-        intro: 'Intro for Course1',
-        level: 'Beginner'
+        intro: 'Intro for Course1 as sf sdf s df s df sdf s df s df sd fs df s df s as da sd as d as da sd a sd as d as da sd a sd as da sd a sd as da sd as da sd a sd as da sd as d a a sda sd ad fs df sd fs df s df sd fs df s df sdf d as da sd as da sd as da sd as d asd a sd as da sd a sd as d as d asd a sd as d as da sd a sd as da sd as da sd asd sd as da sd as d as da sd as d as d as da sd a sd as d asd a sd as d as da sd as da sd asd a sda ',
+        level: 'Beginner',
+        nLevel: 1,
+        nlesson: 10,
+        img: 'https://i.imgur.com/lIRSK8k.png',
     },
     {
         id: 1,
@@ -103,7 +120,10 @@ const dataTest = [
         rating: 4,
         tag: ['English for kid', 'Conversational'],
         intro: 'Intro for Course2',
-        level: 'Beginner'
+        level: 'Beginner',
+        nLevel: 1,
+        nlesson: 10,
+        img: 'https://i.imgur.com/1TWTEOf.png'
     },
     {
         id: 2,
@@ -111,7 +131,11 @@ const dataTest = [
         rating: 4.8,
         tag: ['TOIEC', 'IELTS', 'English for business'],
         intro: 'Intro for Course3',
-        level: 'Advanced'
+        level: 'Advanced',
+        nLevel: 3,
+
+        nlesson: 10,
+        img: 'https://i.imgur.com/W92wVE1.png'
     },
     {
         id: 3,
@@ -119,7 +143,11 @@ const dataTest = [
         rating: 3.5,
         tag: ['English for business'],
         intro: 'Intro for Course4',
-        level: 'Intermediate'
+        level: 'Intermediate',
+        nLevel: 2,
+
+        nlesson: 10,
+        img: 'https://i.imgur.com/jF64GYu.png'
     },
     {
         id: 4,
@@ -127,7 +155,11 @@ const dataTest = [
         rating: 2.7,
         tag: ['TOIEC'],
         intro: 'Intro for Course5',
-        level: 'Beginner'
+        level: 'Beginner',
+        nLevel: 1,
+
+        nlesson: 10,
+        img: 'https://i.imgur.com/gzCQvGY.png'
 
     },
     {
@@ -136,16 +168,23 @@ const dataTest = [
         rating: 1,
         tag: ['TOEFL', 'KET', 'PET'],
         intro: 'Intro for Course6',
-        level: 'Intermediate'
+        level: 'Intermediate',
+        nLevel: 2,
+
+        nlesson: 10,
+        img: 'https://i.imgur.com/SMhjLTJ.jpg'
     },
     {
         id: 6,
-        name: 'Course6',
+        name: 'Course7',
         rating: 1.6,
         tag: ['STARTER', 'MOVERS'],
         intro: 'Intro for Course7',
-        level: 'Beginner'
+        level: 'Beginner',
+        nLevel: 1,
 
+        nlesson: 10,
+        img: 'https://i.imgur.com/7HMKp6z.jpg'
     },
     {
         id: 7,
@@ -153,8 +192,11 @@ const dataTest = [
         rating: 4.9,
         tag: ['MOVERS', 'FLYERS'],
         intro: 'Intro for Course8',
-        level: 'Beginner'
+        level: 'Intermediate',
+        nLevel: 2,
 
+        nlesson: 10,
+        img: 'https://i.imgur.com/rUTRERD.jpg'
     },
     {
         id: 8,
@@ -162,7 +204,9 @@ const dataTest = [
         rating: 2.9,
         tag: ['PET', 'KET'],
         intro: 'Intro for Course9',
-        level: 'Advanced'
-
+        level: 'Advanced',
+        nLevel: 3,
+        nlesson: 10,
+        img: 'https://i.imgur.com/2CUBZuo.jpg'
     },
 ]

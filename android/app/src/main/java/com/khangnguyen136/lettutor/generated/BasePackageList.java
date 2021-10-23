@@ -1,4 +1,4 @@
-package com.lettutor.generated;
+package com.khangnguyen136.lettutor.generated;
 
 import java.util.Arrays;
 import java.util.List;

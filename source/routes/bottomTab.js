@@ -3,7 +3,7 @@ import { TouchableOpacity, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/main/home';
 // import Message from '../screens/main/message/messages';
-import Course from '../screens/main/course';
+import Course from '../screens/main/course/course';
 import Upcoming from '../screens/main/upcomingScreen';
 import Tutors from '../screens/main/tutor/tutors';
 import Other from '../screens/main/other/other';

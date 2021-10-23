@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.lettutor",
+    package = "com.khangnguyen136.lettutor",
 )
 
 android_resource(
     name = "res",
-    package = "com.lettutor",
+    package = "com.khangnguyen136.lettutor",
     res = "src/main/res",
 )
 

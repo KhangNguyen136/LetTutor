@@ -17,7 +17,8 @@ import BecomeTutor3 from '../screens/main/becomeTutor/step3';
 import Ebook from '../screens/main/other/ebook';
 import Message from '../screens/main/message/messages';
 import EbookDetail from '../screens/main/other/bookDetail';
-import CourseDetail from '../screens/main/couseDetail';
+import CourseDetail from '../screens/main/course/couseDetail';
+import DiscoverCourse from '../screens/main/course/discoverCourse';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -46,7 +47,7 @@ function MainStack({ navigation }) {
             <Stack.Screen name="EbookDetail" component={EbookDetail} options={{ title: 'Ebook details' }} />
             <Stack.Screen name="Message" component={Message} options={{ title: 'Messages' }} />
             <Stack.Screen name="CourseDetail" component={CourseDetail} options={{ title: 'Course detail' }} />
-
+            <Stack.Screen name="DiscoverCourse" component={DiscoverCourse} options={{ title: 'Discover Course' }} />
 
 
         </Stack.Navigator>

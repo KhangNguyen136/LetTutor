@@ -26,7 +26,7 @@ export const globalStyles = StyleSheet.create(
             height: 80,
             borderRadius: 8,
         },
-        titleName: { fontWeight: '600', fontSize: 15 },
+        titleName: { fontWeight: '600', fontSize: 16 },
         rowContainer: {
             flexDirection: 'row', alignItems: 'center', padding: 5,
             flex: 1

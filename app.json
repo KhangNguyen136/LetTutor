@@ -5,7 +5,13 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.khangnguyen136.lettutor"
+    },
+    "ios": {
+      "bundleIdentifier": "com.khangnguyen136.lettutor"
+    }
   },
   "name": "lettutor"
 }

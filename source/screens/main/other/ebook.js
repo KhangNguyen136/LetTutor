@@ -39,4 +39,5 @@ export default function Ebooks() {
 
 const specialies =
     ['English for kid', 'English for business', 'Conversational', 'STARTER', 'MOVERS', 'FLYERS', 'KET', 'PET', 'IELTS', 'TOEFL', 'TOEIC']
-export const levels = ['Beginner', 'Intermedia', 'Advanced']
+export const levels = ['Beginner', 'Intermediate', 'Advanced']
+export const sortBy = ['Level decreasing', 'Level ascending']

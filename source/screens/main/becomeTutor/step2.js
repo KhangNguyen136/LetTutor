@@ -50,7 +50,7 @@ export default function BecomeTutor2({ navigation }) {
                     setVideo({
                         uri: Response.assets[0].uri
                     })
-                    console.log(Response.assets[0].uri)
+                    // console.log(Response.assets[0].uri)
                 }
 
             }

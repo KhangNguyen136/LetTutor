@@ -7,9 +7,11 @@ import DatePicker from '../../../components/datePicker';
 import Card from '../../../components/card';
 import { CheckBox } from 'react-native-elements';
 import { MyButton } from '../../../components/button';
+import { listCountry } from '../../../components/countryPicker';
 
 export default function BecomeTutor1({ navigation }) {
     const [img, setImg] = React.useState(null)
+    const [country, setCountry] = React.useState(listCountry[0].value)
     return (
         <SafeAreaView style={globalStyles.container} >
             <ScrollView style={{ padding: 0 }} >
@@ -38,7 +40,7 @@ export default function BecomeTutor1({ navigation }) {
                         <View style={{ flex: 1, justifyContent: 'space-between' }} >
                             <TextInputCard title={'Full name: '} placeholder={'Enter your name'} />
                             <View style={globalStyles.verticalDivide} />
-                            <CountryPicker />
+                            <CountryPicker value={country} didSelect={setCountry} />
                             <View style={globalStyles.verticalDivide} />
                             <DatePicker title={'Birthday:'} />
                         </View>

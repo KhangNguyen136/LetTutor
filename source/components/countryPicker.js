@@ -24,7 +24,7 @@ export default function CountryPicker({ value, didSelect }) {
     };
     const searchUpdate = (text) => {
         setKey(text)
-        setItems(listItem.filter((item) => item.value.toLowerCase().includes(text.toLowerCase())))
+        setItems(listCountry.filter((item) => item.value.toLowerCase().includes(text.toLowerCase())))
     }
     const Item = ({ item }) => {
         return (

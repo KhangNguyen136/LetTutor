@@ -19,7 +19,6 @@ function BottomTab({ navigation }) {
                 tabBarIcon: ({ focused, color, size }) => {
                     return (<TabBarIcon focused={focused} routeName={route.name} color={color} size={size} />)
                 },
-                // headerShown: false
             })
 
         }>

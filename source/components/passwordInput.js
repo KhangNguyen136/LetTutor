@@ -38,15 +38,16 @@ const styles = StyleSheet.create({
     content: {
         fontSize: 16,
         paddingHorizontal: 10,
-        paddingVertical: 2,
+        paddingVertical: 4,
         flex: 1
     },
     contentContainer: {
         flexDirection: 'row',
-        borderWidth: 0.25,
-        borderColor: 'black',
-        borderRadius: 4, alignItems: 'center',
-        padding: 2,
+        borderWidth: 0.5,
+        borderColor: 'gray',
+        borderRadius: 3, alignItems: 'center',
+        margin: 2,
+        backgroundColor: '#dfe6e9'
     },
     titleContainer: {
         flexDirection: 'row',

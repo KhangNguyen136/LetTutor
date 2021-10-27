@@ -13,15 +13,18 @@ export default function App() {
         const auth = firebaseConfig.auth()
         auth.onAuthStateChanged((user) => {
             if (user != null) {
-                setIsLoggedIn(true)
+                updateAuthState(true)
                 setIsLoading(false)
             }
             else {
-                setIsLoggedIn(false)
+                updateAuthState(false)
                 setIsLoading(false)
             }
         })
     }, [])
+    const updateAuthState = (stt) => {
+        setIsLoggedIn(stt)
+    }
 
     if (isLoading) {
         return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SafeAreaView, Text, Image, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { globalStyles } from '../../styles/globalStyles';
 import { useNavigation } from '@react-navigation/core';
 import LoadingIndicator from '../../components/loadingIndicator';
@@ -54,35 +54,37 @@ export default function SignUp() {
                     SignUpAcc(values.email, values.pass, resetForm)
                 }}>
                 {({ values, handleChange, handleSubmit, handleBlur }) => (
-                    <FlexCard >
-                        <View style={{ alignSelf: 'center' }} >
-                            <Image style={{ borderRadius: 40 }} source={require('../../../assets/logo.png')} />
-                        </View>
-                        <TextInputCard title={'Email or phone number'} placeholder={'Enter email/phone number'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
-                        {/* <View style={{ height: 5 }} /> */}
-                        <PasswordTextInput title={'Password'} placeholder={'Enter password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
-                        <Text style={{ paddingLeft: 10 }}>Must be contain at least 6 characters.</Text>
-                        {/* <View style={{ height: 5 }} /> */}
-                        <PasswordTextInput title={'Confirm password'} placeholder={'Enter password again'} value={values.pass2} onChangeValue={handleChange('pass2')} onBlur={handleBlur('pass2')} />
-                        <Text style={{ paddingLeft: 10, marginBottom: 0 }}>Must be the same as password.</Text>
-                        {/* <View style={{ height: 5 }} /> */}
-                        <TextInputCard title={'Your name'} placeholder={'Enter name'} value={values.displayName} onChangeValue={handleChange('displayName')} onBlur={handleBlur('displayName')} />
-                        <View style={{ height: 20 }} />
-                        <MyButton onPress={handleSubmit} title={'Sign up'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            // paddingHorizontal: 10
-                        }} >
-                            <Text style={{ fontSize: 14 }} >Have had an account already?</Text>
-                            <TouchableOpacity onPress={() => navigation.navigate('LogIn')} >
-                                <Text style={{ paddingLeft: 3, fontSize: 14, fontWeight: '500', color: '#3399ff' }}>Sign in</Text>
-                            </TouchableOpacity>
-                        </View>
-                        {loading &&
-                            <LoadingIndicator />
-                        }
-                    </FlexCard>
+                    <ScrollView style={{ flex: 1 }} >
+                        <FlexCard >
+                            <View style={{ alignSelf: 'center' }} >
+                                <Image style={{ borderRadius: 40 }} source={require('../../../assets/logo.png')} />
+                            </View>
+                            <TextInputCard title={'Email or phone number'} placeholder={'Enter email/phone number'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
+                            {/* <View style={{ height: 5 }} /> */}
+                            <PasswordTextInput title={'Password'} placeholder={'Enter password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
+                            <Text style={{ paddingLeft: 10 }}>Must be contain at least 6 characters.</Text>
+                            {/* <View style={{ height: 5 }} /> */}
+                            <PasswordTextInput title={'Confirm password'} placeholder={'Enter password again'} value={values.pass2} onChangeValue={handleChange('pass2')} onBlur={handleBlur('pass2')} />
+                            <Text style={{ paddingLeft: 10, marginBottom: 0 }}>Must be the same as password.</Text>
+                            {/* <View style={{ height: 5 }} /> */}
+                            <TextInputCard title={'Your name'} placeholder={'Enter name'} value={values.displayName} onChangeValue={handleChange('displayName')} onBlur={handleBlur('displayName')} />
+                            <View style={{ height: 20 }} />
+                            <MyButton onPress={handleSubmit} title={'Sign up'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white', fontSize: 18 }} />
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                // paddingHorizontal: 10
+                            }} >
+                                <Text style={{ fontSize: 14 }} >Have had an account already?</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('LogIn')} >
+                                    <Text style={{ paddingLeft: 3, fontSize: 14, fontWeight: '500', color: '#3399ff' }}>Sign in</Text>
+                                </TouchableOpacity>
+                            </View>
+                            {loading &&
+                                <LoadingIndicator />
+                            }
+                        </FlexCard>
+                    </ScrollView>
                 )}
             </Formik>
         </SafeAreaView>

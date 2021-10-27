@@ -4,7 +4,7 @@ import { GetIcon } from './button';
 
 export default function Card(props) {
     return (
-        <View style={styles.card}>
+        <View style={styles.card} >
             {props.children}
         </View>
     )
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 2,
         marginHorizontal: 4,
-        marginVertical: 4,
+        marginBottom: 3,
         padding: 5,
     },
     container: {

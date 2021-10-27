@@ -8,13 +8,12 @@ const Stack = createNativeStackNavigator();
 
 function AuthStack({ navigation }) {
     return (
-        // <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerTitleAlign: 'center' }}>
+        <Stack.Navigator initialRouteName="Login"
+            screenOptions={{ headerTitleAlign: 'center' }}>
             <Stack.Screen name="LogIn" component={Login} options={{ title: 'Login' }} />
             <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'Sign up' }} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ title: 'Forgot password' }} />
         </Stack.Navigator>
-        // </NavigationContainer>
     )
 }
 

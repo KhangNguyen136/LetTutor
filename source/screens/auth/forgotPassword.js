@@ -7,7 +7,7 @@ import { globalStyles } from '../../styles/globalStyles';
 import { validateEmail } from './login';
 import LoadingIndicator from '../../components/loadingIndicator';
 // import { CheckInputFailed, Success } from '../../Components/AlertMsg/messageAlert';
-import firebaseApp from '../../firebaseConfig';
+import firebaseApp from '../../firebase';
 
 export default function ForgotPassword({ navigation }) {
     const [email, setEmail] = React.useState('')
@@ -36,8 +36,7 @@ export default function ForgotPassword({ navigation }) {
             <FlexCard>
                 <Text style={styles.Title} >Reset password</Text>
                 <Text style={styles.content}>Enter the email with your account and we will send an email with instructions to reset your password.</Text>
-                <Text style={styles.content}>Email address: </Text>
-                <TextInputCard placeholder={'Your email'} value={email} onChangeValue={setEmail} />
+                <TextInputCard title={'Account email: '} placeholder={'Enter email'} value={email} onChangeValue={setEmail} />
                 <MyButton title={'Send instructions'} onPress={ok} />
             </FlexCard>
             {

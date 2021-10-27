@@ -52,7 +52,7 @@ export function MyIconButtonLeft({ onPress, title, iconName, iconSource, iconSiz
     )
 }
 
-export function MyIconButtonRight({ onPress, title, iconName, iconSource, iconSize = 22, iconColor = 'black', moreStyle, moreTitleStyle }) {
+export function MyIconButtonRight({ onPress, title, iconName, iconSource, iconSize = 18, iconColor = 'black', moreStyle, moreTitleStyle }) {
     return (
         <TouchableOpacity style={[styles.MyButtonCotainer, moreStyle]} onPress={onPress} >
             <Text style={[styles.btnTitle, moreTitleStyle]} > {title} </Text>
@@ -81,12 +81,13 @@ const styles = StyleSheet.create(
             margin: 5,
             paddingVertical: 5,
             paddingHorizontal: 7,
-            alignItems: 'center',
+            justifyContent: 'center',
             backgroundColor: '#0be881',
             borderRadius: 10,
             shadowColor: '#333',
             shadowOpacity: 0.1,
             shadowOffset: { width: 1, height: 1 },
+            flexDirection: 'row'
         },
         btnTitle: {
             color: 'black',

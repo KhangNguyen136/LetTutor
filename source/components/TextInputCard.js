@@ -55,15 +55,14 @@ const styles = StyleSheet.create({
     content: {
         fontSize: 16,
         paddingVertical: 3,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        backgroundColor: '#dfe6e9',
+        borderWidth: 0.5,
+        borderColor: 'gray',
+        borderRadius: 4,
     },
     contentContainer: {
-        flexDirection: 'row',
-        borderWidth: 0.25,
-        borderColor: 'black',
-        margin: 1,
-        borderRadius: 4, alignItems: 'center',
-        padding: 2,
+        margin: 2,
     },
     title: { fontSize: 17, fontWeight: '500', marginLeft: 4 }
 })

@@ -10,6 +10,8 @@ import { MyButton } from '../../components/button';
 import LoadingIndicator from '../../components/loadingIndicator';
 import { FlexCard } from '../../components/card';
 import { showMessage } from 'react-native-flash-message';
+import LoginWithButton from '../../components/loginWithButton';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Login(props) {
     const [loading, setLoading] = React.useState(false)
@@ -49,30 +51,36 @@ export default function Login(props) {
                     LoginAcc(values.email, values.pass)
                 }}>
                 {({ values, handleChange, handleSubmit, handleBlur }) => (
-                    <FlexCard >
-                        <View style={{ alignItems: 'center' }} >
-                            <Image source={require('../../../assets/logo.png')} style={{ width: 200, height: 200, borderRadius: 40 }} />
-                        </View>
-                        <TextInputCard title={'Email or phone number'} placeholder={'Enter email/phone number'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
-                        <View style={{ height: 10 }} />
-                        <PasswordTextInput title={'Password'} placeholder={'Enter your password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
-                        <View style={{ height: 10 }} />
-                        <MyButton onPress={handleSubmit} title={'Login'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                        }} >
-                            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} >
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: '#3399ff' }} >FORGOT PASSWORD</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => navigation.navigate('SignUp')} >
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: '#3399ff' }}>SIGN UP</Text>
-                            </TouchableOpacity>
-                        </View>
-                        {loading &&
-                            <LoadingIndicator />
-                        }
-                    </FlexCard>
+                    <ScrollView style={{ flex: 1 }} >
+                        <FlexCard >
+                            <View style={{ alignItems: 'center' }} >
+                                <Image source={require('../../../assets/logo.png')} style={{ width: 200, height: 200, borderRadius: 40 }} />
+                            </View>
+                            <TextInputCard title={'Email or phone number'} placeholder={'Enter email/phone number'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
+                            <View style={{ height: 10 }} />
+                            <PasswordTextInput title={'Password'} placeholder={'Enter your password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
+                            <View style={{ height: 10 }} />
+                            <MyButton onPress={handleSubmit} title={'Login'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white', fontSize: 18 }} />
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                            }} >
+                                <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} >
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: '#3399ff' }} >FORGOT PASSWORD</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => navigation.navigate('SignUp')} >
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: '#3399ff' }}>SIGN UP</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <LoginWithButton type={'google'} />
+                            <LoginWithButton type={'facebook'} />
+                            <LoginWithButton type={'phone'} />
+
+                            {loading &&
+                                <LoadingIndicator />
+                            }
+                        </FlexCard>
+                    </ScrollView>
                 )}
             </Formik>
         </SafeAreaView>)

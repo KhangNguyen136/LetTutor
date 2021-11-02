@@ -20,7 +20,7 @@ export default function HomeScreen({ navigation }) {
                 <Text style={{ ...styles.lessonOverviewContent, fontSize: 16 }}>Total lesson time is 13 hours 6 minutes</Text>
                 <Text style={styles.lessonOverviewContent} >Upcoming Lesson:</Text>
                 <Text style={styles.lessonOverviewContent}>{date.toString().substr(0, 24)}</Text>
-                <MyButton title={'Enter lesson room'} onPress={toStudyRoom} />
+                <MyButton title={'Enter lesson room'} onPress={toStudyRoom} moreStyle={{ backgroundColor: '#74b9ff' }} />
             </View>
         )
     }
@@ -41,7 +41,7 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     lessonOverview: {
-        alignItems: 'center', backgroundColor: 'pink', padding: 10,
+        alignItems: 'center', backgroundColor: '#55efc4', padding: 10,
     },
     lessonOverviewContent: {
         fontWeight: '600',

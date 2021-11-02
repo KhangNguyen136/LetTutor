@@ -3,11 +3,13 @@ import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image } from 'react
 import { IconButton } from '../button';
 import { outputDate } from '../../styles/outputDate';
 import { useNavigation } from '@react-navigation/core';
+import { Badge } from 'react-native-elements'
 
 export default function ListMessage({ data, searchKey = '' }) {
     const navigation = useNavigation()
 
     const Message = ({ item }) => {
+        const textColor = Math.random() > 0.5 ? "#2ecc71" : "#bdc3c7"
         const toChatBox = () => {
             navigation.navigate('ChatBox', {
                 name: 'Juila'
@@ -16,7 +18,11 @@ export default function ListMessage({ data, searchKey = '' }) {
         return (
             <TouchableOpacity style={styles.container} onPress={toChatBox} >
                 <View style={{ flexDirection: 'row' }} >
-                    <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>
+                    <View>
+                        <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>
+                        <Badge status="success" containerStyle={{ position: 'absolute', top: 5, right: 5 }} badgeStyle={{ backgroundColor: textColor, height: 10, width: 10, borderRadius: 5 }} />
+                    </View>
+
                     <View style={{ flex: 1, margin: 5 }} >
                         <Text style={{ fontSize: 15 }} >{item.name}</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >

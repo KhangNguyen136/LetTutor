@@ -49,7 +49,8 @@ export const globalStyles = StyleSheet.create(
         },
         title2: {
             fontWeight: '500',
-            margin: 3
+            margin: 3,
+            fontSize: 15
         },
         button: {
             padding: 4, margin: 3, borderColor: '#0984e3',

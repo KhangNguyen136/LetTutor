@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#81ecec',
         paddingHorizontal: 4,
         paddingVertical: 2,
-        marginHorizontal: 2,
+        marginHorizontal: 4,
         marginVertical: 2,
         borderWidth: 0.5,
         borderColor: 'gray'
@@ -28,3 +28,7 @@ const styles = StyleSheet.create({
 })
 
 export default Tag;
+
+const tagColor = {
+
+}

@@ -5,27 +5,20 @@ import { GetIcon, IconButton } from './button';
 import { Menu, MenuDivider, MenuItem } from 'react-native-material-menu';
 import IsSelectedView from './selectedView';
 
-const placeholderCongif = {
-    color: 'gray',
-    iconName: 'down',
-    source: 'AntDesign'
+const defaultConfig = {
+    textStyle: {},
+    containerStyle: {}
 }
 
-const itemConfig = {
-    color: 'black'
-}
-
-export default function Filter({ data, value, searchable, title, didSelect }) {
+export default function Picker({ data, value, searchable = false, didSelect, config = defaultConfig }) {
     const [visible, setVisible] = React.useState(false)
     const [key, setKey] = React.useState('')
     const [items, setItems] = React.useState(data)
-    const textColor = value == title ? 'gray' : 'black'
 
     const didSelectItem = (newValue) => {
         hideMenu()
         if (newValue != value) {
             didSelect(newValue)
-            // setType(newValue.typeID)
         }
     };
 
@@ -43,8 +36,8 @@ export default function Filter({ data, value, searchable, title, didSelect }) {
         return (
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
-                    <MenuItem style={{ padding: 0, margin: 0, fontSize: 15 }} onPress={() => didSelectItem(item)} >{item}</MenuItem>
-                    <IsSelectedView isChoosen={item == value} />
+                    <MenuItem style={{ padding: 0, margin: 0, fontSize: 15 }} onPress={() => didSelectItem(item.value)} >{item.label}</MenuItem>
+                    <IsSelectedView isChoosen={item.label == value} />
                 </View>
                 <MenuDivider color={'black'} />
             </View>
@@ -52,15 +45,10 @@ export default function Filter({ data, value, searchable, title, didSelect }) {
     }
     const PickerBtn = ({ onPress, value }) => {
         return (
-            <TouchableOpacity style={styles.typeContainer} onPress={onPress} >
-                <Text style={{ ...styles.typeContent, color: textColor }} >{value}</Text>
-                {
-                    value == title ?
+            <TouchableOpacity style={[styles.typeContainer, config.containerStyle]} onPress={onPress} >
+                <Text style={[styles.typeContent, config.textStyle]} >{value}</Text>
+                <GetIcon iconName={'down'} source={'AntDesign'} size={18} color={config.textStyle.color} />
 
-                        <GetIcon iconName={'down'} source={'AntDesign'} size={18} color={'gray'} />
-                        :
-                        <IconButton iconName={'closecircleo'} source={'AntDesign'} size={18} onPress={() => didSelectItem(title)} />
-                }
             </TouchableOpacity>
         )
     }
@@ -82,7 +70,7 @@ export default function Filter({ data, value, searchable, title, didSelect }) {
                         <MenuDivider color={'black'} />
                         <FlatList data={items} style={{}}
                             renderItem={Item}
-                            keyExtractor={item => item.toString()} />
+                            keyExtractor={item => item.value.toString()} />
                     </View>
                 </View>
             </Menu>

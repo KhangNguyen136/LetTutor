@@ -2,10 +2,11 @@ import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { FlexCard } from '../../components/card';
 import { globalStyles } from '../../styles/globalStyles';
-import Picker from '../../components/filter';
+import Picker from '../../components/picker';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
 import { GetIcon, MyButton } from '../../components/button';
+import { formatAmount } from '../../styles/globalStyles';
 
 export default function BuyLesson({ navigation }) {
     const [nlesson, setnLesson] = React.useState(1)
@@ -14,6 +15,7 @@ export default function BuyLesson({ navigation }) {
     const [coupon, setCoupon] = React.useState('')
 
     const SegmentButton = ({ item }) => {
+
         const itemColor = item.value == period.value ? {
             textColor: 'white',
             backgroundColor: '#0071F0'
@@ -28,13 +30,17 @@ export default function BuyLesson({ navigation }) {
                     backgroundColor: itemColor.backgroundColor
                 }}>
                 <Text
-                    style={{ fontSize: 16, fontWeight: '600', color: itemColor.textColor }} >
-                    {item.value}</Text>
+                    style={{ fontSize: 15, fontWeight: '600', color: itemColor.textColor }} >
+                    {item.value}{monthUnit(item.value)}</Text>
                 <Text
                     style={{ fontSize: 14, fontWeight: '500', color: itemColor.textColor }}>
                     {item.sale}</Text>
             </TouchableOpacity>
         )
+    }
+
+    const calTotal = () => {
+        return (nday * nlesson * 4 * period.value * 100000 * period.saleValue)
     }
 
     return (
@@ -52,10 +58,10 @@ export default function BuyLesson({ navigation }) {
                     justifyContent: 'space-evenly', alignItems: 'flex-start'
                 }}>
                     <View>
-                        <Picker title={nlesson + " lesson daily"} value={nlesson + " lesson daily"} data={lessonDaily} didSelect={setnLesson} />
+                        <Picker value={nlesson + lessonUnit(nlesson) + "daily"} data={listNlesson} didSelect={setnLesson} config={configPicker} />
                         <Text style={{ fontWeight: '500', color: 'orange' }}>25 minutes per lesson</Text>
                     </View>
-                    <Picker title={nday + " day weekly"} value={nday + " day weekly"} data={dayWeekly} didSelect={setnLesson} />
+                    <Picker value={nday + dayUnit(nday) + "weekly"} data={listNday} didSelect={setnDay} config={configPicker} />
                 </View>
                 <View style={globalStyles.verticalDivide} />
                 <View style={styles.rowContainer}>
@@ -82,12 +88,15 @@ export default function BuyLesson({ navigation }) {
 
                 <View style={globalStyles.verticalDivide} />
                 <View style={styles.rowContainer}>
-                    <GetIcon iconName={'attach-money'} source={'MaterialIcons'} />
+                    <GetIcon iconName={'money-check-alt'} source={'FontAwesome5'} />
                     <Text style={globalStyles.title1}> Total:</Text>
                 </View>
                 <View style={styles.total}>
-                    <Text>10.000.000 vnđ</Text>
+                    <Text style={styles.sale}>{Math.fround((0.25 + 1 - period.saleValue) * 100)}%</Text>
+                    <Text style={styles.money}>{formatAmount(calTotal() * 0.75)}</Text>
+                    <Text style={styles.notSale}>{formatAmount(calTotal())}</Text>
                 </View>
+                <Text style={styles.note} > (~ {formatAmount(calTotal() * 0.75 / period.value)} per month) </Text>
 
                 <MyButton title={'Check out'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
 
@@ -114,28 +123,75 @@ const styles = StyleSheet.create({
         textAlign: 'center', fontWeight: '600', fontSize: 16, color: '#ff7675'
     },
     total: {
-        alignSelf: 'center', padding: 20, alignItems: 'center',
+        alignSelf: 'center', padding: 10, alignItems: 'center',
         backgroundColor: '#dfe6e9',
         borderWidth: 0.5,
         borderColor: 'gray',
         borderRadius: 8,
         margin: 5,
-    }
+    },
+    money: { fontWeight: '600', fontSize: 18, color: '#0071F0', margin: 7 },
+    sale: {
+        padding: 4, marginTop: -15, marginRight: -15, alignSelf: 'flex-end', borderRadius: 10,
+        fontWeight: '600', backgroundColor: '#F09400', color: 'white'
+    },
+    notSale: { textDecorationLine: 'line-through' },
+    note: { color: 'orange', marginBottom: 7, marginLeft: 20 }
 })
+
+const configPicker = {
+    containerStyle: {
+        backgroundColor: '#0071F0',
+        padding: 7,
+    },
+    textStyle: {
+        color: 'white', fontWeight: '600'
+    }
+}
+
+const listNday = () => {
+    const result = []
+    for (let id in dayWeekly) {
+        const value = dayWeekly[id]
+        result.push({ label: value + dayUnit(value) + 'weekly', value: value })
+    } return result
+}
+
+const listNlesson = () => {
+    const result = []
+    for (let id in lessonDaily) {
+        const value = lessonDaily[id]
+        result.push({ label: value + lessonUnit(value) + 'daily', value: value })
+    }
+    return result
+}
+
 
 const lessonDaily = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const dayWeekly = [1, 2, 3, 4, 5, 6, 7]
 const periods = [
     {
-        value: '1 month', sale: '-',
+        value: 1, sale: '-', saleValue: 1
     },
     {
-        value: '3 month', sale: '10% off',
+        value: 3, sale: '10% off', saleValue: 0.9
     },
     {
-        value: '6 month', sale: '25% off',
+        value: 6, sale: '20% off', saleValue: 0.8
     },
     {
-        value: '12 month', sale: '60% off',
+        value: 12, sale: '60% off', saleValue: 0.4
     },
 ]
+
+const dayUnit = (nday) => {
+    return nday > 1 ? ' days ' : ' day '
+}
+
+const lessonUnit = (nlesson) => {
+    return nlesson > 1 ? ' lessons ' : ' lesson '
+}
+
+const monthUnit = (nmonth) => {
+    return nmonth > 1 ? ' months ' : ' month '
+}

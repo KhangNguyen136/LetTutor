@@ -40,6 +40,7 @@ export default function ListTutor({ data, searchKey = '', filter = defaultFilter
 
     }
     const Tutor = ({ item }) => {
+        // const [liked, setLiked] = React.useState(Math.random() > 0.5)
         icon = item.liked ? 'heart' : 'hearto'
         const toDetail = () => {
             navigation.navigate('TutorInfo')
@@ -64,9 +65,6 @@ export default function ListTutor({ data, searchKey = '', filter = defaultFilter
                 </Card>
             </TouchableOpacity>
         )
-    }
-    const checkName = (tutor) => {
-        return tutor.name.toLowerCase().includes(searchKey.toLowerCase())
     }
     return (
         <FlatList

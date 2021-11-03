@@ -9,7 +9,6 @@ import { globalStyles } from '../../styles/globalStyles';
 export default function HomeScreen({ navigation }) {
     const date = new Date()
     React.useEffect(() => {
-
     }, [])
     const toStudyRoom = () => {
         navigation.navigate('StudyRoom')
@@ -30,7 +29,7 @@ export default function HomeScreen({ navigation }) {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10, alignItems: 'center' }} >
                 <Text style={{ fontSize: 16, fontWeight: '600', textDecorationLine: 'underline' }} >Recommended tutors: </Text>
                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate("Tutors")} >
-                    <Text style={{ color: '#3498db' }} >See all</Text>
+                    <Text style={{ color: '#3498db', fontWeight: '600' }} >See all</Text>
                     <GetIcon iconName={'right'} source={'AntDesign'} size={14} color={'#3498db'} />
                 </TouchableOpacity>
             </View>

@@ -2,10 +2,10 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, Touchable } from 'react-native';
 import { GetIcon } from './button';
 
-export default function OtherButton({ title, iconName, iconSource, onPress }) {
+export default function OtherButton({ title, iconName, iconSource, onPress, color = 'black' }) {
     return (
         <TouchableOpacity style={styles.container} onPress={onPress} >
-            <GetIcon iconName={iconName} source={iconSource} />
+            <GetIcon iconName={iconName} source={iconSource} color={color} />
             <Text style={styles.title} >{title}</Text>
             <GetIcon iconName={'right'} source={'AntDesign'} />
         </TouchableOpacity>

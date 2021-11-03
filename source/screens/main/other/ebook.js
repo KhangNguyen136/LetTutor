@@ -7,7 +7,7 @@ import { globalStyles } from '../../../styles/globalStyles';
 import FilterReview from '../../../components/filterRating';
 import Card from '../../../components/card';
 import CountryPicker from '../../../components/countryPicker';
-import Picker from '../../../components/picker';
+import Picker from '../../../components/filter';
 
 export default function Ebooks() {
     const [searchKey, setSearchKey] = React.useState('');

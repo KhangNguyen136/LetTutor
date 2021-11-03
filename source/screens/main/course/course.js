@@ -6,7 +6,7 @@ import ListCourse from '../../../components/list/listCourse';
 import { globalStyles } from '../../../styles/globalStyles';
 import FilterReview from '../../../components/filterRating';
 import Card from '../../../components/card';
-import Picker from '../../../components/picker';
+import Picker from '../../../components/filter';
 import { levels, sortBy } from '../other/ebook';
 import { specialies } from '../tutor/tutors';
 

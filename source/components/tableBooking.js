@@ -2,12 +2,14 @@ import React from 'react';
 import { Text, Button, StyleSheet, View, ScrollView, Touchable } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Table, TableWrapper, Row, Rows, Col, Cell, Cols } from 'react-native-table-component';
+import { useNavigation } from '@react-navigation/native'
 
 const today = new Date()
-export default function TableBooking({ data }) {
+export default function TableBooking({ data, tutor }) {
     const listDate = getListDates()
+    const navigation = useNavigation()
     const state = {
-        tableHead: listDate,
+        tableHead: listDate.title,
         tableTitle: ['7:00 - 7:25', '8:00 - 8:25', '9:00 - 9:25', '10:00 - 10:25', '11:00 - 11:25', '12:00 - 12:25', '13:00 - 13:25', '14:00 - 14:25', '15:00 - 15:25', '16:00 - 16:25'],
         tableData: [
             [0, 1, 2, 0, 1, 2, 2, 0, 2, 1],
@@ -36,10 +38,15 @@ export default function TableBooking({ data }) {
             >Empty</Text>
         )
     }
+    const toBooking = (item) => {
+        console.log(item)
+        navigation.navigate('Booking', { data: { date: listDate.dates[item.index].toString(), time: state.tableTitle[item.cellIndex], name: tutor.name } })
+    }
     const BookBtn = (item) => {
+
         return (
             <Text style={{ color: 'white', textAlign: 'center', fontWeight: '500', backgroundColor: '#3399ff', borderRadius: 5 }}
-                onPress={() => console.log('Click book')}
+                onPress={() => toBooking(item)}
             >Book</Text>
         )
     }
@@ -60,7 +67,7 @@ export default function TableBooking({ data }) {
                                         {
                                             rowData.map((cellData, cellIndex) => (
                                                 <Cell key={cellIndex} style={styles.cell} data={
-                                                    cellData === 1 ? Booked() : cellData === 2 ? BookBtn() : Empty()
+                                                    cellData === 1 ? Booked() : cellData === 2 ? BookBtn({ index, cellIndex }) : Empty()
                                                 } textStyle={styles.text} />
                                             ))
                                         }
@@ -76,68 +83,16 @@ export default function TableBooking({ data }) {
     )
 }
 
-
-
-// const dataTest = {
-//     startTime: '',
-//     endTime: '',
-//     item: [
-//         {
-//             time: '7:30 - 7:55',
-//             stt: 'empty',
-//         },
-//         {
-//             time: '8:30 - 8:55',
-//             stt: 'booked',
-//         },
-//         {
-//             time: '9:30 - 9:55',
-//             stt: 'available',
-//         },
-//         {
-//             time: '10:30 - 10:55',
-//             stt: 'availabel',
-//         },
-//         {
-//             time: '11:30 - 11:55',
-//             stt: 'booked',
-//         },
-//         {
-//             time: '12:30 - 12:55',
-//             stt: 'booked',
-//         },
-//         {
-//             time: '13:30 - 13:55',
-//             stt: 'booked',
-//         },
-//         {
-//             time: '14:30 - 14:55',
-//             stt: 'empty',
-//         },
-//         {
-//             time: '15:30 - 15:55',
-//             stt: 'empty',
-//         },
-//         {
-//             time: '16:30 - 16:55',
-//             stt: 'empty',
-//         },
-//         {
-//             time: '17:30 - 17:55',
-//             stt: 'empty',
-//         }
-//     ]
-// }
-
 function getListDates() {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    var result = ['']
+    var result = { title: [], dates: [] }
     var temp = new Date()
     for (var i = 0; i < 7; i++) {
         temp.setDate(today.getDate() + i)
         const date = temp.getDate() + "/" + (temp.getMonth() + 1)
         const day = daysOfWeek[temp.getDay()]
-        result.push(date + '\n' + day)
+        result.title.push(date + '\n' + day)
+        result.dates.push(temp)
     }
     return result;
 }

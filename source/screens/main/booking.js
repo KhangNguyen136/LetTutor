@@ -6,9 +6,8 @@ import { globalStyles } from '../../styles/globalStyles';
 import { GetIcon } from '../../components/button';
 import { Rating } from 'react-native-ratings';
 
-export default function GiveFeedback({ navigation, route }) {
+export default function Booking({ navigation, route }) {
     const { data } = route.params
-    const isEdit = data.rating != -1
     return (
         <SafeAreaView style={globalStyles.container} >
             <Card>
@@ -23,44 +22,40 @@ export default function GiveFeedback({ navigation, route }) {
                     <View style={globalStyles.verticalDivide} />
                     <View style={styles.rowItem} >
                         <GetIcon iconName={'calendar'} source={'AntDesign'} size={18} />
+                        <Text style={globalStyles.title2}>Booking date:</Text>
+                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{data.date.toString().substr(0, 16)}</Text>
+                    </View>
+                    <View style={globalStyles.verticalDivide} />
+                    <View style={styles.rowItem} >
+                        <GetIcon iconName={'clockcircleo'} source={'AntDesign'} size={18} />
                         <Text style={globalStyles.title2}>Booking time:</Text>
-                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{data.date.toString().substr(0, 24)}</Text>
+                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{data.time}</Text>
+                    </View>
+                    <View style={globalStyles.verticalDivide} />
+                    <View style={styles.rowItem} >
+                        <GetIcon iconName={'price-tag'} source={'Entypo'} size={18} />
+                        <Text style={globalStyles.title2}>Price: </Text>
+                        <Text style={{ marginLeft: 4, fontSize: 16 }} > 1 lesson</Text>
                     </View>
                     <View style={globalStyles.verticalDivide} />
 
                     <View style={styles.rowItem} >
-                        <GetIcon iconName={'md-time-outline'} source={'Ionicons'} size={18} />
-                        <Text style={globalStyles.title2}>Lesson time:</Text>
-                        <Text style={{ marginLeft: 4, fontSize: 16 }} > {data.time}</Text>
-                    </View>
-                    <View style={globalStyles.verticalDivide} />
-
-                    <View style={styles.rowItem} >
-                        <GetIcon iconName={'notes'} source={'MaterialIcons'} size={18} />
-                        <Text style={globalStyles.title2} > Booking note: </Text>
-                        <Text style={{ fontSize: 16 }} > first lesson</Text>
-                    </View>
-                    <View style={globalStyles.verticalDivide} />
-                    <View style={styles.rowItem} >
-                        <Text style={globalStyles.title2} >Rate: </Text>
-                        <Rating
-                            startingValue={isEdit ? data.rating : 0}
-                            style={{ margin: 3, alignSelf: 'flex-start' }}
-                            imageSize={20}
-                        />
+                        <GetIcon iconName={'wallet'} source={'Entypo'} size={18} />
+                        <Text style={globalStyles.title2} > Your balance: </Text>
+                        <Text style={{ fontSize: 16 }} > 3 lessons left</Text>
                     </View>
                     <View style={globalStyles.verticalDivide} />
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start', margin: 3, marginTop: 10 }} >
-                        <Text style={globalStyles.title2} >Comment: </Text>
+                        <Text style={globalStyles.title2} >Note </Text>
                         <View style={{ flex: 1 }} >
                             <Card>
-                                <TextInput placeholder={'Say something about the lesson or tutor'} multiline={true} style={{ minHeight: 80 }} />
+                                <TextInput placeholder={'What you want the tutor know?'} multiline={true} style={{ minHeight: 80 }} />
                             </Card>
                         </View>
                     </View>
                 </View>
             </Card>
-            <MyButton title={isEdit ? "Save" : "Done"} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
+            <MyButton title={'Book'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
         </SafeAreaView>
     )
 }

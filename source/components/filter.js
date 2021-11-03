@@ -15,7 +15,7 @@ const itemConfig = {
     color: 'black'
 }
 
-export default function Picker({ data, value, searchable, title, didSelect }) {
+export default function Filter({ data, value, searchable, title, didSelect }) {
     const [visible, setVisible] = React.useState(false)
     const [key, setKey] = React.useState('')
     const [items, setItems] = React.useState(data)

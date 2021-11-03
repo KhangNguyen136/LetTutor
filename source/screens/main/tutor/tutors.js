@@ -7,7 +7,7 @@ import { globalStyles } from '../../../styles/globalStyles';
 import FilterReview from '../../../components/filterRating';
 import Card from '../../../components/card';
 import CountryFilter from '../../../components/countryFilter';
-import Picker from '../../../components/picker';
+import Picker from '../../../components/filter';
 
 export default function TutorScreen() {
     const [searchKey, setSearchKey] = React.useState('');

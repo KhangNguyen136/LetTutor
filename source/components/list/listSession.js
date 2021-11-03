@@ -11,8 +11,7 @@ export default function ListSession({ data, search }) {
     const Session = ({ item }) => {
         const rated = item.rating != -1
         const feedback = () => {
-            navigation.navigate('GiveFeedback', { data: item })
-
+            navigation.navigate('GiveFeedback', { data: { ...item, date: item.date.toString() } })
         }
         const seeTutorDetails = () => {
             navigation.navigate('TutorInfo')

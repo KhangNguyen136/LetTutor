@@ -15,9 +15,10 @@ function BottomTab({ navigation }) {
         <Tab.Navigator initialRouteName="Home" screenOptions={
             ({ route }) => ({
                 headerTitleAlign: 'center',
-
+                // headerTintColor: '#6c5ce7',
+                // headerPressColor: '#6c5ce7',
                 tabBarIcon: ({ focused, color, size }) => {
-                    return (<TabBarIcon focused={focused} routeName={route.name} color={color} size={size} />)
+                    return (<TabBarIcon focused={focused} routeName={route.name} color={'#6c5ce7'} size={size} />)
                 },
             })
 

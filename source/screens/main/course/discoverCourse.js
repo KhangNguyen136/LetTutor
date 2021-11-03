@@ -4,7 +4,7 @@ import { globalStyles } from '../../../styles/globalStyles';
 import Pdf from 'react-native-pdf';
 import { showMessage } from 'react-native-flash-message';
 import Card from '../../../components/card';
-import Picker from '../../../components/picker';
+import Filter from '../../../components/filter';
 
 export default function DiscoverCourse({ navigation, route }) {
     const { data } = route.params
@@ -14,7 +14,7 @@ export default function DiscoverCourse({ navigation, route }) {
             <Card>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                     <Text style={globalStyles.titleName}>Topic: </Text>
-                    <Picker value={topic} didSelect={setTopic} data={data} searchable={true} />
+                    <Filter value={topic} didSelect={setTopic} data={data} searchable={true} />
                 </View>
             </Card>
             {/* <View> */}

@@ -85,7 +85,7 @@ export default function TableBooking({ data, tutor }) {
 
 function getListDates() {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    var result = { title: [], dates: [] }
+    var result = { title: [''], dates: [null] }
     var temp = new Date()
     for (var i = 0; i < 7; i++) {
         temp.setDate(today.getDate() + i)

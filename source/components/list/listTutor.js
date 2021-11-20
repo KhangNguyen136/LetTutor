@@ -42,16 +42,16 @@ export default function ListTutor({ data, searchKey = '', filter = defaultFilter
     const Tutor = ({ item }) => {
         // const [liked, setLiked] = React.useState(Math.random() > 0.5)
         icon = item.liked ? 'heart' : 'hearto'
-        const toDetail = () => {
+        function toDetail() {
             navigation.navigate('TutorInfo')
         }
         return (
-            <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail} >
+            <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail}  >
                 <Card>
                     <View style={{ flexDirection: 'row' }} >
                         <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>
                         <View style={{ flex: 1, margin: 5 }} >
-                            <Text style={{ fontWeight: '500' }} >{item.name}</Text>
+                            <Text style={{ fontWeight: 'bold' }} >{item.name}</Text>
                             <Rating readonly={true}
                                 startingValue={item.rating}
                                 style={{ marginVertical: 3, alignSelf: 'flex-start' }}
@@ -97,7 +97,8 @@ const dataTest = [
         rating: 4,
         tag: ['TOIEC', 'IELTS'],
         intro: "Intro of John. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'Vietnam'
+        country: 'Vietnam',
+        liked: 1,
     },
     {
         id: 1,
@@ -105,7 +106,8 @@ const dataTest = [
         rating: 3.5,
         tag: ['English for kid', 'Conversational'],
         intro: "Intro of Anna. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'USA'
+        country: 'USA',
+        liked: 0,
 
     },
     {
@@ -114,7 +116,8 @@ const dataTest = [
         rating: 4.5,
         tag: ['TOIEC', 'IELTS', 'English for business'],
         intro: "Intro of Kelvin. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'China'
+        country: 'China',
+        liked: 0,
 
     },
     {
@@ -123,7 +126,8 @@ const dataTest = [
         rating: 3.3,
         tag: ['English for business'],
         intro: "Intro of Jack. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'Korea'
+        country: 'Korea',
+        liked: 1,
 
     },
     {
@@ -132,7 +136,9 @@ const dataTest = [
         rating: 4.4,
         tag: ['TOIEC', 'STARTER'],
         intro: "Intro of Jenny. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'Japan'
+        country: 'Japan',
+        liked: 0,
+
 
     },
     {
@@ -141,7 +147,8 @@ const dataTest = [
         rating: 4,
         tag: ['TOEFL', 'KET', 'PET'],
         intro: "Intro of Paul. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'Russia'
+        country: 'Russia',
+        liked: 1,
 
     },
 ]

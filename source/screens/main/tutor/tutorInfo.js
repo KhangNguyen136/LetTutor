@@ -50,13 +50,13 @@ export default function TutorInfo({ navigation }) {
 
                     </View>
                     <Text style={{ paddingHorizontal: 5 }} >{data.intro}</Text>
-                    {/* <Video ref={videoRef}
+                    <Video ref={videoRef}
                         style={{ width: '96%', height: 200, alignSelf: 'center', margin: 5 }}
                         source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
                         useNativeControls
                         resizeMode={'contain'}
                         isLooping={false}
-                    /> */}
+                    />
                 </Card>
                 <Card>
                     <View style={{ ...globalStyles.rowContainer, justifyContent: 'space-around' }}>

@@ -26,7 +26,7 @@ export const globalStyles = StyleSheet.create(
             height: 80,
             borderRadius: 8,
         },
-        titleName: { fontWeight: '600', fontSize: 16 },
+        titleName: { fontWeight: 'bold', fontSize: 16 },
         rowContainer: {
             flexDirection: 'row', alignItems: 'center', padding: 5,
             flex: 1
@@ -44,11 +44,11 @@ export const globalStyles = StyleSheet.create(
             margin: 3
         },
         title1: {
-            fontWeight: '600',
+            fontWeight: 'bold',
             margin: 3, color: '#0984e3', fontSize: 16
         },
         title2: {
-            fontWeight: '500',
+            fontWeight: '600',
             margin: 3,
             fontSize: 15
         },

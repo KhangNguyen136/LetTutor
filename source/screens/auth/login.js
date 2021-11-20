@@ -13,11 +13,19 @@ import { showMessage } from 'react-native-flash-message';
 import LoginWithButton from '../../components/loginWithButton';
 import { ScrollView } from 'react-native-gesture-handler';
 
+
+
 export default function Login(props) {
     const [loading, setLoading] = React.useState(false)
+    const [username, setUsername] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const [usernameError, setUsernameError] = React.useState('')
+    const [passError, setPassError] = React.useState('')
+
     const { navigation } = props
 
-    const LoginAcc = (email, password, resetForm) => {
+
+    const LoginAcc = (email, password) => {
         firebaseApp.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 // Signed in
@@ -39,72 +47,96 @@ export default function Login(props) {
                 })
             });
     }
-    return (
-        <SafeAreaView style={globalStyles.container}>
-            <Formik initialValues={{ email: '', pass: '' }}
-                onSubmit={(values) => {
-                    setLoading(true)
-                    if (CheckInput(values.email, values.pass) === false) {
-                        setLoading(false)
-                        return
-                    }
-                    LoginAcc(values.email, values.pass)
-                }}>
-                {({ values, handleChange, handleSubmit, handleBlur }) => (
-                    <ScrollView style={{ flex: 1 }} >
-                        <FlexCard >
-                            <View style={{ alignItems: 'center' }} >
-                                <Image source={require('../../../assets/logo.png')} style={{ width: 200, height: 200, borderRadius: 40 }} />
-                            </View>
-                            <TextInputCard title={'Email or phone number'} placeholder={'Enter email/phone number'} value={values.email} onChangeValue={handleChange('email')} onBlur={handleBlur('email')} />
-                            <View style={{ height: 10 }} />
-                            <PasswordTextInput title={'Password'} placeholder={'Enter your password'} value={values.pass} onChangeValue={handleChange('pass')} onBlur={handleBlur('pass')} />
-                            <View style={{ height: 10 }} />
-                            <MyButton onPress={handleSubmit} title={'Login'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white', fontSize: 18 }} />
-                            <View style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                            }} >
-                                <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} >
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: '#3399ff' }} >FORGOT PASSWORD</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => navigation.navigate('SignUp')} >
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: '#3399ff' }}>SIGN UP</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <LoginWithButton type={'google'} />
-                            <LoginWithButton type={'facebook'} />
-                            <LoginWithButton type={'phone'} />
 
-                            {loading &&
-                                <LoadingIndicator />
+    CheckInput = (email, pass) => {
+        if (validateEmail(email) === false) {
+            setUsernameError('Invalid email')
+            return false
+        }
+        if (checkPassword(pass) === false) {
+            setPassError('Invalid password')
+            return false
+        }
+        return true
+    }
+
+    function PressLogin() {
+        console.log('log in with', { username, password })
+        if (CheckInput(username, password) === false) {
+            console.log('false')
+            return
+        }
+        setLoading(true)
+        LoginAcc(username, password)
+    }
+
+    return (
+        <SafeAreaView style={{
+            ...globalStyles.container,
+            // backgroundColor: '#81ecec'
+        }}>
+
+            <ScrollView style={{ flex: 1 }} >
+                <FlexCard >
+                    {/* // <View> */}
+                    <View style={{ alignSelf: 'center' }} >
+                        <Image source={require('../../../assets/logo.png')} style={{ width: 200, height: 200, borderRadius: 40 }} />
+                    </View>
+                    <TextInputCard title={'Email'} placeholder={'Enter mail'} value={username}
+                        onChangeValue={(value) => {
+                            if (value == '') {
+                                setUsernameError('Please enter your email')
                             }
-                        </FlexCard>
-                    </ScrollView>
-                )}
-            </Formik>
+                            else {
+                                setUsernameError('')
+                            }
+                            setUsername(value)
+                        }} />
+
+                    <Text style={styles.error} >{usernameError}</Text>
+                    <PasswordTextInput title={'Password'} placeholder={'Enter password'} value={password}
+                        onChangeValue={(value) => {
+                            if (value == '') {
+                                setPassError('Please enter your password')
+                            }
+                            else {
+                                setPassError('')
+                            }
+                            setPassword(value)
+                        }} />
+                    <Text style={styles.error} >{passError}</Text>
+
+                    <MyButton onPress={PressLogin} title={'Login'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                    }} >
+                        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} >
+                            <Text style={{ fontSize: 14, fontWeight: '500', color: '#3399ff' }} >Forgot password</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} >
+                            <Text style={{ fontSize: 14, fontWeight: '500', color: '#3399ff' }}>Sign up</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: '500' }} > Or continue with </Text>
+                    <LoginWithButton type={'facebook'} />
+                    <LoginWithButton type={'google'} />
+                    <LoginWithButton type={'phone'} />
+                    {loading &&
+                        <LoadingIndicator />
+                    }
+                    {/* </View> */}
+                </FlexCard>
+            </ScrollView>
+
         </SafeAreaView>)
 }
 
-function CheckInput(email, pass) {
-    if (validateEmail(email) === false) {
-        showMessage({
-            message: 'Invalid email',
-            description: 'Check your email and try again!',
-            type: 'warning'
-        })
-        return false
-    }
-    if (checkPassword(pass) === false) {
-        showMessage({
-            message: 'Invalid password',
-            description: 'Password must contain more than 5 characters!',
-            type: 'warning'
-        })
-        return false
-    }
-    return true
-}
+styles = StyleSheet.create({
+    error: { color: 'orange', marginLeft: 10, fontWeight: '500' },
+})
+
 function checkPassword(pass) {
     if (pass.length < 6) {
         return false

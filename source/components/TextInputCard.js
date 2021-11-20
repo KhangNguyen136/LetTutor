@@ -33,6 +33,7 @@ export default function TextInputCard({ value, title, placeholder, onChangeValue
                     value={value}
                     onChangeText={onChangeValue}
                     placeholder={placeholder}
+                    placeholderTextColor={'#95a0a0'}
                     onBlur={onBlur}
                     keyboardType={keyboardType}
                     editable={isEdit}
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         paddingVertical: 3,
         paddingHorizontal: 10,
-        backgroundColor: '#dfe6e9',
+        backgroundColor: '#ecf0f1',
         borderWidth: 0.5,
         borderColor: 'gray',
         borderRadius: 4,

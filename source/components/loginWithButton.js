@@ -4,22 +4,22 @@ import { GetIcon } from './button';
 
 export default function LoginWithBtn({ type, onPress }) {
     var content = {
-        iconName: 'facebook', source: 'Entypo', title: 'Sign in with facebook', backgroundColor: '#4267B2'
+        iconName: 'facebook', source: 'Entypo', title: 'Facebook', backgroundColor: '#4267B2'
     }
     switch (type) {
         case 'apple':
             content = {
-                iconName: 'apple1', source: 'AntDesign', title: 'Sign in with apple', backgroundColor: '#4267B2'
+                iconName: 'apple1', source: 'AntDesign', title: 'Apple', backgroundColor: '#4267B2'
             }
             break;
         case 'google':
             content = {
-                iconName: 'google', source: 'AntDesign', title: 'Sign in with google', backgroundColor: '#e17055'
+                iconName: 'google', source: 'AntDesign', title: 'Google', backgroundColor: '#e17055'
             }
             break;
         case 'phone':
             content = {
-                iconName: 'phone', source: 'Entypo', title: 'Sign in with phone number', backgroundColor: '#38B45E'
+                iconName: 'phone', source: 'Entypo', title: 'Phone number', backgroundColor: '#38B45E'
             }
             break;
         default:
@@ -29,7 +29,7 @@ export default function LoginWithBtn({ type, onPress }) {
         <TouchableOpacity onPress={onPress}
             style={{
                 flexDirection: 'row', alignItems: 'center', backgroundColor: content.backgroundColor,
-                alignSelf: 'center', width: '69%', justifyContent: 'center', padding: 5, borderRadius: 8, margin: 5
+                alignSelf: 'center', width: '50%', justifyContent: 'center', padding: 5, borderRadius: 8, margin: 5
             }} >
             <GetIcon iconName={content.iconName} source={content.source} size={17} color={'white'} />
             <Text style={{

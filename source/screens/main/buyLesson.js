@@ -177,10 +177,10 @@ const periods = [
         value: 3, sale: '10% off', saleValue: 0.9
     },
     {
-        value: 6, sale: '20% off', saleValue: 0.8
+        value: 6, sale: '25% off', saleValue: 0.75
     },
     {
-        value: 12, sale: '60% off', saleValue: 0.4
+        value: 12, sale: '55% off', saleValue: 0.45
     },
 ]
 

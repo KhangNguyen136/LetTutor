@@ -43,7 +43,7 @@ export default function ListTutor({ data, searchKey = '', filter = defaultFilter
         // const [liked, setLiked] = React.useState(Math.random() > 0.5)
         icon = item.liked ? 'heart' : 'hearto'
         function toDetail() {
-            navigation.navigate('TutorInfo')
+            navigation.navigate('TutorInfo', { data: item })
         }
         return (
             <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail}  >

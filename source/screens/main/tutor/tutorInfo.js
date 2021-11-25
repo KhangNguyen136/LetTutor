@@ -10,13 +10,21 @@ import { Video } from 'expo-av';
 import ListTag from '../../../components/list/listTag';
 import TableBooking from '../../../components/tableBooking';
 
-export default function TutorInfo({ navigation }) {
+export default function TutorInfo({ navigation, route }) {
     const [data, setData] = React.useState(dataTest)
+    const [liked, setLiked] = React.useState(false)
+
     const scrollViewRef = React.useRef(null)
     const videoRef = React.useRef(null)
     React.useEffect(() => {
-    }
+        const receivedData = route.params.data
+        setData(receivedData)
+        setLiked(receivedData.liked)
+    }, []
     )
+    const clickFavourite = () => {
+        setLiked(!liked)
+    }
     const scrollToBook = () =>
         scrollViewRef.current.scrollToEnd({ animated: true })
 
@@ -61,7 +69,7 @@ export default function TutorInfo({ navigation }) {
                 <Card>
                     <View style={{ ...globalStyles.rowContainer, justifyContent: 'space-around' }}>
                         <IconBtn title={'Message'} onPress={() => navigation.navigate('ChatBox', { tutor: data.name })} />
-                        <IconBtn title={'Favorite'} onPress={() => console.log('Click favorite')} />
+                        <IconBtn liked={liked} title={'Favourite'} onPress={clickFavourite} />
                         <IconBtn title={'Report'} onPress={() => navigation.navigate('Report', { tutor: data.name })} />
                         <IconBtn title={'Reviews'} onPress={() => navigation.navigate('Reviews', { tutor: data.name })} />
                     </View>
@@ -69,19 +77,19 @@ export default function TutorInfo({ navigation }) {
                 <Card>
                     <View style={{ padding: 5 }} >
                         <Text style={{ ...globalStyles.titleName, marginBottom: 3 }} >Languages: </Text>
-                        <ListTag tags={data.languages} />
+                        <ListTag tags={dataTest.languages} />
                     </View>
                     <View style={{ padding: 5 }}>
                         <Text style={{ ...globalStyles.titleName, marginBottom: 3 }} >Specialties: </Text>
-                        <ListTag tags={data.specialties} />
+                        <ListTag tags={dataTest.specialties} />
                     </View>
                     <View style={{ padding: 5 }}>
                         <Text style={{ ...globalStyles.titleName, marginBottom: 3 }} >Teaching experienced: </Text>
-                        <Text style={{ paddingHorizontal: 5 }} >{data.teachingExperience}</Text>
+                        <Text style={{ paddingHorizontal: 5 }} >{dataTest.teachingExperience}</Text>
                     </View>
                     <View style={{ padding: 5 }}>
                         <Text style={{ ...globalStyles.titleName, marginBottom: 3 }} >Interests: </Text>
-                        <Text style={{ paddingHorizontal: 5 }} >{data.interests}</Text>
+                        <Text style={{ paddingHorizontal: 5 }} >{dataTest.interests}</Text>
                     </View>
                 </Card>
 

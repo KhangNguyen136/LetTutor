@@ -35,8 +35,11 @@ export default function OtherScreen({ navigation, route }) {
         <SafeAreaView style={globalStyles.container} >
             <ScrollView>
                 <Card>
-                    <View>
-                        <TouchableOpacity style={{ width: '96%', alignSelf: 'center', flexDirection: 'row', alignItems: 'center' }}
+                    <View  >
+                        <TouchableOpacity style={{
+                            width: '96%', alignSelf: 'center',
+                            flexDirection: 'row', alignItems: 'center'
+                        }}
                             onPress={() => navigation.navigate('UserInfo')} >
                             <Image style={{ width: 80, height: 80, borderRadius: 10 }} source={require('../../../../assets/botAvt.jpg')} />
                             <View style={{ alignContent: 'center' }}>

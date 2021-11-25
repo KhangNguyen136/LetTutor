@@ -6,7 +6,7 @@ import ListCourse from '../../../components/list/listCourse';
 import { globalStyles } from '../../../styles/globalStyles';
 import FilterReview from '../../../components/filterRating';
 import Card from '../../../components/card';
-import Picker from '../../../components/filter';
+import Filter from '../../../components/filter';
 import { levels, sortBy } from '../other/ebook';
 import { specialies } from '../tutor/tutors';
 
@@ -26,13 +26,13 @@ export default function Course() {
                     <View style={{ flex: 1 }} >
                         <SearchBox placeholder={"Search course"} value={searchKey} textChange={updateSearch} />
                     </View>
-                    <Picker didSelect={setLevel} value={level} data={levels} title={'Level'} />
+                    <Filter didSelect={setLevel} value={level} data={levels} title={'Level'} />
 
                 </View>
                 <View style={{ flexDirection: 'row', margin: 3, marginEnd: 10, }} >
 
-                    <Picker didSelect={setTag} value={tag} data={specialies} title={'Specialies'} />
-                    <Picker didSelect={setSort} value={sort} data={sortBy} title={'Sort by'} />
+                    <Filter didSelect={setTag} value={tag} data={specialies} title={'Specialies'} />
+                    <Filter didSelect={setSort} value={sort} data={sortBy} title={'Sort by'} />
                 </View>
                 {/* <FilterReview title={'Rating:'} setFilter={setFilterRating} choosen={filterRating} /> */}
             </Card>

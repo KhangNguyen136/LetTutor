@@ -8,7 +8,7 @@ import Picker from '../../../components/picker';
 
 export default function DiscoverCourse({ navigation, route }) {
     const { data } = route.params
-    const [topic, setTopic] = React.useState(data[0])
+    const [topic, setTopic] = React.useState(data[0].label)
     return (
         <SafeAreaView style={globalStyles.container} >
             <Card>

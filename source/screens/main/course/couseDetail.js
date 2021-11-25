@@ -15,7 +15,7 @@ export default function CourseDetail({ navigation, route }) {
     }, [])
     const Topic = ({ item }) => {
         return (
-            <Text style={globalStyles.title2} >{item}</Text>
+            <Text style={globalStyles.title2} >{item.label}</Text>
         )
     }
     return (
@@ -75,7 +75,7 @@ export default function CourseDetail({ navigation, route }) {
                     </View>
                     <View style={{ flex: 1, marginHorizontal: 10 }}>
                         <FlatList data={listTopic}
-                            renderItem={Topic} keyExtractor={item => item} scrollEnabled={true} />
+                            renderItem={Topic} keyExtractor={item => item.value} scrollEnabled={true} />
                     </View>
                 </Card>
             </ScrollView>
@@ -89,6 +89,35 @@ const styles = StyleSheet.create({
     }
 })
 
-const listTopic = ['1. Cooking', '2. Your Dream Job', '3. Sports Fitness', '4. Service Animals', '5. Social Activities', '6. Your Ideal Day', '7. Childhood Friendships', '8. The Importance of Family', '9. City Life', '10. Online Shopping']
+const listTopic = [
+    { label: '1. Cooking', value: '1. Cooking' },
+
+    { label: '2. Your Dream Job', value: '2. Your Dream Job' },
+
+
+    { label: '3. Sports Fitness', value: '3. Sports Fitness' },
+
+
+    { label: '4. Service Animals', value: '4. Service Animals' },
+
+
+    { label: '5. Social Activities', value: '5. Social Activities' },
+
+
+    { label: '6. Your Ideal Day', value: '6. Your Ideal Day' },
+
+
+    { label: '7. Childhood Friendships', value: '7. Childhood Friendships' },
+
+
+    { label: '8. The Importance of Family', value: '8. The Importance of Family' },
+
+
+    { label: '9. City Life', value: '9. City Life' },
+
+
+    { label: '10. Online Shopping', value: '10. Online Shopping' }
+
+]
 const why = 'Looking for some variety in your lesson topics? Immerse yourself in English discussion with this set of engaging topics.'
 const able = 'This course covers vocabulary at the CEFR B1-B2 levels. You will work on improving fluency and comprehension by discussing a variety of topics. In addition, you will receive corrections from a native English speaker to help improve your grammatical accuracy.'

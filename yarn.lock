@@ -5623,6 +5623,11 @@ react-native-iphone-x-helper@^1.2.1, react-native-iphone-x-helper@^1.3.1:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
 
+react-native-jitsi-meet@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-jitsi-meet/-/react-native-jitsi-meet-2.1.2.tgz#82c0b87d907b1f32aed8c6fcd9f5b07c14380087"
+  integrity sha512-ti0FTirsWwLlfP1jpQqjbm07IWqv+beOprQdGGe1JFbCv3xNeXccF1tzPUCZoW1JpCwCAKqS1qieaPhilq6dRg==
+
 react-native-lightbox@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/react-native-lightbox/-/react-native-lightbox-0.8.1.tgz#4e561ec46e61617a0f3f12c88ec2695360998878"

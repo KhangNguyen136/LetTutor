@@ -25,11 +25,6 @@ function BottomTab({ navigation }) {
         }>
             <Tab.Screen name="Home" component={HomeScreen} options={{
                 title: 'Home',
-                headerLeft: () => (
-                    <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('Message')} >
-                        <GetIcon iconName={'message1'} source={'AntDesign'} />
-                    </TouchableOpacity>
-                ),
                 headerRight: () => (
                     <TouchableOpacity onPress={() => navigation.navigate('UserInfo')} >
                         <Image style={{ width: 35, height: 35, borderRadius: 5, marginRight: 10 }}
@@ -37,7 +32,6 @@ function BottomTab({ navigation }) {
                         />
                     </TouchableOpacity>
                 ),
-
             }} />
             <Tab.Screen name="Course" component={Course} options={{ title: 'Course' }} />
             <Tab.Screen name="Upcoming" component={Upcoming} options={{ title: 'Upcoming' }} />

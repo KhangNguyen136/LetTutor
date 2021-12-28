@@ -3,28 +3,31 @@ import SplashScreen from './screens/SplashScreen';
 import MainStack from '../source/routes/mainStack';
 import AuthStack from './routes/authStack';
 import { NavigationContainer } from '@react-navigation/native';
-import firebaseConfig from './firebase';
 import FlashMessage from 'react-native-flash-message';
+import { loggedIn, loggedOut } from './redux/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserInfoFromDB } from './bussiness/UserInfoServices';
+import { setInfoAction } from './redux/userInfoSlice';
+import { storeToken } from './bussiness/accessTokenServices';
 
 export default function App() {
-    const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+    const isLoggedIn = useSelector(state => state.authState.isLoggedIn)
     const [isLoading, setIsLoading] = React.useState(true)
-    React.useEffect(() => {
-        const auth = firebaseConfig.auth()
-        auth.onAuthStateChanged((user) => {
-            if (user != null) {
-                updateAuthState(true)
-                setIsLoading(false)
-            }
-            else {
-                updateAuthState(false)
-                setIsLoading(false)
-            }
-        })
-    }, [])
-    const updateAuthState = (stt) => {
-        setIsLoggedIn(stt)
+    const dispatch = useDispatch();
+    const getUserInfo = async () => {
+        const userInfo = await getUserInfoFromDB();
+        if (userInfo.length != 0) {
+            dispatch(setInfoAction(userInfo[0]));
+            storeToken(userInfo[0].accessToken);
+            dispatch(loggedIn());
+        }
+        else
+            dispatch(loggedOut());
+        setIsLoading(false);
     }
+    React.useEffect(() => {
+        getUserInfo()
+    }, [])
 
     if (isLoading) {
         return (
@@ -34,7 +37,7 @@ export default function App() {
     return (
         <NavigationContainer>
             {
-                isLoggedIn == true ?
+                isLoggedIn ?
                     (
                         <MainStack />
                     ) :

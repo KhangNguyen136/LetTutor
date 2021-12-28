@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../../styles/globalStyles';
-import { Formik } from 'formik';
-import firebaseApp from '../../firebase';
-// import { Success, CheckInputFailed } from '../../Components/AlertMsg/messageAlert';
 import TextInputCard from '../../components/TextInputCard'
 import PasswordTextInput from '../../components/passwordInput';
 import { MyButton } from '../../components/button';
@@ -12,40 +9,51 @@ import { FlexCard } from '../../components/card';
 import { showMessage } from 'react-native-flash-message';
 import LoginWithButton from '../../components/loginWithButton';
 import { ScrollView } from 'react-native-gesture-handler';
-
-
+import axios from 'axios';
+import { serverUrl } from '../../const';
+import { loggedIn } from '../../redux/authSlice';
+import { useDispatch } from 'react-redux';
+import { storeToken } from '../../bussiness/accessTokenServices';
+import { saveUserInfoToDB } from '../../bussiness/UserInfoServices';
+import { validateEmail, checkPassword } from '../../bussiness/validInput';
 
 export default function Login(props) {
     const [loading, setLoading] = React.useState(false)
-    const [username, setUsername] = React.useState('')
-    const [password, setPassword] = React.useState('')
+    const [username, setUsername] = React.useState('nguyentankhang136@gmail.com')
+    const [password, setPassword] = React.useState('123456')
     const [usernameError, setUsernameError] = React.useState('')
     const [passError, setPassError] = React.useState('')
-
     const { navigation } = props
+    const dispatch = useDispatch();
 
-
-    const LoginAcc = (email, password) => {
-        firebaseApp.auth().signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                // Signed in
-                var user = userCredential.user;
-                setLoading(false)
-                showMessage({
-                    message: 'Logged in successfully',
-                    type: 'success'
-                });
+    const SaveUseInfo = async (data) => {
+        try {
+            saveUserInfoToDB(data);
+            storeToken(data.tokens.access.token);
+            showMessage({
+                type: 'success', message: 'Login successful'
             })
-            .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                setLoading(false)
-                showMessage({
-                    message: 'Login failed',
-                    description: error.message,
-                    type: 'danger'
-                })
+            dispatch(loggedIn());
+        } catch (error) {
+            console.log(error)
+            showMessage({ type: 'error', message: 'Login failed' })
+        }
+    }
+
+    const LoginAcc = async (email, password) => {
+        setLoading(true);
+        try {
+            const res = await axios.post(`${serverUrl}auth/login`, {
+                email, password
             });
+            console.log(res.data)
+            SaveUseInfo(res.data)
+
+        } catch (error) {
+            console.log(error)
+            showMessage({ type: 'warning', message: 'Login failed', description: 'Incorrect email or password' })
+        }
+        setLoading(false);
     }
 
     CheckInput = (email, pass) => {
@@ -61,12 +69,11 @@ export default function Login(props) {
     }
 
     function PressLogin() {
-        console.log('log in with', { username, password })
         if (CheckInput(username, password) === false) {
             console.log('false')
             return
         }
-        setLoading(true)
+        // setLoading(true)
         LoginAcc(username, password)
     }
 
@@ -136,15 +143,3 @@ export default function Login(props) {
 styles = StyleSheet.create({
     error: { color: 'orange', marginLeft: 10, fontWeight: '500' },
 })
-
-function checkPassword(pass) {
-    if (pass.length < 6) {
-        return false
-    }
-    return true
-}
-
-export function validateEmail(email) {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}

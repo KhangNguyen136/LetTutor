@@ -3,13 +3,37 @@ import React from 'react';
 import { Text, SafeAreaView, View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { GetIcon, MyButton, MyIconButtonLeft, MyIconButtonRight } from '../../components/button';
-import ListTutor from '../../components/list/listTutor';
+import ListRecommendedTutor from '../../components/list/listRecommendedTutor';
 import { globalStyles } from '../../styles/globalStyles';
+import axios from 'axios';
+import { serverUrl } from '../../const';
+import { getToken } from '../../bussiness/accessTokenServices';
+import { getUserInfoFromDB } from '../../bussiness/UserInfoServices';
 
 export default function HomeScreen({ navigation }) {
     const date = new Date()
     React.useEffect(() => {
+        console.log('Begin useEffect')
+        getData()
     }, [])
+
+    const getData = async () => {
+        try {
+            const userInfo = await getUserInfoFromDB();
+            console.log(userInfo);
+            const token = await getToken();
+            const res = await axios.get(serverUrl + 'tutor/more', {
+                params: {
+                    perPage: 9,
+                    page: 1
+                },
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            console.log(res.data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const toStudyRoom = () => {
         navigation.navigate('StudyRoom')
     }
@@ -35,7 +59,7 @@ export default function HomeScreen({ navigation }) {
                     <GetIcon iconName={'right'} source={'AntDesign'} size={14} color={'#3498db'} />
                 </TouchableOpacity>
             </View>
-            <ListTutor />
+            <ListRecommendedTutor />
         </SafeAreaView>
     )
 }

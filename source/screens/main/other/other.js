@@ -9,27 +9,29 @@ import OtherButton from '../../../components/otherButton';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Linking from 'expo-linking';
 import { GetIcon } from '../../../components/button';
+import { loggedOut } from '../../../redux/authSlice';
+import { useDispatch } from 'react-redux';
+import RealmConfig from '../../../models';
+import Realm from 'realm';
 
 export default function OtherScreen({ navigation, route }) {
+    const dispatch = useDispatch();
     React.useEffect(() => {
 
     }, [])
-    const logOut = (showMessage) => {
-        firebaseApp.auth().signOut().then(() => {
-            console.log("Logged out successfully")
-            showMessage({
-                message: "Logged out sucessfully",
-                type: 'success'
+    const logOut = async () => {
+        try {
+            const realm = await Realm.open(RealmConfig);
+            realm.write(() => {
+                realm.deleteAll();
             })
-
-        }).catch((error) => {
-            console.log('Log out failed', error.message)
-            showMessage({
-                message: 'Action failed',
-                description: error.message,
-                type: 'danger'
-            })
-        })
+            dispatch(loggedOut())
+            showMessage({ type: 'success', message: 'Log out successful' });
+            realm.close();
+        } catch (error) {
+            console.log(error)
+            showMessage({ type: 'danger', message: 'Log out failed' });
+        }
     }
     return (
         <SafeAreaView style={globalStyles.container} >
@@ -72,7 +74,7 @@ export default function OtherScreen({ navigation, route }) {
                     onPress={() => Linking.openURL('https://github.com/KhangNguyen136/LetTutor')} />
 
                 <OtherButton title={'Facebook'} iconName={'facebook-square'} iconSource={'FontAwesome'} onPress={() => Linking.openURL('https://www.facebook.com/nguyenkhang136/')} color={'#0980EC'} />
-                <MyButton title={'Log out'} onPress={() => logOut(showMessage)} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
+                <MyButton title={'Log out'} onPress={logOut} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
             </ScrollView>
         </SafeAreaView >
     )

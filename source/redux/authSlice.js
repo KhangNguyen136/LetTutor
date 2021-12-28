@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const authStateSlice = createSlice({
     name: 'authState',
     initialState: {
-        loading: true,
+        // loading: true,
         isLoggedIn: false,
     },
     reducers: {
@@ -12,14 +12,12 @@ export const authStateSlice = createSlice({
             // doesn't actually mutate the state because it uses the Immer library,
             // which detects changes to a "draft state" and produces a brand new
             // immutable state based off those changes
-            console.log('Logged in')
             state.isLoggedIn = true
-            state.loading = false
+            // state.loading = false
         },
         loggedOut: (state) => {
-            console.log('Logged out')
             state.isLoggedIn = false
-            state.loading = false
+            // state.loading = false
         },
     },
 })

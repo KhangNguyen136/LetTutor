@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image } from 'react-native';
+import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { IconButton } from '../button';
 import { Rating } from 'react-native-ratings';
 import ListTag from './listTag';
@@ -13,8 +13,20 @@ const defaultFilter = {
 }
 
 
-export default function ListTutor({ data, searchKey = '', filter = defaultFilter }) {
+export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
+    const [offset, setOffset] = React.useState(1)
+    const [loading, setLoading] = React.useState(false)
+    const [data, setData] = React.useState([])
     const navigation = useNavigation()
+    React.useEffect(() => getData(), [])
+    const getData = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setOffset(offset + 1);
+            setData(dataTestTutor.slice(0, offset * 2))
+            setLoading(false);
+        }, 1000)
+    }
     const filterItem = (item) => {
         if (!item.name.toLowerCase().includes(searchKey.toLocaleLowerCase()))
             return false
@@ -39,6 +51,25 @@ export default function ListTutor({ data, searchKey = '', filter = defaultFilter
         return true
 
     }
+    const MyFooter = () => {
+        return (
+            //Footer View with Load More button
+            <View style={styles.footer}>
+                <TouchableOpacity
+                    activeOpacity={0.9}
+                    onPress={getData}
+                    //On Click of button load more data
+                    style={styles.loadMoreBtn}>
+                    <Text style={styles.btnText}>Load More</Text>
+                    {loading ? (
+                        <ActivityIndicator
+                            color="white"
+                            style={{ marginLeft: 8, height: 18 }} />
+                    ) : null}
+                </TouchableOpacity>
+            </View>
+        );
+    };
     const Tutor = ({ item }) => {
         // const [liked, setLiked] = React.useState(Math.random() > 0.5)
         icon = item.liked ? 'heart' : 'hearto'
@@ -68,9 +99,10 @@ export default function ListTutor({ data, searchKey = '', filter = defaultFilter
     }
     return (
         <FlatList
-            data={dataTest.filter(filterItem)}
+            data={data}
             renderItem={Tutor}
             keyExtractor={item => item.id.toString()}
+            ListFooterComponent={MyFooter}
         />
     )
 }
@@ -84,13 +116,31 @@ const styles = StyleSheet.create({
     },
     rating: {
         alignSelf: 'flex-start'
-        // width: 100,
-        // height: 20
-        // width: 50
-    }
+    },
+    footer: {
+        padding: 5,
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    loadMoreBtn: {
+        padding: 6,
+        paddingHorizontal: 9,
+        backgroundColor: '#0984e3',
+        borderRadius: 4,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontSize: 15,
+        textAlign: 'center',
+    },
 })
 
-const dataTest = [
+export const dataTestTutor = [
     {
         id: 0,
         name: 'John',

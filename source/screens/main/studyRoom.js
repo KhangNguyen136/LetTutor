@@ -25,12 +25,12 @@ export default function StudyRoom() {
     }
 
     React.useEffect(() => {
-        // let interval = setInterval(() => {
-        //     setTimer(lastTimerCount => {
-        //         lastTimerCount <= 1 && clearInterval(interval)
-        //         return lastTimerCount - 1
-        //     })
-        // }, 1000) //each count lasts for a second
+        let interval = setInterval(() => {
+            setTimer(lastTimerCount => {
+                lastTimerCount <= 1 && clearInterval(interval)
+                return lastTimerCount - 1
+            })
+        }, 1000) //each count lasts for a second
 
         //cleanup the interval on complete
         setTimeout(() => {

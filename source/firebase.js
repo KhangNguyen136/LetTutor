@@ -12,21 +12,3 @@ const firebaseConfig = {
 };
 
 export default firebaseApp = firebase.initializeApp(firebaseConfig);
-
-// export const logOut = (showMessage) => {
-//     firebaseApp.auth().signOut().then(() => {
-//         console.log("Logged out successfully")
-//         showMessage({
-//             message: "Logged out sucessfully",
-//             type: 'success'
-//         })
-
-//     }).catch((error) => {
-//         console.log('Log out failed', error.message)
-//         showMessage({
-//             message: 'Action failed',
-//             description: error.message,
-//             type: 'danger'
-//         })
-//     })
-// }

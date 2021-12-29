@@ -1,22 +1,45 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+const initValue = {
+    id: '',
+    name: '',
+    email: '',
+    avt: '',
+    tokens: {
+        access: {
+            token: '',
+            expire: ''
+        },
+        refresh: {
+            token: '',
+            expire: ''
+        }
+    }
+}
 export const userInfoSlice = createSlice({
     name: 'userInfoState',
-    initialState: {
-        id: '',
-        name: '',
-        email: '',
-        avt: '',
-    },
+    initialState: initValue,
     reducers: {
-        setInfoAction: (state, action) => {
-            state = action.payload
-            console.log(action.payload)
+        setUserInfoAction: (state, action) => {
+            const data = action.payload
+            state.id = data.id;
+            state.name = data.name;
+            state.email = data.email;
+            state.avt = data.avt;
+            console.log('Update user info action: ' + action.payload);
         },
+        setTokens: (state, action) => {
+            state.tokens = action.payload
+            console.log('Update user token action: ' + action.payload);
+        },
+        resetData: (state) => {
+            state = initValue
+            console.log('Reset user info action')
+        }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { setInfoAction } = userInfoSlice.actions
+export const { setUserInfoAction, setTokens, resetData } = userInfoSlice.actions
 
 export default userInfoSlice.reducer

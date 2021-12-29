@@ -6,9 +6,14 @@ import CountryPicker from '../../../components/countryPicker';
 import MyDatePicker from '../../../components/datePicker';
 import TextInputCard from '../../../components/TextInputCard';
 import { globalStyles } from '../../../styles/globalStyles';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import { showMessage } from 'react-native-flash-message';
-
+import { serverUrl } from '../../../const';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserInfoAction } from '../../../redux/userInfoSlice';
+import LoadingIndicator from '../../../components/loadingIndicator';
+import errorHandle from '../../../bussiness/errorHanle';
 var options = {
     title: 'Select Image',
     customButtons: [
@@ -24,11 +29,51 @@ var options = {
     // mediaType: 'photo'
 };
 
-export default function UserInfo({ navigation }) {
-    const [country, setCountry] = React.useState('Vietnam')
-    const [img, setImg] = React.useState(require('../../../../assets/botAvt.jpg'))
+export default function UserInfoScreen({ navigation }) {
+    const userInfo = useSelector(state => state.userInfoState);
+    const [name, setName] = React.useState(userInfo.name);
+    const [phone, setPhone] = React.useState('');
+    const [birthday, setBirthday] = React.useState(new Date());
+    const [country, setCountry] = React.useState('Vietnam');
+    const [img, setImg] = React.useState(require('../../../../assets/botAvt.jpg'));
+    const [role, setRole] = React.useState('');
+    const [loading, setLoading] = React.useState(true);
+    const dispatch = useDispatch();
+    const getData = async () => {
+        try {
+            const res = await axios.get(serverUrl + 'user/info', {
+                headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
+            })
+            const data = res.data.user
+            setRole(data.roles[0]);
+            setPhone(data.phone)
+        } catch (error) {
+            console.log(error);
+            errorHandle(error);
+        }
+        setLoading(false)
+    }
+    const updateData = async () => {
+        setLoading(true)
+        try {
+            const res = await axios.put(serverUrl + 'user/info', {
+                name, country, phone,
+                birthday: birthday.toLocaleString().substring(0, 10),
+                level: 'HIGHER_BEGINNER',
+                learnTopics: [],
+                testPreparations: []
+            }, { headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token } })
+            console.log(res.data);
+            dispatch(setUserInfoAction(res.data.user));
+            showMessage({ type: 'success', message: 'Update successful' })
+        } catch (error) {
+            errorHandle(error);
+        }
+        setLoading(false)
+
+    }
     React.useEffect(() => {
-        console.log(img)
+        getData()
     }, [])
     const editAvt = () => {
         launchImageLibrary(options, Response => {
@@ -62,30 +107,35 @@ export default function UserInfo({ navigation }) {
                         </TouchableOpacity>
                         <View style={{ flex: 1 }} >
                             <Text style={globalStyles.titleName} >Khang Nguyen</Text>
-                            <Text>Account id: asdd123dsd3434</Text>
-                            <Text>Account type: student</Text>
+                            <Text>Account id: {userInfo.id}</Text>
+                            <Text>Account type: {role}</Text>
 
 
                         </View>
                     </View>
                 </Card>
                 <Card>
-                    <TextInputCard title={'Name'} placeholder={'Enter your name'} />
+                    <TextInputCard title={'Name'} placeholder={'Enter your name'} value={name} onChangeValue={setName} />
                     {/* </Card>
             <Card> */}
-                    <TextInputCard title={'Phone number'} keyboardType={'phone-pad'} placeholder={'Enter your phone number'} />
+                    <TextInputCard title={'Phone number'} keyboardType={'phone-pad'} value={phone} onChangeValue={setPhone}
+                        placeholder={'Enter your phone number'} />
                     {/* </Card>
             <Card> */}
-                    <TextInputCard title={'Email'} placeholder={'Enter your email'} />
+                    <TextInputCard title={'Email'} placeholder={'Enter your email'} isEdit={false} value={userInfo.email} />
                 </Card>
                 <Card>
                     <CountryPicker value={country} didSelect={setCountry} />
                 </Card>
                 <Card>
-                    <MyDatePicker title={'Birthday'} />
+                    <MyDatePicker title={'Birthday'} value={birthday} onChageValue={setBirthday} />
                 </Card>
-                <MyButton moreStyle={{ ...globalStyles.authBtnContainer, width: '69%' }} title={'Save'} moreTitleStyle={{ color: 'white' }} />
+                <MyButton onPress={updateData} moreStyle={{ ...globalStyles.authBtnContainer, width: '69%' }} title={'Save'} moreTitleStyle={{ color: 'white' }} />
             </ScrollView>
+            {
+                loading &&
+                <LoadingIndicator />
+            }
         </SafeAreaView>
     )
 }

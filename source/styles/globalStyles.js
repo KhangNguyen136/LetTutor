@@ -25,6 +25,7 @@ export const globalStyles = StyleSheet.create(
             width: 80,
             height: 80,
             borderRadius: 8,
+            margin: 5
         },
         titleName: { fontWeight: 'bold', fontSize: 16 },
         rowContainer: {

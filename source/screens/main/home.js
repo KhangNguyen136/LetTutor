@@ -1,27 +1,36 @@
-import { StackActions } from '@react-navigation/routers';
 import React from 'react';
-import { Text, SafeAreaView, View, StyleSheet } from 'react-native';
+import { Text, SafeAreaView, View, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { GetIcon, MyButton, MyIconButtonLeft, MyIconButtonRight } from '../../components/button';
 import ListRecommendedTutor from '../../components/list/listRecommendedTutor';
 import { globalStyles } from '../../styles/globalStyles';
 import axios from 'axios';
 import { serverUrl } from '../../const';
-import { getToken } from '../../bussiness/accessTokenServices';
-import { getUserInfoFromDB } from '../../bussiness/UserInfoServices';
+import { useSelector } from 'react-redux';
 
 export default function HomeScreen({ navigation }) {
-    const date = new Date()
+    const date = new Date();
+    const userInfo = useSelector(state => state.userInfoState)
+    console.log(userInfo)
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'Home',
+            headerRight: () => (
+                <TouchableOpacity onPress={() => navigation.navigate('UserInfo')} >
+                    <Image style={{ width: 35, height: 35, borderRadius: 5, marginRight: 10 }}
+                        source={{ uri: userInfo.avt }}
+                    />
+                </TouchableOpacity>
+            ),
+        })
+    }, [])
     React.useEffect(() => {
-        console.log('Begin useEffect')
         getData()
     }, [])
 
     const getData = async () => {
         try {
-            const userInfo = await getUserInfoFromDB();
-            console.log(userInfo);
-            const token = await getToken();
+            const token = userInfo.tokens.access.token;
             const res = await axios.get(serverUrl + 'tutor/more', {
                 params: {
                     perPage: 9,

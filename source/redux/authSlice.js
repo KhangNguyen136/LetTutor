@@ -13,11 +13,9 @@ export const authStateSlice = createSlice({
             // which detects changes to a "draft state" and produces a brand new
             // immutable state based off those changes
             state.isLoggedIn = true
-            // state.loading = false
         },
         loggedOut: (state) => {
             state.isLoggedIn = false
-            // state.loading = false
         },
     },
 })

@@ -6,13 +6,32 @@ import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 import { dataTestTutor } from './listTutor';
-
+import { serverUrl } from '../../const';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function ListRecommendedTutor() {
-    // const [loading, setLoading] = React.useState(dataTestTutor)
     const [data, setData] = React.useState(dataTestTutor)
     const navigation = useNavigation()
-
+    const userInfo = useSelector(state => state.userInfoState)
+    const getData = async () => {
+        try {
+            const res = await axios.get(serverUrl + 'tutor/more', {
+                params: {
+                    perPage: 9,
+                    page: 1
+                },
+                headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
+            });
+            console.log(res.data)
+            setData([...res.data.favoriteTutor, ...res.data.tutors.rows])
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    React.useEffect(() => {
+        getData();
+    }, [])
     const Tutor = ({ item }) => {
         icon = item.liked ? 'heart' : 'hearto'
         function toDetail() {
@@ -22,7 +41,7 @@ export default function ListRecommendedTutor() {
             <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail}  >
                 <Card>
                     <View style={{ flexDirection: 'row' }} >
-                        <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>
+                        <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
                         <View style={{ flex: 1, margin: 5 }} >
                             <Text style={{ fontWeight: 'bold' }} >{item.name}</Text>
                             <Rating readonly={true}
@@ -30,11 +49,11 @@ export default function ListRecommendedTutor() {
                                 style={{ marginVertical: 3, alignSelf: 'flex-start' }}
                                 imageSize={20}
                             />
-                            <ListTag tags={item.tag} />
+                            <ListTag tags={item.specialties} />
                         </View>
                         <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
                     </View>
-                    <Text style={{ maxHeight: 60, fontSize: 13 }}>{item.intro}</Text>
+                    <Text style={{ maxHeight: 60, fontSize: 13 }}>{item.bio}</Text>
                 </Card>
             </TouchableOpacity>
         )

@@ -10,24 +10,21 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as Linking from 'expo-linking';
 import { GetIcon } from '../../../components/button';
 import { loggedOut } from '../../../redux/authSlice';
-import { useDispatch } from 'react-redux';
-import RealmConfig from '../../../models';
-import Realm from 'realm';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { resetDB } from '../../../bussiness/UserInfoServices';
+import { resetData } from '../../../redux/userInfoSlice';
 export default function OtherScreen({ navigation, route }) {
     const dispatch = useDispatch();
+    const userInfo = useSelector(state => state.userInfoState)
     React.useEffect(() => {
 
     }, [])
     const logOut = async () => {
         try {
-            const realm = await Realm.open(RealmConfig);
-            realm.write(() => {
-                realm.deleteAll();
-            })
+            resetDB();
+            dispatch(resetData());
             dispatch(loggedOut())
             showMessage({ type: 'success', message: 'Log out successful' });
-            realm.close();
         } catch (error) {
             console.log(error)
             showMessage({ type: 'danger', message: 'Log out failed' });
@@ -43,10 +40,10 @@ export default function OtherScreen({ navigation, route }) {
                             flexDirection: 'row', alignItems: 'center'
                         }}
                             onPress={() => navigation.navigate('UserInfo')} >
-                            <Image style={{ width: 80, height: 80, borderRadius: 10 }} source={require('../../../../assets/botAvt.jpg')} />
+                            <Image style={{ width: 80, height: 80, borderRadius: 10 }} source={{ uri: userInfo.avt }} />
                             <View style={{ alignContent: 'center' }}>
-                                <Text style={{ fontWeight: '500', fontSize: 16, margin: 2 }} >Nguyen Tan Khang</Text>
-                                <Text style={{ color: 'gray', fontSize: 13, margin: 2 }} >nguyentankhang136@gmail.com</Text>
+                                <Text style={{ fontWeight: '500', fontSize: 16, margin: 2 }} >{userInfo.name}</Text>
+                                <Text style={{ color: 'gray', fontSize: 13, margin: 2 }} >{userInfo.email}</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate('ChangePassword')} >

@@ -1,7 +1,6 @@
 import RealmConfig from "../models";
 import Realm from "realm";
-import { useDispatch } from "react-redux";
-import { setInfoAction } from "../redux/userInfoSlice";
+
 
 export async function getUserInfoFromDB() {
     const realm = await Realm.open(RealmConfig);
@@ -42,5 +41,14 @@ export async function saveUserInfoToDB(data) {
         console.log('Save userInfo error: ' + error);
     }
 
+
+}
+
+export async function resetDB() {
+    const realm = await Realm.open(RealmConfig);
+    realm.write(() => {
+        realm.deleteAll();
+    })
+    realm.close();
 
 }

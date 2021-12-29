@@ -13,9 +13,9 @@ import axios from 'axios';
 import { serverUrl } from '../../const';
 import { loggedIn } from '../../redux/authSlice';
 import { useDispatch } from 'react-redux';
-import { storeToken } from '../../bussiness/accessTokenServices';
 import { saveUserInfoToDB } from '../../bussiness/UserInfoServices';
 import { validateEmail, checkPassword } from '../../bussiness/validInput';
+import { setUserInfoAction, setTokens } from '../../redux/userInfoSlice';
 
 export default function Login(props) {
     const [loading, setLoading] = React.useState(false)
@@ -23,20 +23,20 @@ export default function Login(props) {
     const [password, setPassword] = React.useState('123456')
     const [usernameError, setUsernameError] = React.useState('')
     const [passError, setPassError] = React.useState('')
-    const { navigation } = props
+    const { navigation } = props;
     const dispatch = useDispatch();
-
     const SaveUseInfo = async (data) => {
         try {
             saveUserInfoToDB(data);
-            storeToken(data.tokens.access.token);
+            dispatch(setUserInfoAction(data.user));
+            dispatch(setTokens(data.tokens))
+            dispatch(loggedIn());
             showMessage({
                 type: 'success', message: 'Login successful'
             })
-            dispatch(loggedIn());
         } catch (error) {
             console.log(error)
-            showMessage({ type: 'error', message: 'Login failed' })
+            showMessage({ type: 'error', message: 'Login failed', description: error })
         }
     }
 

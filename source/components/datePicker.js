@@ -3,8 +3,8 @@ import { Text, View, Button, Platform } from 'react-native';
 import { GetIcon } from './button';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function MyDateTimePicker({ title, mode }) {
-    const [date, setDate] = React.useState(new Date())
+export default function MyDateTimePicker({ title, mode, value, onChageValue }) {
+    const [date, setDate] = React.useState(value)
     const isIOS = Platform.OS === 'ios';
 
     const AndroidDateTimePicker = () => {
@@ -12,7 +12,8 @@ export default function MyDateTimePicker({ title, mode }) {
         const onChangeAndroid = (event, selectedDate) => {
             setShow(false)
             const currentDate = selectedDate || date;
-            setDate(currentDate)
+            // setDate(currentDate)
+            onChageValue(currentDate)
         }
         return (
             <View>
@@ -32,7 +33,8 @@ export default function MyDateTimePicker({ title, mode }) {
     }
     const onChangeIOS = (event, selectedDate) => {
         const currentDate = selectedDate || date;
-        setDate(currentDate)
+        // setDate(currentDate)
+        onChageValue(currentDate)
     }
 
 
@@ -46,9 +48,9 @@ export default function MyDateTimePicker({ title, mode }) {
                 isIOS ?
                     <DateTimePicker
                         testID="dateTimePickerIOS"
-                        value={date}
+                        value={value}
                         mode={'date'}
-                        is24Hour={true}
+                        // is24Hour={true}
                         display="default"
                         onChange={onChangeIOS}
                         style={{ width: 130 }}

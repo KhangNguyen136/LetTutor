@@ -21,18 +21,8 @@ function BottomTab({ navigation }) {
                     return (<TabBarIcon focused={focused} routeName={route.name} color={'#6c5ce7'} size={size} />)
                 },
             })
-
         }>
-            <Tab.Screen name="Home" component={HomeScreen} options={{
-                title: 'Home',
-                headerRight: () => (
-                    <TouchableOpacity onPress={() => navigation.navigate('UserInfo')} >
-                        <Image style={{ width: 35, height: 35, borderRadius: 5, marginRight: 10 }}
-                            source={require('../../assets/botAvt.jpg')}
-                        />
-                    </TouchableOpacity>
-                ),
-            }} />
+            <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Course" component={Course} options={{ title: 'Course' }} />
             <Tab.Screen name="Upcoming" component={Upcoming} options={{ title: 'Upcoming' }} />
             <Tab.Screen name="Tutors" component={Tutors} options={{ title: 'Tutors' }} />

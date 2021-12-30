@@ -1,4 +1,4 @@
-import { UserInfoSchema } from "./userInfo"
+import { UserInfoSchema } from "./userInfoRealm"
 const RealmConfig = {
     path: 'userDB.realm',
     schema: [UserInfoSchema]

@@ -27,7 +27,7 @@ export const globalStyles = StyleSheet.create(
             borderRadius: 8,
             margin: 5
         },
-        titleName: { fontWeight: 'bold', fontSize: 16 },
+        titleName: { fontWeight: 'bold', fontSize: 18 },
         rowContainer: {
             flexDirection: 'row', alignItems: 'center', padding: 5,
             flex: 1
@@ -56,7 +56,9 @@ export const globalStyles = StyleSheet.create(
         button: {
             padding: 4, margin: 3, borderColor: '#0984e3',
             color: 'white', borderWidth: 1, backgroundColor: '#81ecec', textAlign: 'center', alignSelf: 'center'
-        }
+        },
+        error: { color: 'orange', marginLeft: 10, fontWeight: '500' },
+
     }
 );
 

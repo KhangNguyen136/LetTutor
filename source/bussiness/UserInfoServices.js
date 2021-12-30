@@ -20,6 +20,7 @@ export async function saveUserInfoToDB(data) {
                     id: user.id,
                     name: user.name,
                     email: user.email,
+                    avatar: user.avatar,
                     accessToken: tokens.access.token,
                     expireAccess: tokens.access.expires,
                     refreshToken: tokens.refresh.token,

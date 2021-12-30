@@ -35,7 +35,7 @@ export default function Picker({ data, value, searchable = false, didSelect, con
     const Item = ({ item }) => {
         return (
             <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingEnd: 5 }} >
                     <MenuItem style={{ padding: 0, margin: 0, fontSize: 15 }} onPress={() => didSelectItem(item.value)} >{item.label}</MenuItem>
                     <IsSelectedView isChoosen={item.label == value} />
                 </View>
@@ -48,7 +48,6 @@ export default function Picker({ data, value, searchable = false, didSelect, con
             <TouchableOpacity style={[styles.typeContainer, config.containerStyle]} onPress={onPress} >
                 <Text style={[styles.typeContent, config.textStyle]} >{value}</Text>
                 <GetIcon iconName={'down'} source={'AntDesign'} size={18} color={config.textStyle.color} />
-
             </TouchableOpacity>
         )
     }
@@ -88,7 +87,8 @@ const styles = StyleSheet.create({
     },
     title: { fontWeight: '500', marginLeft: 4 },
     typeContainer: {
-        padding: 3,
+        padding: 6,
+        paddingHorizontal: 9,
         flexDirection: 'row',
         borderWidth: 0.25,
         borderColor: 'gray',
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     typeContent: {
         // fontWeight: '600',
         marginHorizontal: 5,
+        fontSize: 16
     }
 
 })

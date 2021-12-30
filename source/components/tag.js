@@ -8,7 +8,6 @@ const Tag = ({ item }) => {
         </View>
     )
 }
-
 const styles = StyleSheet.create({
     container: {
         alignSelf: 'flex-start',

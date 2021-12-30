@@ -13,12 +13,13 @@ export default function HomeScreen({ navigation }) {
     const userInfo = useSelector(state => state.userInfoState)
     console.log(userInfo)
     React.useLayoutEffect(() => {
+        console.log('Set options')
         navigation.setOptions({
             title: 'Home',
             headerRight: () => (
                 <TouchableOpacity onPress={() => navigation.navigate('UserInfo')} >
                     <Image style={{ width: 35, height: 35, borderRadius: 5, marginRight: 10 }}
-                        source={{ uri: userInfo.avt }}
+                        source={{ uri: userInfo.avatar }}
                     />
                 </TouchableOpacity>
             ),

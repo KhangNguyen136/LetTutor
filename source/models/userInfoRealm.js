@@ -5,6 +5,7 @@ export const UserInfoSchema = {
         id: 'string',
         name: 'string',
         email: 'string',
+        avatar: 'string',
         accessToken: 'string',
         expireAccess: 'string',
         refreshToken: 'string',

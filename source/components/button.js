@@ -79,8 +79,8 @@ const styles = StyleSheet.create(
         MyButtonCotainer: {
             alignSelf: 'center',
             margin: 5,
-            paddingVertical: 4,
-            paddingHorizontal: 7,
+            paddingVertical: 5,
+            paddingHorizontal: 9,
             justifyContent: 'center',
             backgroundColor: '#74b9ff',
             borderRadius: 10,

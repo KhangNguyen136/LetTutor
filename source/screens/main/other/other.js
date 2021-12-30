@@ -40,7 +40,7 @@ export default function OtherScreen({ navigation, route }) {
                             flexDirection: 'row', alignItems: 'center'
                         }}
                             onPress={() => navigation.navigate('UserInfo')} >
-                            <Image style={{ width: 80, height: 80, borderRadius: 10 }} source={{ uri: userInfo.avt }} />
+                            <Image style={{ width: 80, height: 80, borderRadius: 10, margin: 9 }} source={{ uri: userInfo.avatar }} />
                             <View style={{ alignContent: 'center' }}>
                                 <Text style={{ fontWeight: '500', fontSize: 16, margin: 2 }} >{userInfo.name}</Text>
                                 <Text style={{ color: 'gray', fontSize: 13, margin: 2 }} >{userInfo.email}</Text>

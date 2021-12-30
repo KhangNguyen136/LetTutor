@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import { saveUserInfoToDB } from '../../bussiness/UserInfoServices';
 import { validateEmail, checkPassword } from '../../bussiness/validInput';
 import { setUserInfoAction, setTokens } from '../../redux/userInfoSlice';
+import errorHandle from '../../bussiness/errorHanle';
 
 export default function Login(props) {
     const [loading, setLoading] = React.useState(false)
@@ -36,7 +37,6 @@ export default function Login(props) {
             })
         } catch (error) {
             console.log(error)
-            showMessage({ type: 'error', message: 'Login failed', description: error })
         }
     }
 
@@ -51,7 +51,7 @@ export default function Login(props) {
 
         } catch (error) {
             console.log(error)
-            showMessage({ type: 'warning', message: 'Login failed', description: 'Incorrect email or password' })
+            errorHandle(error)
         }
         setLoading(false);
     }

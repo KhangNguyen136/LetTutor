@@ -5,13 +5,13 @@ import { Rating } from 'react-native-ratings';
 import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
-import { dataTestTutor } from './listTutor';
 import { serverUrl } from '../../const';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { getListLabel } from '../../bussiness/specialies';
 
 export default function ListRecommendedTutor() {
-    const [data, setData] = React.useState(dataTestTutor)
+    const [data, setData] = React.useState([])
     const navigation = useNavigation()
     const userInfo = useSelector(state => state.userInfoState)
     const getData = async () => {
@@ -23,7 +23,6 @@ export default function ListRecommendedTutor() {
                 },
                 headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
             });
-            console.log(res.data)
             setData([...res.data.favoriteTutor, ...res.data.tutors.rows])
         } catch (error) {
             console.log(error);
@@ -33,29 +32,32 @@ export default function ListRecommendedTutor() {
         getData();
     }, [])
     const Tutor = ({ item }) => {
-        icon = item.liked ? 'heart' : 'hearto'
+        const listSpecialies = getListLabel(item.specialties.split(","));
+        icon = item.liked ? 'heart' : 'hearto';
         function toDetail() {
-            navigation.navigate('TutorInfo', { data: item })
+            navigation.navigate('TutorInfo', { data: item });
         }
         return (
-            <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail}  >
+            <View style={{ marginHorizontal: 1 }}   >
                 <Card>
                     <View style={{ flexDirection: 'row' }} >
-                        <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
+                        <TouchableOpacity onPress={toDetail} >
+                            <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
+                        </TouchableOpacity>
                         <View style={{ flex: 1, margin: 5 }} >
-                            <Text style={{ fontWeight: 'bold' }} >{item.name}</Text>
+                            <Text style={{ fontWeight: 'bold' }} onPress={toDetail} >{item.name}</Text>
                             <Rating readonly={true}
                                 startingValue={item.rating}
                                 style={{ marginVertical: 3, alignSelf: 'flex-start' }}
                                 imageSize={20}
                             />
-                            <ListTag tags={item.specialties} />
+                            <ListTag tags={listSpecialies} />
                         </View>
                         <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
                     </View>
-                    <Text style={{ maxHeight: 60, fontSize: 13 }}>{item.bio}</Text>
+                    <Text style={{ maxHeight: 60, fontSize: 13 }} onPress={toDetail} >{item.bio}</Text>
                 </Card>
-            </TouchableOpacity>
+            </View>
         )
     }
     return (

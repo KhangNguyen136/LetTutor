@@ -11,6 +11,10 @@ export default function PasswordTextInput({ title, value, placeholder, onChangeV
         source = 'AntDesign'
         iconName = 'key'
     }
+    if (title == 'Current password') {
+        source = 'MaterialCommunityIcons'
+        iconName = 'onepassword'
+    }
     return (
         <View style={styles.container} >
             <View style={styles.titleContainer} >

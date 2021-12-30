@@ -1,43 +1,57 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import TextInputCard from '../../components/TextInputCard';
 import { MyButton } from '../../components/button';
 import { FlexCard } from '../../components/card';
 import { globalStyles } from '../../styles/globalStyles';
-import { validateEmail } from './login';
 import LoadingIndicator from '../../components/loadingIndicator';
-// import { CheckInputFailed, Success } from '../../Components/AlertMsg/messageAlert';
-import firebaseApp from '../../firebase';
+import { validateEmail } from '../../bussiness/validInput';
+import { showMessage } from 'react-native-flash-message';
+import { serverUrl } from '../../const';
+import axios from 'axios';
+import errorHandle from '../../bussiness/errorHanle';
 
 export default function ForgotPassword({ navigation }) {
     const [email, setEmail] = React.useState('')
+    const [error, setError] = React.useState('')
     const [loading, setLoading] = React.useState(false)
-    const ok = () => {
+    const done = async () => {
         if (!validateEmail(email)) {
-            CheckInputFailed('Invalid email', 'Check email and try again.')
+            setError('Invalid email');
             return
         }
         setLoading(true)
-        firebaseApp.auth().sendPasswordResetEmail(email)
-            .then(() => {
-                // Password reset email sent!
-                Success('Instructions sent', 'We have sent a password recover instructions to your email.')
-                navigation.goBack()
+        try {
+            await axios.post(serverUrl + 'user/forgotPassword', {
+                email
             })
-            .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                CheckInputFailed('Action failed', errorMessage)
-                setLoading(false)
-            });
+            showMessage({ type: 'success', message: 'Email sent successfully', description: 'Let check your mail and reset your password!' })
+        } catch (error) {
+            errorHandle(error);
+        }
+        setLoading(false)
+    }
+    const onChange = (text) => {
+        setEmail(text);
+        if (text == '') {
+            setError('Please enter your email');
+        }
+        else {
+            setError('')
+        }
     }
     return (
         <SafeAreaView style={globalStyles.container}>
             <FlexCard>
                 <Text style={styles.Title} >Reset password</Text>
                 <Text style={styles.content}>Enter the email with your account and we will send an email with instructions to reset your password.</Text>
-                <TextInputCard title={'Account email: '} placeholder={'Enter email'} value={email} onChangeValue={setEmail} />
-                <MyButton title={'Send instructions'} onPress={ok} />
+                <TextInputCard title={'Email'} placeholder={'Enter your account email'} value={email} onChangeValue={onChange} />
+                {
+                    error != '' &&
+                    <Text style={globalStyles.error}>{error}</Text>
+                }
+                <View style={{ height: 10 }}></View>
+                <MyButton title={'Send instructions'} onPress={done} />
             </FlexCard>
             {
                 loading &&

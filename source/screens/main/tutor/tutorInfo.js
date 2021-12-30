@@ -9,19 +9,20 @@ import IconBtn from '../../../components/iconBtn';
 import { Video } from 'expo-av';
 import ListTag from '../../../components/list/listTag';
 import TableBooking from '../../../components/tableBooking';
+import { getListLabel } from '../../../bussiness/specialies'
 
 export default function TutorInfo({ navigation, route }) {
-    const [data, setData] = React.useState(dataTest)
+    const [data, setData] = React.useState(route.params.data)
     const [liked, setLiked] = React.useState(false)
-
+    const listSpecialies = getListLabel(data.specialties.split(","));
     const scrollViewRef = React.useRef(null)
     const videoRef = React.useRef(null)
-    React.useEffect(() => {
-        const receivedData = route.params.data
-        setData(receivedData)
-        setLiked(receivedData.liked)
-    }, []
-    )
+    // React.useEffect(() => {
+    //     const receivedData = route.params.data
+    //     setData(receivedData)
+    //     setLiked(receivedData.liked)
+    // }, []
+    // )
     const clickFavourite = () => {
         setLiked(!liked)
     }
@@ -45,7 +46,6 @@ export default function TutorInfo({ navigation, route }) {
                             }
                             <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                                 <View style={globalStyles.rowContainer}>
-                                    {/* <Image source={countryFlag.Vietnam} style={{ width: 35, height: 20, marginRight: 3 }} /> */}
                                     <Text style={{ fontWeight: '600' }}>Country: {data.country}</Text>
                                 </View>
                                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={scrollToBook} >
@@ -68,7 +68,6 @@ export default function TutorInfo({ navigation, route }) {
                 </Card>
                 <Card>
                     <View style={{ ...globalStyles.rowContainer, justifyContent: 'space-around' }}>
-                        {/* <IconBtn title={'Message'} onPress={() => navigation.navigate('ChatBox', { tutor: data.name })} /> */}
                         <IconBtn liked={liked} title={'Favourite'} onPress={clickFavourite} />
                         <IconBtn title={'Report'} onPress={() => navigation.navigate('Report', { tutor: data.name })} />
                         <IconBtn title={'Reviews'} onPress={() => navigation.navigate('Reviews', { tutor: data.name })} />
@@ -77,11 +76,11 @@ export default function TutorInfo({ navigation, route }) {
                 <Card>
                     <View style={{ padding: 5 }} >
                         <Text style={{ ...globalStyles.titleName, marginBottom: 3 }} >Languages: </Text>
-                        <ListTag tags={data.languages} />
+                        <ListTag tags={[data.languages]} />
                     </View>
                     <View style={{ padding: 5 }}>
                         <Text style={{ ...globalStyles.titleName, marginBottom: 3 }} >Specialties: </Text>
-                        <ListTag tags={data.specialties} />
+                        <ListTag tags={listSpecialies} />
                     </View>
                     <View style={{ padding: 5 }}>
                         <Text style={{ ...globalStyles.titleName, marginBottom: 3 }} >Teaching experienced: </Text>

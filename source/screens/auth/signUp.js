@@ -11,6 +11,7 @@ import { FlexCard } from '../../components/card';
 import { showMessage } from 'react-native-flash-message';
 import axios from 'axios';
 import { serverUrl } from '../../const';
+import errorHandle from '../../bussiness/errorHanle';
 
 export default function SignUp() {
     const [loading, setLoading] = React.useState(false)
@@ -32,7 +33,7 @@ export default function SignUp() {
             showMessage({ type: 'success', message: 'Register successful', description: 'Check your mail to confirm your account' })
         } catch (error) {
             console.log(error)
-            showMessage({ type: 'warning', message: 'Register fail', description: 'Email has already taken' })
+            errorHandle(error);
         }
         setLoading(false)
     }

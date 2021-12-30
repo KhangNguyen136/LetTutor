@@ -39,11 +39,8 @@ export default function MyDateTimePicker({ title, mode, value, onChageValue }) {
 
 
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', margin: 5 }} >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                <GetIcon iconName={'birthday-cake'} source={'FontAwesome'} />
-                <Text style={{ marginLeft: 10, fontSize: 15 }} >{title}</Text>
-            </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', margin: 5 }} >
+            <Text style={{ marginHorizontal: 5, fontSize: 16, fontWeight: '600' }} >{title}</Text>
             {
                 isIOS ?
                     <DateTimePicker

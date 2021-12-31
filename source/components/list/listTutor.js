@@ -5,6 +5,11 @@ import { Rating } from 'react-native-ratings';
 import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
+import { getListLabel } from '../../bussiness/specialies';
+import { serverUrl } from '../../const';
+import axios from 'axios';
+import errorHanle from '../../bussiness/errorHanle';
+import { useSelector } from 'react-redux';
 
 const defaultFilter = {
     rating: 'All',
@@ -13,18 +18,35 @@ const defaultFilter = {
 }
 
 export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
+
+    const userInfo = useSelector(state => state.userInfoState);
     const [offset, setOffset] = React.useState(1)
     const [loading, setLoading] = React.useState(false)
     const [data, setData] = React.useState([])
     const navigation = useNavigation()
-    React.useEffect(() => getData(), [])
-    const getData = () => {
+    React.useEffect(
+        () => {
+            getData()
+        },
+        [])
+    const getData = async () => {
         setLoading(true);
-        setTimeout(() => {
+        try {
+            const res = await axios.get(serverUrl + 'tutor/more', {
+                params: {
+                    perPage: 2,
+                    page: offset
+                },
+                headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
+            });
+            const result = [...res.data.favoriteTutor, ...res.data.tutors.rows];
+            setData(previousData => previousData.concat(result)
+            )
             setOffset(offset + 1);
-            setData(dataTestTutor.slice(0, offset * 2))
-            setLoading(false);
-        }, 1000)
+        } catch (error) {
+            errorHanle(error);
+        }
+        setLoading(false)
     }
     const filterItem = (item) => {
         if (!item.name.toLowerCase().includes(searchKey.toLocaleLowerCase()))
@@ -70,30 +92,32 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
         );
     };
     const Tutor = ({ item }) => {
-        // const [liked, setLiked] = React.useState(Math.random() > 0.5)
-        icon = item.liked ? 'heart' : 'hearto'
+        const listSpecialies = getListLabel(item.specialties.split(","));
+        icon = item.liked ? 'heart' : 'hearto';
         function toDetail() {
-            navigation.navigate('TutorInfo', { data: item })
+            navigation.navigate('TutorInfo', { id: item.userId });
         }
         return (
-            <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail}  >
+            <View style={{ marginHorizontal: 1 }}   >
                 <Card>
                     <View style={{ flexDirection: 'row' }} >
-                        <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>
+                        <TouchableOpacity onPress={toDetail} >
+                            <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
+                        </TouchableOpacity>
                         <View style={{ flex: 1, margin: 5 }} >
-                            <Text style={{ fontWeight: 'bold' }} >{item.name}</Text>
+                            <Text style={{ fontWeight: 'bold' }} onPress={toDetail} >{item.name}</Text>
                             <Rating readonly={true}
                                 startingValue={item.rating}
                                 style={{ marginVertical: 3, alignSelf: 'flex-start' }}
                                 imageSize={20}
                             />
-                            <ListTag tags={item.tag} />
+                            <ListTag tags={listSpecialies} />
                         </View>
                         <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
                     </View>
-                    <Text style={{ maxHeight: 60, fontSize: 13 }}>{item.intro}</Text>
+                    <Text style={{ maxHeight: 60, fontSize: 13 }} onPress={toDetail} >{item.bio}</Text>
                 </Card>
-            </TouchableOpacity>
+            </View>
         )
     }
     return (

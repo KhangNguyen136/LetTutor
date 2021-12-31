@@ -10,5 +10,6 @@ export const UserInfoSchema = {
         expireAccess: 'string',
         refreshToken: 'string',
         expireRefresh: 'string',
+        // timezone: 'int'
     }
 };

@@ -35,7 +35,7 @@ export default function ListRecommendedTutor() {
         const listSpecialies = getListLabel(item.specialties.split(","));
         icon = item.liked ? 'heart' : 'hearto';
         function toDetail() {
-            navigation.navigate('TutorInfo', { data: item });
+            navigation.navigate('TutorInfo', { id: item.userId });
         }
         return (
             <View style={{ marginHorizontal: 1 }}   >

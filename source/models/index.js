@@ -1,6 +1,6 @@
 import { UserInfoSchema } from "./userInfoRealm"
 const RealmConfig = {
-    path: 'userDB.realm',
+    path: 'userDB',
     schema: [UserInfoSchema]
 }
 

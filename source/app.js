@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
 import { loggedIn, loggedOut } from './redux/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserInfoFromDB, updateToken } from './bussiness/UserInfoServices';
+import { getUserInfoFromDB, updateToken, resetDB } from './bussiness/UserInfoServices';
 import { setUserInfoAction, setTokens } from './redux/userInfoSlice';
 import { checkToken, reFreshToken } from './bussiness/refreshToken';
 import { serverUrl } from './const';
@@ -19,9 +19,11 @@ export default function App() {
 
     const getUserInfo = async () => {
         const userInfo = await getUserInfoFromDB();
-        console.log(userInfo);
+
         if (userInfo.length != 0) {
             const data = userInfo[0];
+            console.log('User info from db: ');
+            console.log(data);
             const isValidToken = await checkToken(data.accessToken);
             if (isValidToken) {
                 const tokens = {
@@ -39,15 +41,16 @@ export default function App() {
                 dispatch(loggedIn());
             }
             else {
-                const refreshTokenRes = await reFreshToken(data.refreshToken, 7);
-                console.log(refreshTokenRes);
-                if (refreshTokenRes != null) {
+                const refreshToken = await reFreshToken(data.refreshToken, 7);
+                if (refreshToken != null) {
                     dispatch(setUserInfoAction(data));
-                    dispatch(setTokens(refreshTokenRes));
+                    dispatch(setTokens(refreshToken));
+                    updateToken(refreshToken);
                     dispatch(loggedIn());
                 }
                 else {
-                    showMessage({ type: 'warning', message: 'Token expired' })
+                    showMessage({ type: 'warning', message: 'Token expired' });
+                    // resetDB();
                     dispatch(loggedOut());
                 }
             }

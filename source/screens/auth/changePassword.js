@@ -66,11 +66,10 @@ export default function ChangePassword({ navigation }) {
                         <MyButton title={'Done'} moreStyle={{ width: '50%' }} onPress={() => navigation.goBack()} />
                     </View>
                 </FlexCard>
-
                 :
                 <Card>
                     {/* <Text style={styles.Title} >Change password</Text> */}
-                    <View style={{ alignItems: 'center' }} >
+                    <View style={{ alignItems: 'center', margin: 10, marginBottom: 20 }} >
                         <GetIcon iconName={'key-change'} source={'MaterialCommunityIcons'} size={80} />
                     </View>
                     <PasswordTextInput title={'Current password'} placeholder={'Enter your current password'} value={password}
@@ -110,7 +109,7 @@ export default function ChangePassword({ navigation }) {
                     <Text style={globalStyles.error}>{confirmPasswordError}</Text>
 
 
-                    <MyButton title={'Send instructions'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} onPress={ok} />
+                    <MyButton title={'Send'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} onPress={ok} />
 
                 </Card>
             }

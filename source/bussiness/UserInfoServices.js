@@ -15,7 +15,7 @@ export async function saveUserInfoToDB(data) {
         const user = data.user;
         const tokens = data.tokens;
         realm.write(() => {
-            if (userInfoResult.length == 0)
+            if (userInfoResult.length == 0) {
                 realm.create('User', {
                     id: user.id,
                     name: user.name,
@@ -27,6 +27,7 @@ export async function saveUserInfoToDB(data) {
                     refreshToken: tokens.refresh.token,
                     expireRefresh: tokens.refresh.expires,
                 })
+            }
             else {
                 const userInfo = userInfoResult[0];
                 userInfo.id = user.id

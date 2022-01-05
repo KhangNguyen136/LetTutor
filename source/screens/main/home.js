@@ -11,9 +11,7 @@ import { useSelector } from 'react-redux';
 export default function HomeScreen({ navigation }) {
     const date = new Date();
     const userInfo = useSelector(state => state.userInfoState)
-    console.log(userInfo)
     React.useLayoutEffect(() => {
-        console.log('Set options')
         navigation.setOptions({
             title: 'Home',
             headerRight: () => (
@@ -39,6 +37,7 @@ export default function HomeScreen({ navigation }) {
                 },
                 headers: { 'Authorization': 'Bearer ' + token }
             });
+            console.log('List recommend tutors: ');
             console.log(res.data);
         } catch (error) {
             console.log(error)

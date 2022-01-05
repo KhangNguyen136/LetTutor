@@ -52,7 +52,7 @@ export default function OtherScreen({ navigation, route }) {
                         </TouchableOpacity>
                     </View>
                 </Card>
-                <OtherButton title={'Messages'} iconName={'message1'} iconSource={'AntDesign'} so onPress={() => navigation.navigate('Message')} color={'#E348A6'} />
+                {/* <OtherButton title={'Messages'} iconName={'message1'} iconSource={'AntDesign'} so onPress={() => navigation.navigate('Message')} color={'#E348A6'} /> */}
 
                 {
                     true &&
@@ -71,8 +71,8 @@ export default function OtherScreen({ navigation, route }) {
                     onPress={() => Linking.openURL('https://github.com/KhangNguyen136/LetTutor')} />
 
                 <OtherButton title={'Facebook'} iconName={'facebook-square'} iconSource={'FontAwesome'} onPress={() => Linking.openURL('https://www.facebook.com/nguyenkhang136/')} color={'#0980EC'} />
-                <MyButton title={'Log out'} onPress={logOut} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
             </ScrollView>
+            <MyButton title={'Log out'} onPress={logOut} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
         </SafeAreaView >
     )
 }

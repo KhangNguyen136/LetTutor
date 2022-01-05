@@ -1,10 +1,10 @@
 import { serverUrl } from "../const";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import errorHandle from "./errorHanle";
 
 export async function reFreshToken(refreshToken, timezone) {
     try {
+        console.log({ refreshToken, timezone });
         const res = await axios.post(serverUrl + 'auth/refresh-token', {
             refreshToken, timezone
         },
@@ -24,6 +24,7 @@ export async function checkToken(accessToken) {
         const res = await axios.get(serverUrl + 'user/info', {
             headers: { 'Authorization': 'Bearer ' + accessToken }
         })
+        console.log('Check token success');
         return true;
     } catch (error) {
         // errorHandle(error)

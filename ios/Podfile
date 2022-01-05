@@ -19,4 +19,6 @@ target 'lettutor' do
   #   end
   # end
 
+  # pod 'RealmJS', :path => '../node_modules/realm'
+
 end

@@ -26,11 +26,11 @@ export const userInfoSlice = createSlice({
             state.name = data.name;
             state.email = data.email;
             state.avatar = data.avatar;
-            console.log('Update user info action: ' + action.payload);
+            console.log('Update user info action');
         },
         setTokens: (state, action) => {
             state.tokens = action.payload
-            console.log('Update user token action: ' + action.payload);
+            console.log('Update user token action');
         },
         resetData: (state) => {
             state = initValue

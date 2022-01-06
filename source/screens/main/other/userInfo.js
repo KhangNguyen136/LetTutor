@@ -41,7 +41,7 @@ export default function UserInfoScreen({ navigation }) {
     const [country, setCountry] = React.useState('VN');
     const [img, setImg] = React.useState({ uri: userInfo.avatar });
     const [role, setRole] = React.useState('');
-    const [level, setLevel] = React.useState(Levels[0].value);
+    const [level, setLevel] = React.useState(Levels[0]);
     const [wantToLearn, setWantToLearn] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const dispatch = useDispatch();
@@ -51,12 +51,10 @@ export default function UserInfoScreen({ navigation }) {
                 headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
             })
             const data = res.data.user
-            // console.log(new Date(data.birthday));
-            // console.log(data);
             setRole(data.roles[0]);
             setPhone(data.phone)
             setBirthday(new Date(data.birthday));
-            setLevel(data.level);
+            setLevel(getLevelItem(data.level));
             setCountry(data.country);
             setWantToLearn(getWantToLearnList(data.learnTopics, data.testPreparations));
         } catch (error) {
@@ -72,7 +70,7 @@ export default function UserInfoScreen({ navigation }) {
             const res = await axios.put(serverUrl + 'user/info', {
                 name, country, phone,
                 birthday: birthday.toLocaleString().substring(0, 10),
-                level,
+                level: level.value,
                 learnTopics: choices.topic,
                 testPreparations: choices.preparation,
             }, { headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token } })
@@ -141,7 +139,7 @@ export default function UserInfoScreen({ navigation }) {
 
                     <View style={{ flex: 1, flexDirection: 'row', margin: 5, alignItems: 'center', marginVertical: 2 }}>
                         <Text style={{ fontWeight: '600', fontSize: 16, marginLeft: 5 }}>My level: </Text>
-                        <Picker value={getLevelItem(level).label} data={Levels} didSelect={setLevel} />
+                        <Picker value={level} data={Levels} didSelect={setLevel} />
                     </View>
                     <SeperateVertical />
                     <PickWantToLearn value={wantToLearn} onChangeValue={setWantToLearn} />

@@ -9,54 +9,73 @@ import { serverUrl } from '../../const';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { getListLabel } from '../../bussiness/specialies';
+import { FlagButton } from 'react-native-country-picker-modal';
+import { handleListTutor, favorAction, updateFavorTutor } from '../../bussiness/tutorHandle';
+import { globalStyles } from '../../styles/globalStyles';
 // import { formatFavoriteTutor } from '../../bussiness/tutorHandle';
 
 export default function ListRecommendedTutor() {
-    const [data, setData] = React.useState([])
+    const [data, setData] = React.useState([]);
+    const [change, setChange] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
     const navigation = useNavigation()
-    const userInfo = useSelector(state => state.userInfoState)
+    const userInfo = useSelector(state => state.userInfoState);
+    const token = userInfo.tokens.access.token;
     const getData = async () => {
+        setLoading(true);
         try {
             const res = await axios.get(serverUrl + 'tutor/more', {
                 params: {
                     perPage: 9,
                     page: 1
                 },
-                headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
+                headers: { 'Authorization': 'Bearer ' + token }
             });
-            setData(res.data.tutors.rows)
+            setData(handleListTutor(res.data));
         } catch (error) {
             console.log(error);
         }
+        setLoading(false);
     }
+    // const reload
     React.useEffect(() => {
         getData();
     }, [])
     const Tutor = ({ item }) => {
+        // console.log(item.userId);
         const listSpecialies = getListLabel(item.specialties.split(","));
-        icon = item.liked ? 'heart' : 'hearto';
+        icon = item.isFavor ? 'heart' : 'hearto';
+        const pressLike = () => {
+            favorAction(item.userId, token);
+            getData();
+        }
         function toDetail() {
             navigation.navigate('TutorInfo', { id: item.userId });
         }
         return (
             <View style={{ marginHorizontal: 1 }}   >
                 <Card>
-                    <View style={{ flexDirection: 'row' }} >
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <TouchableOpacity onPress={toDetail} >
                             <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
                         </TouchableOpacity>
                         <View style={{ flex: 1, margin: 5 }} >
-                            <Text style={{ fontWeight: 'bold' }} onPress={toDetail} >{item.name}</Text>
-                            <Rating readonly={true}
-                                startingValue={item.rating}
-                                style={{ marginVertical: 3, alignSelf: 'flex-start' }}
-                                imageSize={20}
-                            />
-                            <ListTag tags={listSpecialies} />
+                            <Text style={{ fontWeight: 'bold', fontSize: 15 }} onPress={toDetail} >{item.name}</Text>
+                            <FlagButton {...{ countryCode: item.country }} onOpen={toDetail} withCountryNameButton />
+                            {item.rating != undefined ?
+                                <Rating readonly={true}
+                                    startingValue={item.rating}
+                                    style={{ marginVertical: 3, alignSelf: 'flex-start' }}
+                                    imageSize={20}
+                                />
+                                :
+                                <Text style={{ fontWeight: '600', fontSize: 14 }} >No review yet</Text>
+                            }
                         </View>
-                        <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
+                        <IconButton iconName={icon} color={'pink'} source={'AntDesign'} onPress={pressLike} />
                     </View>
-                    <Text style={{ maxHeight: 60, fontSize: 13 }} onPress={toDetail} >{item.bio}</Text>
+                    <ListTag tags={listSpecialies} />
+                    <Text style={{ maxHeight: 60, fontSize: 13, margin: 5 }} onPress={toDetail} >{item.bio}</Text>
                 </Card>
             </View>
         )
@@ -66,6 +85,9 @@ export default function ListRecommendedTutor() {
             data={data}
             renderItem={Tutor}
             keyExtractor={item => item.id.toString()}
+            // refreshControl={getData}
+            refreshing={false}
+            onRefresh={getData}
         />
     )
 }
@@ -74,8 +96,8 @@ export default function ListRecommendedTutor() {
 
 const styles = StyleSheet.create({
     img: {
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 80,
         borderRadius: 10,
         margin: 5
     },

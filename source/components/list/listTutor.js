@@ -11,6 +11,8 @@ import axios from 'axios';
 import errorHanle from '../../bussiness/errorHanle';
 import { useSelector } from 'react-redux';
 import LoadMore from './loadMoreButton';
+import { FlagButton } from 'react-native-country-picker-modal';
+import { handleListTutor, favorAction } from '../../bussiness/tutorHandle';
 
 const defaultFilter = {
     rating: 'All',
@@ -19,10 +21,10 @@ const defaultFilter = {
 }
 
 export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
-
     const userInfo = useSelector(state => state.userInfoState);
+    const token = userInfo.tokens.access.token;
     const [offset, setOffset] = React.useState(1)
-    const [loading, setLoading] = React.useState(false)
+    const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState([])
     const navigation = useNavigation()
     React.useEffect(
@@ -38,86 +40,53 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
                     perPage: 2,
                     page: offset
                 },
-                headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
+                headers: { 'Authorization': 'Bearer ' + token }
             });
             // const result = [...res.data.favoriteTutor, ...res.data.tutors.rows];
-            const result = res.data.tutors.rows;
-            setData(previousData => previousData.concat(result)
-            )
+            const result = handleListTutor(res.data);
+            setData(previousData => previousData.concat(result))
             setOffset(offset + 1);
         } catch (error) {
             errorHanle(error);
         }
         setLoading(false)
     }
-    const filterItem = (item) => {
-        if (!item.name.toLowerCase().includes(searchKey.toLocaleLowerCase()))
-            return false
-        if (filter.country != 'Country' && item.country != filter.country)
-            return false
-        if (filter.tag != 'Specialies')
-            if (!item.tag.find((tag) => tag == filter.tag))
-                return false
-        if (filter.rating != 'All')
-            switch (filter.rating) {
-                case '5':
-                    return item.rating <= 5 && item.rating > 4
-                case '2':
-                    return item.rating <= 2 && item.rating > 1
-                case '3':
-                    return item.rating <= 3 && item.rating > 2
-                case '4':
-                    return item.rating <= 4 && item.rating > 3
-                default:
-                    return item.rating <= 1
-            }
-        return true
 
-    }
-    const MyFooter = ({ onPress, loading }) => {
-        return (
-            //Footer View with Load More button
-            <View style={styles.footer}>
-                <TouchableOpacity
-                    activeOpacity={0.9}
-                    onPress={getData}
-                    //On Click of button load more data
-                    style={styles.loadMoreBtn}>
-                    <Text style={styles.btnText}>Load More</Text>
-                    {loading ? (
-                        <ActivityIndicator
-                            color="white"
-                            style={{ marginLeft: 8, height: 18 }} />
-                    ) : null}
-                </TouchableOpacity>
-            </View>
-        );
-    };
     const Tutor = ({ item }) => {
+        // console.log(item.userId);
         const listSpecialies = getListLabel(item.specialties.split(","));
-        icon = item.liked ? 'heart' : 'hearto';
+        icon = item.isFavor ? 'heart' : 'hearto';
+        // const pressLike = () => {
+        //     favorAction(item.userId, token);
+        //     getData();
+        // }
         function toDetail() {
             navigation.navigate('TutorInfo', { id: item.userId });
         }
         return (
             <View style={{ marginHorizontal: 1 }}   >
                 <Card>
-                    <View style={{ flexDirection: 'row' }} >
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <TouchableOpacity onPress={toDetail} >
                             <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
                         </TouchableOpacity>
                         <View style={{ flex: 1, margin: 5 }} >
-                            <Text style={{ fontWeight: 'bold' }} onPress={toDetail} >{item.name}</Text>
-                            <Rating readonly={true}
-                                startingValue={item.rating}
-                                style={{ marginVertical: 3, alignSelf: 'flex-start' }}
-                                imageSize={20}
-                            />
-                            <ListTag tags={listSpecialies} />
+                            <Text style={{ fontWeight: 'bold', fontSize: 15 }} onPress={toDetail} >{item.name}</Text>
+                            <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} withCountryNameButton />
+                            {item.rating != undefined ?
+                                <Rating readonly={true}
+                                    startingValue={item.rating}
+                                    style={{ marginVertical: 3, alignSelf: 'flex-start' }}
+                                    imageSize={20}
+                                />
+                                :
+                                <Text style={{ fontWeight: '600', fontSize: 14 }} >No review yet</Text>
+                            }
                         </View>
                         <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
                     </View>
-                    <Text style={{ maxHeight: 60, fontSize: 13 }} onPress={toDetail} >{item.bio}</Text>
+                    <ListTag tags={listSpecialies} />
+                    <Text style={{ maxHeight: 60, fontSize: 13, margin: 5 }} onPress={toDetail} >{item.bio}</Text>
                 </Card>
             </View>
         )
@@ -127,15 +96,18 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
             data={data}
             renderItem={Tutor}
             keyExtractor={item => item.id.toString()}
-            ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} />}
+            ListFooterComponent={() => <LoadMore onPress={getData} loading={loading}
+            />}
+            refreshing={false}
+            onRefresh={getData}
         />
     )
 }
 
 const styles = StyleSheet.create({
     img: {
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 80,
         borderRadius: 10,
         margin: 5
     },

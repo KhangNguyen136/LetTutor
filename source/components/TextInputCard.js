@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     },
     content: {
         fontSize: 16,
-        paddingVertical: 3,
+        paddingVertical: 5,
+        // alignContent: 'center',
         paddingHorizontal: 10,
         backgroundColor: '#ecf0f1',
         borderWidth: 0.5,

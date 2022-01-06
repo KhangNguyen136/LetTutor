@@ -15,10 +15,10 @@ export default function Picker({ data, value, searchable = false, didSelect, con
     const [key, setKey] = React.useState('')
     const [items, setItems] = React.useState(data)
 
-    const didSelectItem = (newValue) => {
+    const didSelectItem = (newItem) => {
         hideMenu()
-        if (newValue != value) {
-            didSelect(newValue)
+        if (newItem.value != value.value) {
+            didSelect(newItem)
         }
     };
 
@@ -36,8 +36,8 @@ export default function Picker({ data, value, searchable = false, didSelect, con
         return (
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingEnd: 5 }} >
-                    <MenuItem style={{ padding: 0, margin: 0, fontSize: 15 }} onPress={() => didSelectItem(item.value)} >{item.label}</MenuItem>
-                    <IsSelectedView isChoosen={item.label == value} />
+                    <MenuItem style={{ padding: 0, margin: 0, fontSize: 15 }} onPress={() => didSelectItem(item)} >{item.label}</MenuItem>
+                    <IsSelectedView isChoosen={item.value == value} />
                 </View>
                 <MenuDivider color={'black'} />
             </View>
@@ -46,7 +46,7 @@ export default function Picker({ data, value, searchable = false, didSelect, con
     const PickerBtn = ({ onPress, value }) => {
         return (
             <TouchableOpacity style={[styles.typeContainer, config.containerStyle]} onPress={onPress} >
-                <Text style={[styles.typeContent, config.textStyle]} >{value}</Text>
+                <Text style={[styles.typeContent, config.textStyle]} >{value.label}</Text>
                 <GetIcon iconName={'down'} source={'AntDesign'} size={18} color={config.textStyle.color} />
             </TouchableOpacity>
         )

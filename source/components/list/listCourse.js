@@ -1,11 +1,16 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image } from 'react-native';
-import { IconButton } from '../button';
 import { Rating } from 'react-native-ratings';
 import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 import Tag from '../tag';
+import { serverUrl } from '../../const';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import errorHandle from '../../bussiness/errorHanle';
+import LoadMore from '../list/loadMoreButton';
+import { getListTag } from '../../bussiness/course';
 import { globalStyles } from '../../styles/globalStyles';
 
 const defaultFilter = {
@@ -15,8 +20,34 @@ const defaultFilter = {
 }
 
 
-export default function ListCourse({ data, searchKey = '', filter = defaultFilter }) {
+export default function ListCourse({ searchKey = '', filter = defaultFilter }) {
+    const token = useSelector(state => state.userInfoState.tokens.access.token);
+    const [loading, setLoading] = React.useState(true);
+    const [data, setData] = React.useState([]);
+    const [page, setPage] = React.useState(1);
     const navigation = useNavigation()
+    React.useEffect(() => {
+        getData();
+    }, [])
+    const getData = async () => {
+        setLoading(true);
+        try {
+            const res = await axios.get(serverUrl + 'course', {
+                params: {
+                    page, size: 10
+                },
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            console.log(res.data.data.rows);
+            const result = res.data.data.rows;
+            setData(prs => prs.concat(result));
+            setPage(page + 1);
+        } catch (error) {
+            console.log(error);
+            errorHandle(error);
+        }
+        setLoading(false);
+    }
     const filterItem = (item) => {
         if (!item.name.toLowerCase().includes(searchKey.toLocaleLowerCase()))
             return false
@@ -52,8 +83,8 @@ export default function ListCourse({ data, searchKey = '', filter = defaultFilte
                 }
         return result
     }
-    const Courese = ({ item }) => {
-        icon = item.liked ? 'heart' : 'hearto'
+    const Course = ({ item }) => {
+
         const toDetail = () => {
             navigation.navigate('CourseDetail', { data: item })
         }
@@ -61,31 +92,29 @@ export default function ListCourse({ data, searchKey = '', filter = defaultFilte
             <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail} >
                 <Card>
                     <View style={{ flexDirection: 'row', alignItems: 'center', }} >
-                        <Image source={{ uri: item.img }} style={styles.img}  ></Image>
-                        <View style={{ flex: 1, margin: 5, justifyContent: 'flex-end' }} >
-                            <Text style={{ fontWeight: '500', fontSize: 18 }} >{item.name}</Text>
-                            <ListTag tags={item.tag} />
-                            <Text style={{ maxHeight: 60, fontSize: 14, margin: 5 }}>{item.intro}</Text>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                                <Text style={globalStyles.title2} > Level: </Text>
+                        <Image source={{ uri: item.imageUrl }} style={styles.img}  ></Image>
+                        <View style={{ flex: 1, margin: 5, justifyContent: 'space-between', alignItems: 'flex-start' }} >
+                            <Text style={{ fontWeight: '500', fontSize: 18, margin: 3 }} >{item.name}</Text>
+                            <ListTag tags={getListTag(item.categories)} />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 3 }} >
+                                <Text style={{ fontWeight: '600', margin: 0 }} > Level: </Text>
                                 <Tag item={item.level} />
-                                <Text> - {item.nlesson} lessons </Text>
-
+                                <Text> - {item.topics.length} lesson </Text>
                             </View>
+                            <Text style={{ maxHeight: 60, fontSize: 14, margin: 3 }}>{item.description}</Text>
+
                         </View>
-                        {/* <IconButton iconName={icon} color={'pink'} source={'AntDesign'} /> */}
-
                     </View>
-
                 </Card>
             </TouchableOpacity>
         )
     }
     return (
         <FlatList
-            data={sortBy(dataTest.filter(filterItem))}
-            renderItem={Courese}
+            data={data}
+            renderItem={Course}
             keyExtractor={item => item.id.toString()}
+            ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} />}
         />
     )
 }

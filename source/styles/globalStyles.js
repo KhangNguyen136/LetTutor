@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export const globalStyles = StyleSheet.create(
     {
@@ -50,7 +50,7 @@ export const globalStyles = StyleSheet.create(
         },
         title2: {
             fontWeight: '600',
-            margin: 3,
+            margin: 4,
             fontSize: 15
         },
         button: {

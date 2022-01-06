@@ -4,7 +4,6 @@ import { GetIcon } from '../../../components/button';
 import Card from '../../../components/card';
 import { Rating } from 'react-native-ratings';
 import { globalStyles } from '../../../styles/globalStyles';
-import countryFlag from '../../../styles/countryFlag';
 import { FlagButton, } from 'react-native-country-picker-modal';
 import IconBtn from '../../../components/iconBtn';
 import { Video } from 'expo-av';

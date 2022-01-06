@@ -9,6 +9,7 @@ import { serverUrl } from '../../const';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { getListLabel } from '../../bussiness/specialies';
+// import { formatFavoriteTutor } from '../../bussiness/tutorHandle';
 
 export default function ListRecommendedTutor() {
     const [data, setData] = React.useState([])
@@ -23,7 +24,7 @@ export default function ListRecommendedTutor() {
                 },
                 headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
             });
-            setData([...res.data.favoriteTutor, ...res.data.tutors.rows])
+            setData(res.data.tutors.rows)
         } catch (error) {
             console.log(error);
         }
@@ -68,6 +69,8 @@ export default function ListRecommendedTutor() {
         />
     )
 }
+
+
 
 const styles = StyleSheet.create({
     img: {

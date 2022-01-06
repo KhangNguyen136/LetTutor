@@ -20,7 +20,7 @@ import errorHandle from '../../bussiness/errorHanle';
 
 export default function Login(props) {
     const [loading, setLoading] = React.useState(false)
-    const [username, setUsername] = React.useState('nguyentankhang136@gmail.com')
+    const [username, setUsername] = React.useState('student@lettutor.com')
     const [password, setPassword] = React.useState('123456')
     const [usernameError, setUsernameError] = React.useState('')
     const [passError, setPassError] = React.useState('')

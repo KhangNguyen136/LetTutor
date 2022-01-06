@@ -10,6 +10,7 @@ import { serverUrl } from '../../const';
 import axios from 'axios';
 import errorHanle from '../../bussiness/errorHanle';
 import { useSelector } from 'react-redux';
+import LoadMore from './loadMoreButton';
 
 const defaultFilter = {
     rating: 'All',
@@ -39,7 +40,8 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
                 },
                 headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
             });
-            const result = [...res.data.favoriteTutor, ...res.data.tutors.rows];
+            // const result = [...res.data.favoriteTutor, ...res.data.tutors.rows];
+            const result = res.data.tutors.rows;
             setData(previousData => previousData.concat(result)
             )
             setOffset(offset + 1);
@@ -72,7 +74,7 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
         return true
 
     }
-    const MyFooter = () => {
+    const MyFooter = ({ onPress, loading }) => {
         return (
             //Footer View with Load More button
             <View style={styles.footer}>
@@ -125,7 +127,7 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
             data={data}
             renderItem={Tutor}
             keyExtractor={item => item.id.toString()}
-            ListFooterComponent={MyFooter}
+            ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} />}
         />
     )
 }
@@ -140,27 +142,7 @@ const styles = StyleSheet.create({
     rating: {
         alignSelf: 'flex-start'
     },
-    footer: {
-        padding: 5,
-        margin: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-    },
-    loadMoreBtn: {
-        padding: 6,
-        paddingHorizontal: 9,
-        backgroundColor: '#0984e3',
-        borderRadius: 4,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    btnText: {
-        color: 'white',
-        fontSize: 15,
-        textAlign: 'center',
-    },
+
 })
 
 export const dataTestTutor = [

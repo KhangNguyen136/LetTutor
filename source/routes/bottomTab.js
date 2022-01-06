@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/main/home';
 // import Message from '../screens/main/message/messages';
 import Course from '../screens/main/course/course';
-import Upcoming from '../screens/main/upcomingScreen';
+import Schedule from '../screens/main/schedule';
 import Tutors from '../screens/main/tutor/tutors';
 import Other from '../screens/main/other/other';
 import { GetIcon } from '../components/button';
@@ -24,7 +24,7 @@ function BottomTab({ navigation }) {
         }>
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Course" component={Course} options={{ title: 'Course' }} />
-            <Tab.Screen name="Upcoming" component={Upcoming} options={{ title: 'Upcoming' }} />
+            <Tab.Screen name="Schedule" component={Schedule} options={{ title: 'Schedule' }} />
             <Tab.Screen name="Tutors" component={Tutors} options={{ title: 'Tutors' }} />
             <Tab.Screen name="Other" component={Other} options={{ title: 'Other' }} />
         </Tab.Navigator >
@@ -42,8 +42,8 @@ function TabBarIcon({ focused, routeName, color, size }) {
             iconName = focused ? 'bookmark' : 'bookmark-o';
             iconSource = 'FontAwesome'
             break;
-        case 'Upcoming':
-            iconName = focused ? 'md-time' : 'md-time-outline';
+        case 'Schedule':
+            iconName = focused ? 'ios-calendar-sharp' : 'calendar-outline';
             iconSource = 'Ionicons'
             break;
         case 'Tutors':

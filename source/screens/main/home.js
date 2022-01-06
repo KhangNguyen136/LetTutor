@@ -28,20 +28,7 @@ export default function HomeScreen({ navigation }) {
     }, [])
 
     const getData = async () => {
-        try {
-            const token = userInfo.tokens.access.token;
-            const res = await axios.get(serverUrl + 'tutor/more', {
-                params: {
-                    perPage: 9,
-                    page: 1
-                },
-                headers: { 'Authorization': 'Bearer ' + token }
-            });
-            console.log('List recommend tutors: ');
-            console.log(res.data);
-        } catch (error) {
-            console.log(error)
-        }
+
     }
     const toStudyRoom = () => {
         navigation.navigate('StudyRoom')

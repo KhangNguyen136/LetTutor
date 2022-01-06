@@ -10,6 +10,15 @@ export default function Card(props) {
     )
 }
 
+export function TextCard(props) {
+    return (
+        <View style={styles.textCard}>
+            {props.children}
+        </View>
+    )
+
+}
+
 export function FlexCard(props) {
     return (
         <View style={styles.flexCard}>
@@ -36,11 +45,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         shadowOffset: { width: 1, height: 1 },
         shadowColor: '#333',
-        shadowOpacity: 0.3,
-        shadowRadius: 2,
-        marginHorizontal: 4,
-        marginBottom: 3,
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
         padding: 5,
+        marginHorizontal: 5,
+        marginVertical: 4
     },
     container: {
         height: 50,
@@ -74,5 +83,16 @@ const styles = StyleSheet.create({
         padding: 5,
         flex: 1,
     },
-
+    textCard: {
+        borderRadius: 8,
+        backgroundColor: '#fff',
+        borderWidth: 0.5,
+        // shadowOffset: { width: 1, height: 1 },
+        // shadowColor: '#333',
+        // shadowOpacity: 0.3,
+        // shadowRadius: 2,
+        marginHorizontal: 4,
+        margin: 5,
+        padding: 5,
+    },
 })

@@ -7,11 +7,12 @@ import DatePicker from '../../../components/datePicker';
 import Card from '../../../components/card';
 import { CheckBox } from 'react-native-elements';
 import { MyButton } from '../../../components/button';
-import { listCountry } from '../../../components/countryPicker';
+// import { listCountry } from '../../../components/countryPicker';
 
 export default function BecomeTutor1({ navigation }) {
-    const [img, setImg] = React.useState(null)
-    const [country, setCountry] = React.useState(listCountry[0].value)
+    const [img, setImg] = React.useState(null);
+    const [country, setCountry] = React.useState('');
+    const [birthday, setBirthday] = React.useState(new Date());
     return (
         <SafeAreaView style={globalStyles.container} >
             <ScrollView style={{ padding: 0 }} >
@@ -42,7 +43,7 @@ export default function BecomeTutor1({ navigation }) {
                             <View style={globalStyles.verticalDivide} />
                             <CountryPicker value={country} didSelect={setCountry} />
                             <View style={globalStyles.verticalDivide} />
-                            <DatePicker title={'Birthday:'} />
+                            <DatePicker title={'Birthday:'} value={birthday} onChageValue={setBirthday} />
                         </View>
                     </View>
                     <View style={globalStyles.verticalDivide} />

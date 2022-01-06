@@ -51,6 +51,8 @@ export default function UserInfoScreen({ navigation }) {
                 headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
             })
             const data = res.data.user
+            // console.log(new Date(data.birthday));
+            // console.log(data);
             setRole(data.roles[0]);
             setPhone(data.phone)
             setBirthday(new Date(data.birthday));

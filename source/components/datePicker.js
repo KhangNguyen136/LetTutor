@@ -4,7 +4,7 @@ import { GetIcon } from './button';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function MyDateTimePicker({ title, mode, value, onChageValue }) {
-    const [date, setDate] = React.useState(value)
+    // const [date, setDate] = React.useState(value)
     const isIOS = Platform.OS === 'ios';
 
     const AndroidDateTimePicker = () => {
@@ -21,7 +21,7 @@ export default function MyDateTimePicker({ title, mode, value, onChageValue }) {
                 {show &&
                     <DateTimePicker
                         testID="dateTimePickerAndroid"
-                        value={date}
+                        value={value}
                         mode={mode}
                         is24Hour={true}
                         display="default"
@@ -44,7 +44,7 @@ export default function MyDateTimePicker({ title, mode, value, onChageValue }) {
             {
                 isIOS ?
                     <DateTimePicker
-                        testID="dateTimePickerIOS"
+                        // testID="dateTimePickerIOS"
                         value={value}
                         mode={'date'}
                         // is24Hour={true}

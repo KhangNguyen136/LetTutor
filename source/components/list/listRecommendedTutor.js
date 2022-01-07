@@ -5,13 +5,11 @@ import { Rating } from 'react-native-ratings';
 import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
-import { serverUrl } from '../../const';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { getListLabel } from '../../bussiness/specialies';
 import { FlagButton } from 'react-native-country-picker-modal';
-import { handleListTutor, favorAction, updateFavorTutor } from '../../bussiness/tutorHandle';
-import { globalStyles } from '../../styles/globalStyles';
+import { handleListTutor } from '../../bussiness/tutorHandle';
+import { favorAction, getListTutor } from '../../services/tutor';
 // import { formatFavoriteTutor } from '../../bussiness/tutorHandle';
 
 export default function ListRecommendedTutor() {
@@ -24,14 +22,8 @@ export default function ListRecommendedTutor() {
     const getData = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(serverUrl + 'tutor/more', {
-                params: {
-                    perPage: 9,
-                    page: 1
-                },
-                headers: { 'Authorization': 'Bearer ' + token }
-            });
-            setData(handleListTutor(res.data));
+            const res = await getListTutor(1, 9, token);
+            setData(handleListTutor(res));
         } catch (error) {
             console.log(error);
         }
@@ -45,9 +37,10 @@ export default function ListRecommendedTutor() {
         // console.log(item.userId);
         const listSpecialies = getListLabel(item.specialties.split(","));
         icon = item.isFavor ? 'heart' : 'hearto';
-        const pressLike = () => {
-            favorAction(item.userId, token);
-            getData();
+        const pressLike = async () => {
+            const res = await favorAction(item.userId, token);
+            if (res)
+                getData();
         }
         function toDetail() {
             navigation.navigate('TutorInfo', { id: item.userId });
@@ -59,7 +52,7 @@ export default function ListRecommendedTutor() {
                         <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
                         <View style={{ flex: 1, margin: 5, justifyContent: 'space-between' }} >
                             <Text style={{ fontWeight: 'bold', fontSize: 15 }}  >{item.name}</Text>
-                            <FlagButton {...{ countryCode: item.country }} withCountryNameButton />
+                            <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} withCountryNameButton />
                             {item.rating != undefined ?
                                 <Rating readonly={true}
                                     startingValue={item.rating}

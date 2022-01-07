@@ -4,7 +4,7 @@ import { MyButton } from '../../components/button';
 import Card, { TextCard } from '../../components/card';
 import { globalStyles } from '../../styles/globalStyles';
 import { GetIcon } from '../../components/button';
-import { editRequest } from '../../bussiness/booking';
+import { editRequest } from '../../services/booking';
 import LoadingIndicator from '../../components/loadingIndicator';
 
 export default function EditRequest({ navigation, route }) {

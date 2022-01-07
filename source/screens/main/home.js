@@ -4,10 +4,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { GetIcon, MyButton, MyIconButtonLeft, MyIconButtonRight } from '../../components/button';
 import ListRecommendedTutor from '../../components/list/listRecommendedTutor';
 import { globalStyles } from '../../styles/globalStyles';
-import axios from 'axios';
-import { serverUrl } from '../../const';
 import { useSelector } from 'react-redux';
-import { getNext, getTotal } from '../../bussiness/schedule';
+import { getNext, getTotal } from '../../services/schedule';
 
 export default function HomeScreen({ navigation }) {
     const date = new Date();
@@ -67,7 +65,6 @@ export default function HomeScreen({ navigation }) {
 }
 
 function getTotalTime(total) {
-    console.log(total)
     if (total == 0) {
         return 'Welcome to Letutor!'
     }

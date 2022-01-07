@@ -9,7 +9,7 @@ import { FlagButton } from 'react-native-country-picker-modal';
 import LoadingIndicator from '../loadingIndicator';
 import LoadMore from './loadMoreButton';
 import MyViewMoreText from '../schedule/viewMoreText';
-import { getHistorySchedule } from '../../bussiness/schedule';
+import { getHistorySchedule } from '../../services/schedule';
 import { globalStyles } from '../../styles/globalStyles';
 export default function ListHistory({ }) {
     const userInfo = useSelector(state => state.userInfoState);

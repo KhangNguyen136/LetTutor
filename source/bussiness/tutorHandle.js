@@ -1,8 +1,8 @@
-import axios from "axios";
-import { serverUrl } from "../const";
-import errorHandle from "./errorHanle";
+
 
 export function handleListTutor(data) {
+    if (data == null)
+        return [];
     const listTutors = data.tutors.rows;
     const favorTutors = data.favoriteTutor;
 
@@ -37,16 +37,3 @@ export function updateFavorTutor(tutors, id) {
     return tutors;
 }
 
-export async function favorAction(id, token) {
-    try {
-        const res = await axios.post(serverUrl + 'user/manageFavoriteTutor', {
-            tutorId: id
-        },
-            { headers: { 'Authorization': 'Bearer ' + token } })
-        return true;
-    } catch (error) {
-        errorHandle(error);
-        return false;
-    }
-
-}

@@ -8,7 +8,7 @@ import myTheme from './source/styles/theme';
 export default function App() {
   return (
     <Provider store={appStore}>
-      <PaperProvider theme={myTheme}>
+      <PaperProvider >
         <MyApp />
       </PaperProvider>
     </Provider>

@@ -1,6 +1,6 @@
 import { serverUrl } from "../const";
 import axios from "axios";
-import errorHandle from "./errorHanle";
+import errorHandle from "../bussiness/errorHanle";
 import { showMessage } from "react-native-flash-message";
 
 export async function editRequest(studentRequest, bookedId, token) {
@@ -11,7 +11,6 @@ export async function editRequest(studentRequest, bookedId, token) {
             {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
-        console.log(res.data);
         showMessage({ type: 'success', message: 'Update request successfully' })
         return true;
     } catch (error) {
@@ -31,7 +30,6 @@ export async function cancelLesson(scheduleDetailIds, token) {
                     scheduleDetailIds
                 }
             })
-        console.log(res.data);
         showMessage({ type: 'success', message: 'Cancel lesson successfully' })
         return true;
     } catch (error) {

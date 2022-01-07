@@ -6,13 +6,13 @@ import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 import { getListLabel } from '../../bussiness/specialies';
-import { serverUrl } from '../../const';
-import axios from 'axios';
-import errorHanle from '../../bussiness/errorHanle';
 import { useSelector } from 'react-redux';
 import LoadMore from './loadMoreButton';
 import { FlagButton } from 'react-native-country-picker-modal';
-import { handleListTutor, favorAction } from '../../bussiness/tutorHandle';
+import { handleListTutor } from '../../bussiness/tutorHandle';
+import { getListTutor, favorAction } from '../../services/tutor';
+import { DataTable } from 'react-native-paper';
+import MyPagination from '../pagination';
 
 const defaultFilter = {
     rating: 'All',
@@ -25,30 +25,23 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
     const token = userInfo.tokens.access.token;
     const [offset, setOffset] = React.useState(1)
     const [loading, setLoading] = React.useState(true);
-    const [data, setData] = React.useState([])
-    const navigation = useNavigation()
+    const [data, setData] = React.useState([]);
+    const [count, setCount] = React.useState(0);
+    const navigation = useNavigation();
+    const [itemPerPage, setItemPerPage] = React.useState(2);
+    const maxPage = Math.ceil(count / itemPerPage);
     React.useEffect(
         () => {
             getData()
         },
-        [])
+        [offset, itemPerPage])
     const getData = async () => {
         setLoading(true);
-        try {
-            const res = await axios.get(serverUrl + 'tutor/more', {
-                params: {
-                    perPage: 2,
-                    page: offset
-                },
-                headers: { 'Authorization': 'Bearer ' + token }
-            });
-            // const result = [...res.data.favoriteTutor, ...res.data.tutors.rows];
-            const result = handleListTutor(res.data);
-            setData(previousData => previousData.concat(result))
-            setOffset(offset + 1);
-        } catch (error) {
-            errorHanle(error);
-        }
+        const res = await getListTutor(offset, itemPerPage, token);
+        const result = handleListTutor(res);
+        console.log(res);
+        setCount(res.tutors.count);
+        setData(result)
         setLoading(false)
     }
 
@@ -56,10 +49,11 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
         // console.log(item.userId);
         const listSpecialies = getListLabel(item.specialties.split(","));
         icon = item.isFavor ? 'heart' : 'hearto';
-        // const pressLike = () => {
-        //     favorAction(item.userId, token);
-        //     getData();
-        // }
+        const pressLike = async () => {
+            const res = await favorAction(item.userId, token);
+            if (res)
+                getData();
+        }
         function toDetail() {
             navigation.navigate('TutorInfo', { id: item.userId });
         }
@@ -82,7 +76,7 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
                             }
                         </View>
                         <View style={{ justifyContent: 'flex-start' }}>
-                            <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
+                            <IconButton iconName={icon} color={'pink'} source={'AntDesign'} onPress={pressLike} />
 
                         </View>
                     </TouchableOpacity>
@@ -93,17 +87,36 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
         )
     }
     return (
-        <FlatList
-            data={data}
-            renderItem={Tutor}
-            keyExtractor={item => item.id.toString()}
-            ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0}
-            />}
-            refreshing={false}
-            onRefresh={getData}
-        />
+        <View style={{ flex: 1 }} >
+            <FlatList
+                data={data}
+                renderItem={Tutor}
+                keyExtractor={item => item.id.toString()}
+                refreshing={false}
+                onRefresh={getData}
+            />
+            <DataTable.Pagination page={offset - 1}
+                numberOfPages={maxPage}
+                style={{ width: '100%', flexWrap: 'nowrap', backgroundColor: '#7ed6df' }}
+                onPageChange={page => {
+                    console.log(page);
+                    if (page < 0 || page > maxPage - 1)
+                        return
+                    setOffset(page + 1)
+                }}
+                label={`${offset} of ${maxPage}`}
+                showFastPaginationControls
+                numberOfItemsPerPageList={numberOfItemsPerPageList}
+                numberOfItemsPerPage={itemPerPage}
+                onItemsPerPageChange={setItemPerPage}
+                selectPageDropdownLabel={'Tutor/page'}
+            />
+        </View>
+
     )
 }
+
+const numberOfItemsPerPageList = [2, 3, 4];
 
 const styles = StyleSheet.create({
     img: {
@@ -117,66 +130,3 @@ const styles = StyleSheet.create({
     },
 
 })
-
-export const dataTestTutor = [
-    {
-        id: 0,
-        name: 'John',
-        rating: 4,
-        tag: ['TOIEC', 'IELTS'],
-        intro: "Intro of John. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'Vietnam',
-        liked: 1,
-    },
-    {
-        id: 1,
-        name: 'Anna',
-        rating: 3.5,
-        tag: ['English for kid', 'Conversational'],
-        intro: "Intro of Anna. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'USA',
-        liked: 0,
-
-    },
-    {
-        id: 2,
-        name: 'Kelvin',
-        rating: 4.5,
-        tag: ['TOIEC', 'IELTS', 'English for business'],
-        intro: "Intro of Kelvin. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'China',
-        liked: 0,
-
-    },
-    {
-        id: 3,
-        name: 'Jack',
-        rating: 3.3,
-        tag: ['English for business'],
-        intro: "Intro of Jack. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'Korea',
-        liked: 1,
-
-    },
-    {
-        id: 4,
-        name: 'Jenny',
-        rating: 4.4,
-        tag: ['TOIEC', 'STARTER'],
-        intro: "Intro of Jenny. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'Japan',
-        liked: 0,
-
-
-    },
-    {
-        id: 5,
-        name: 'Paul',
-        rating: 4,
-        tag: ['TOEFL', 'KET', 'PET'],
-        intro: "Intro of Paul. I am an experienced English Teacher from Philippine. I would like share my enthusiasm with the learners in this platform. I've been working with diverse learners of all levels for many years. I am greatly passionate about about profession. I love teaching because I can help others improve their skills and it gives me joy and excitement meeting different learners around the world. In my class I worked with wonderful enthusiasm and positivity, and I'm happy t focus on my learner's goal.",
-        country: 'Russia',
-        liked: 1,
-
-    },
-]

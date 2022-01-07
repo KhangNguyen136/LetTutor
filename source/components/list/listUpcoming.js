@@ -7,13 +7,13 @@ import Tag from '../tag';
 import { useSelector } from 'react-redux';
 import { FlagButton } from 'react-native-country-picker-modal';
 import LoadingIndicator from '../loadingIndicator';
-import LoadMore from './loadMoreButton';
 import MyViewMoreText from '../schedule/viewMoreText';
-import { getUpcomingSchedule } from '../../bussiness/schedule';
-import { cancelLesson } from '../../bussiness/booking';
+import { getUpcomingSchedule } from '../../services/schedule';
+import { cancelLesson } from '../../services/booking';
 import { checkAfter2h } from '../../bussiness/date';
 import { showMessage } from 'react-native-flash-message';
 import { globalStyles } from '../../styles/globalStyles';
+import { DataTable } from 'react-native-paper';
 export default function ListUpcoming({ }) {
     const userInfo = useSelector(state => state.userInfoState);
     const token = userInfo.tokens.access.token
@@ -21,17 +21,19 @@ export default function ListUpcoming({ }) {
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState([]);
     const [page, setPage] = React.useState(1);
-
+    const [count, setCount] = React.useState(0);
+    const [itemPerPage, setItemPerPage] = React.useState(4);
+    const maxPage = Math.ceil(count / itemPerPage);
     const getData = async () => {
         setLoading(true);
-        const result = await getUpcomingSchedule(token, page);
-        setData(prs => prs.concat(result));
-        setPage(page + 1);
+        const result = await getUpcomingSchedule(token, page, itemPerPage);
+        setData(result.rows);
+        setCount(result.count)
         setLoading(false);
     }
     React.useEffect(() => {
         getData();
-    }, [])
+    }, [page, itemPerPage])
 
     const Upcoming = ({ item }) => {
         const tutorInfo = item.scheduleDetailInfo.scheduleInfo.tutorInfo;
@@ -47,6 +49,7 @@ export default function ListUpcoming({ }) {
         const cancel = async () => {
             const id = [item.scheduleDetailInfo.id]
             const res = await cancelLesson(id, token);
+            getData();
             console.log(res);
         }
         const pressCancel = async () => {
@@ -67,9 +70,6 @@ export default function ListUpcoming({ }) {
                         style: 'cancel'
                     },
                 ])
-
-
-
         }
         const editRequest = () => {
             navigation.push('EditRequest', { item, token })
@@ -129,9 +129,21 @@ export default function ListUpcoming({ }) {
                 renderItem={Upcoming}
                 keyExtractor={item => item.id.toString()}
                 ListEmptyComponent={() => emptyComponent(() => navigation.navigate('Tutors'))}
-                ListFooterComponent={() =>
-                    <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0} />
-                }
+            />
+            <DataTable.Pagination page={page - 1}
+                numberOfPages={maxPage}
+                style={{ width: '100%', flexWrap: 'nowrap', backgroundColor: '#7ed6df' }}
+                onPageChange={page => {
+                    if (page < 0 || page > maxPage - 1)
+                        return
+                    setPage(page + 1)
+                }}
+                label={`${page} of ${maxPage}`}
+                showFastPaginationControls
+                numberOfItemsPerPageList={numberOfItemsPerPageList}
+                numberOfItemsPerPage={itemPerPage}
+                onItemsPerPageChange={setItemPerPage}
+                selectPageDropdownLabel={'Tutor/page'}
             />
             {
                 loading &&
@@ -140,6 +152,9 @@ export default function ListUpcoming({ }) {
         </View>
     )
 }
+
+const numberOfItemsPerPageList = [2, 3, 4];
+
 
 const emptyComponent = (toBook) => {
     return (

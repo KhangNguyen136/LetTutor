@@ -1,6 +1,6 @@
 import { serverUrl } from "../const";
 import axios from "axios";
-import errorHandle from "./errorHanle";
+import errorHandle from "../bussiness/errorHanle";
 
 export async function reFreshToken(refreshToken, timezone) {
     try {
@@ -11,7 +11,7 @@ export async function reFreshToken(refreshToken, timezone) {
             {
                 headers: { 'Authorization': 'Bearer ' + refreshToken }
             })
-        console.log(res.data)
+        // console.log(res.data)
         return res.data;
     } catch (error) {
         errorHandle(error);
@@ -24,7 +24,7 @@ export async function checkToken(accessToken) {
         const res = await axios.get(serverUrl + 'user/info', {
             headers: { 'Authorization': 'Bearer ' + accessToken }
         })
-        console.log('Check token success');
+        // console.log('Check token success');
         return true;
     } catch (error) {
         // errorHandle(error)

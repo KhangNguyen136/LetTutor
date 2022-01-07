@@ -1,6 +1,6 @@
 import { serverUrl } from "../const";
 import axios from "axios";
-import errorHandle from "./errorHanle";
+import errorHandle from "../bussiness/errorHanle";
 
 export async function getNext(token) {
     try {
@@ -43,7 +43,7 @@ export async function getHistorySchedule(token, page) {
             },
             headers: { 'Authorization': 'Bearer ' + token }
         })
-        console.log(res.data.data.count);
+        // console.log(res.data.data.count);
         return res.data.data.rows;
 
     } catch (error) {
@@ -52,20 +52,20 @@ export async function getHistorySchedule(token, page) {
     }
 }
 
-export async function getUpcomingSchedule(token, page) {
+export async function getUpcomingSchedule(token, page, perPage) {
     const today = new Date()
     const paramDate = new Date(today.setMinutes(today.getMinutes()));
     try {
         const res = await axios.get(serverUrl + 'booking/list/student', {
             params: {
-                page, perPage: 20,
+                page, perPage,
                 dateTimeGte: paramDate.getTime(),
                 orderBy: 'meeting',
                 sortBy: 'asc'
             },
             headers: { 'Authorization': 'Bearer ' + token }
         })
-        return res.data.data.rows;
+        return res.data.data;
 
     } catch (error) {
         errorHandle(error);

@@ -8,7 +8,7 @@ import { loggedIn, loggedOut } from './redux/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserInfoFromDB, updateToken, resetDB } from './bussiness/UserInfoServices';
 import { setUserInfoAction, setTokens } from './redux/userInfoSlice';
-import { checkToken, reFreshToken } from './bussiness/refreshToken';
+import { checkToken, reFreshToken } from './services/refreshToken';
 import { serverUrl } from './const';
 import errorHandle from './bussiness/errorHanle';
 

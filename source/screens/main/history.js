@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, SafeAreaView } from 'react-native';
 // import { SearchBar } from 'react-native-elements';
 import SearchBox from '../../components/searchBar';
-import ListSession from '../../components/list/listSession';
+import ListHistory from '../../components/list/listHistory';
 import Card from '../../components/card';
 import { globalStyles } from '../../styles/globalStyles';
 
-export default function SessionHistory() {
+export default function History() {
     const [searchKey, setSearchKey] = React.useState('');
 
     const updateSearch = (key) => setSearchKey(key)
@@ -15,7 +15,7 @@ export default function SessionHistory() {
             <Card>
                 <SearchBox placeholder={"Search by tutor's name"} value={searchKey} textChange={updateSearch} />
             </Card>
-            <ListSession search={searchKey} />
+            <ListHistory search={searchKey} />
         </SafeAreaView>
     )
 }

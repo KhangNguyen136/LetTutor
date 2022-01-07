@@ -38,7 +38,6 @@ export default function ListCourse({ searchKey = '', filter = defaultFilter }) {
                 },
                 headers: { 'Authorization': 'Bearer ' + token }
             })
-            console.log(res.data.data.rows);
             const result = res.data.data.rows;
             setData(prs => prs.concat(result));
             setPage(page + 1);
@@ -114,7 +113,7 @@ export default function ListCourse({ searchKey = '', filter = defaultFilter }) {
             data={data}
             renderItem={Course}
             keyExtractor={item => item.id.toString()}
-            ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} />}
+            ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0} />}
         />
     )
 }

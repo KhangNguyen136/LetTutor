@@ -1,8 +1,8 @@
 import React from 'react';
 import BottomTab from './bottomTab';
 import ChatboxScreen from '../screens/main/message/chatBox';
-import SessionHistory from '../screens/main/sessionHistory';
-import BookingHistory from '../screens/main/bookingHistory';
+import WatchVideo from '../screens/main/watchVideo';
+import History from '../screens/main/history';
 import ViewFeedback from '../screens/main/other/viewFeedbacks';
 import UserInfo from '../screens/main/other/userInfo';
 import ChangePassword from '../screens/auth/changePassword';
@@ -24,6 +24,7 @@ import Booking from '../screens/main/booking';
 import BuyLesson from '../screens/main/buyLesson';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EditRequest from '../screens/main/editRequest';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,8 +34,8 @@ function MainStack({ navigation }) {
             screenOptions={{ headerTitleAlign: 'center' }}>
             <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false }} />
             <Stack.Screen name="ChatBox" component={ChatboxScreen} />
-            <Stack.Screen name="SessionHistory" component={SessionHistory} options={{ title: 'Session history' }} />
-            <Stack.Screen name="BookingHistory" component={BookingHistory} options={{ title: 'Booking history' }} />
+            <Stack.Screen name="WatchVideo" component={WatchVideo} options={{ title: 'Lesson video' }} />
+            <Stack.Screen name="History" component={History} options={{ title: 'Booking history' }} />
             <Stack.Screen name="ViewFeedback" component={ViewFeedback} options={{ title: 'Feedback' }} />
             <Stack.Screen name="UserInfo" component={UserInfo} options={{ title: 'Profile' }} />
             <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ title: 'Change Password' }} />
@@ -47,13 +48,15 @@ function MainStack({ navigation }) {
             <Stack.Screen name="BecomeTutor2" component={BecomeTutor2} options={{ title: 'Introduction' }} />
             <Stack.Screen name="BecomeTutor3" component={BecomeTutor3} options={{ title: 'Approval' }} />
             <Stack.Screen name="Ebook" component={Ebook} options={{ title: 'Ebooks' }} />
-            <Stack.Screen name="EbookDetail" component={EbookDetail} options={{ title: 'Ebook details' }} />
+            <Stack.Screen name="EbookDetail" component={EbookDetail} options={{ title: '' }} />
             <Stack.Screen name="Message" component={Message} options={{ title: 'Messages' }} />
-            <Stack.Screen name="CourseDetail" component={CourseDetail} options={{ title: 'Course detail' }} />
-            <Stack.Screen name="DiscoverCourse" component={DiscoverCourse} options={{ title: 'Discover Course' }} />
-            <Stack.Screen name="GiveFeedback" component={GiveFeedback} options={{ title: 'Give feedback' }} />
+            <Stack.Screen name="CourseDetail" component={CourseDetail} options={{ title: '' }} />
+            <Stack.Screen name="DiscoverCourse" component={DiscoverCourse} options={{ title: 'Discover' }} />
+            <Stack.Screen name="GiveFeedback" component={GiveFeedback} options={{ title: 'Feedback' }} />
             <Stack.Screen name="Booking" component={Booking} options={{ title: 'Booking' }} />
-            <Stack.Screen name="BuyLesson" component={BuyLesson} options={{ title: 'Buy lesson' }} />
+            <Stack.Screen name="EditRequest" component={EditRequest} options={{ title: 'Edit request' }} />
+
+            <Stack.Screen name="BuyLesson" component={BuyLesson} options={{ title: '' }} />
 
 
         </Stack.Navigator>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
-export default function LoadMore({ onPress, loading }) {
+export default function LoadMore({ onPress, loading, isEmpty }) {
+    if (isEmpty)
+        return null
     return (
         //Footer View with Load More button
         <View style={styles.footer}>

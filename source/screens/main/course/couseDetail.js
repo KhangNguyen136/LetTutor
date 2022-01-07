@@ -17,9 +17,12 @@ export default function CourseDetail({ navigation, route }) {
     React.useEffect(() => {
         LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     }, [])
+    const toSlide = (order) => {
+        navigation.navigate('DiscoverCourse', { data: data.topics, order })
+    }
     const Topic = ({ item }) => {
         return (
-            <Text style={globalStyles.title2} > {item.orderCourse + 1}. {item.name}</Text>
+            <Text style={globalStyles.title2} onPress={() => toSlide(item.orderCourse)} > {item.orderCourse + 1}. {item.name}</Text>
         )
     }
     return (
@@ -38,12 +41,12 @@ export default function CourseDetail({ navigation, route }) {
                                 <Text style={globalStyles.title2} >Couse length:  </Text>
                                 <Text> {data.topics.length} topics</Text>
                             </View>
-                            <Rating readonly={true}
+                            {/* <Rating readonly={true}
                                 startingValue={data.rating}
                                 style={{ marginVertical: 3, alignSelf: 'flex-start' }}
                                 imageSize={20}
-                            />
-                            <TouchableOpacity style={{ ...styles.rowContainer, alignSelf: 'flex-end', }} onPress={() => navigation.navigate('DiscoverCourse', { data: data.topics })} >
+                            /> */}
+                            <TouchableOpacity style={{ ...styles.rowContainer, alignSelf: 'flex-end', }} onPress={() => toSlide(0)} >
                                 <Text style={{ color: '#3399ff', fontSize: 16 }} >Discover</Text>
                                 <GetIcon iconName={'right'} source={'AntDesign'} size={14} color={'#3399ff'} />
                             </TouchableOpacity>

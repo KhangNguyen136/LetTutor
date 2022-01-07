@@ -4,54 +4,59 @@ import { MyButton } from '../../components/button';
 import Card, { TextCard } from '../../components/card';
 import { globalStyles } from '../../styles/globalStyles';
 import { GetIcon } from '../../components/button';
+import { editRequest } from '../../bussiness/booking';
+import LoadingIndicator from '../../components/loadingIndicator';
 
-export default function Booking({ navigation, route }) {
-    const { data } = route.params
+export default function EditRequest({ navigation, route }) {
+    const { item, token } = route.params;
+    const [loading, setLoading] = React.useState(false);
+    const [studentRequest, setStudentRequest] = React.useState(item.studentRequest != null ? item.studentRequest : '');
+    const tutorInfo = item.scheduleDetailInfo.scheduleInfo.tutorInfo;
+    const scheduleInfo = item.scheduleDetailInfo.scheduleInfo;
+    const endTime = new Date(scheduleInfo.endTimestamp);
+    const startTime = new Date(scheduleInfo.startTimestamp);
+    const submit = async () => {
+        setLoading(true);
+        const res = await editRequest(studentRequest, item.id, token);
+        if (res)
+            navigation.goBack();
+    }
     return (
         <SafeAreaView style={globalStyles.container} >
+            {loading &&
+                <LoadingIndicator />}
             <Card>
-                <Image source={require('../../../assets/botAvt.jpg')} style={{ width: 120, height: 120, alignSelf: 'center' }}  ></Image>
+                <Image source={{ uri: tutorInfo.avatar }} style={{ width: 120, height: 120, alignSelf: 'center' }}  ></Image>
                 <View style={{ margin: 5 }} >
                     {/* <Text style={globalStyles.title1}>Booking information: </Text> */}
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <GetIcon iconName={'chalkboard-teacher'} source={'FontAwesome5'} size={18} />
                         <Text style={globalStyles.title2} > Tutor: </Text>
-                        <Text style={globalStyles.titleName} >{data.name}</Text>
+                        <Text style={globalStyles.titleName} >{tutorInfo.name}</Text>
                     </View>
                     <View style={globalStyles.verticalDivide} />
                     <View style={styles.rowItem} >
                         <GetIcon iconName={'calendar'} source={'AntDesign'} size={18} />
                         <Text style={globalStyles.title2}>Booking date:</Text>
-                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{data.date.toString().substr(0, 16)}</Text>
+                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{startTime.toString().substring(0, 16)}</Text>
                     </View>
                     <View style={globalStyles.verticalDivide} />
                     <View style={styles.rowItem} >
                         <GetIcon iconName={'clockcircleo'} source={'AntDesign'} size={18} />
                         <Text style={globalStyles.title2}>Booking time:</Text>
-                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{data.time}</Text>
-                    </View>
-                    <View style={globalStyles.verticalDivide} />
-                    <View style={styles.rowItem} >
-                        <GetIcon iconName={'price-tag'} source={'Entypo'} size={18} />
-                        <Text style={globalStyles.title2}>Price: </Text>
-                        <Text style={{ marginLeft: 4, fontSize: 16 }} > 1 lesson</Text>
+                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{startTime.toString().substring(16, 21)} - {endTime.toString().substring(16, 21)}</Text>
                     </View>
                     <View style={globalStyles.verticalDivide} />
 
-                    <View style={styles.rowItem} >
-                        <GetIcon iconName={'wallet'} source={'Entypo'} size={18} />
-                        <Text style={globalStyles.title2} > Your balance: </Text>
-                        <Text style={{ fontSize: 16 }} > 3 lessons left</Text>
-                    </View>
                     <View style={globalStyles.verticalDivide} />
                     <Text style={globalStyles.title2} >Request </Text>
                     <TextCard>
-                        <TextInput placeholder={'What you want the tutor know?'} multiline={true} style={{ minHeight: 80 }} />
+                        <TextInput placeholder={'What you want the tutor know?'} value={studentRequest} onChangeText={setStudentRequest} multiline={true} style={{ minHeight: 80 }} />
 
                     </TextCard>
                 </View>
             </Card>
-            <MyButton title={'Book'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} />
+            <MyButton title={'Submit'} moreStyle={globalStyles.authBtnContainer} moreTitleStyle={{ color: 'white' }} onPress={submit} />
         </SafeAreaView>
     )
 }

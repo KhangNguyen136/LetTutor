@@ -66,13 +66,11 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
         return (
             <View style={{ marginHorizontal: 1 }}   >
                 <Card>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                        <TouchableOpacity onPress={toDetail} >
-                            <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
-                        </TouchableOpacity>
-                        <View style={{ flex: 1, margin: 5 }} >
-                            <Text style={{ fontWeight: 'bold', fontSize: 15 }} onPress={toDetail} >{item.name}</Text>
-                            <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} withCountryNameButton />
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={toDetail} >
+                        <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
+                        <View style={{ flex: 1, margin: 5, justifyContent: 'space-between' }} >
+                            <Text style={{ fontWeight: 'bold', fontSize: 15 }}  >{item.name}</Text>
+                            <FlagButton {...{ countryCode: item.country }} withCountryNameButton />
                             {item.rating != undefined ?
                                 <Rating readonly={true}
                                     startingValue={item.rating}
@@ -83,8 +81,11 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
                                 <Text style={{ fontWeight: '600', fontSize: 14 }} >No review yet</Text>
                             }
                         </View>
-                        <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
-                    </View>
+                        <View style={{ justifyContent: 'flex-start' }}>
+                            <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
+
+                        </View>
+                    </TouchableOpacity>
                     <ListTag tags={listSpecialies} />
                     <Text style={{ maxHeight: 60, fontSize: 13, margin: 5 }} onPress={toDetail} >{item.bio}</Text>
                 </Card>
@@ -96,7 +97,7 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
             data={data}
             renderItem={Tutor}
             keyExtractor={item => item.id.toString()}
-            ListFooterComponent={() => <LoadMore onPress={getData} loading={loading}
+            ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0}
             />}
             refreshing={false}
             onRefresh={getData}

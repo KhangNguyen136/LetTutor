@@ -7,15 +7,16 @@ import Card from '../../../components/card';
 import Picker from '../../../components/picker';
 
 export default function DiscoverCourse({ navigation, route }) {
-    const { data } = route.params
-    const [item, setItem] = React.useState(data[0]);
+    const { data, order } = route.params
+    const listItems = formatTopics(data);
+    const [item, setItem] = React.useState(listItems.find(item => item.orderCourse == order));
     // const url = data.find(item => item.orderCourse == topicOrder).nameFile;
     return (
         <SafeAreaView style={globalStyles.container} >
             <Card>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                     <Text style={globalStyles.titleName}>Topic: </Text>
-                    <Picker value={item} didSelect={setItem} data={formatTopics(data)} searchable={true} />
+                    <Picker value={item} didSelect={setItem} data={listItems} searchable={true} />
                 </View>
             </Card>
 

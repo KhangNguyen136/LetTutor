@@ -7,10 +7,15 @@ import { globalStyles } from '../../styles/globalStyles';
 import axios from 'axios';
 import { serverUrl } from '../../const';
 import { useSelector } from 'react-redux';
+import { getNext, getTotal } from '../../bussiness/schedule';
 
 export default function HomeScreen({ navigation }) {
     const date = new Date();
-    const userInfo = useSelector(state => state.userInfoState)
+    const [total, setTotal] = React.useState(0);
+    const [upcomingData, setUpcomingData] = React.useState(null);
+    const userInfo = useSelector(state => state.userInfoState);
+    const token = userInfo.tokens.access.token;
+    console.log(token)
     React.useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Home',
@@ -28,7 +33,10 @@ export default function HomeScreen({ navigation }) {
     }, [])
 
     const getData = async () => {
-
+        const totalRes = await getTotal(token);
+        setTotal(totalRes * 25);
+        const upcomingRes = await getNext(token);
+        setUpcomingData(upcomingRes);
     }
     const toStudyRoom = () => {
         navigation.navigate('StudyRoom')
@@ -36,10 +44,8 @@ export default function HomeScreen({ navigation }) {
     const LessonOverview = () => {
         return (
             <View style={styles.lessonOverview} >
-                <Text style={{ ...styles.lessonOverviewContent, fontSize: 16 }}>Total lesson time is 13 hours 6 minutes</Text>
-                <Text style={styles.lessonOverviewContent} >Upcoming Lesson:</Text>
-                <Text style={styles.lessonOverviewContent}>{date.toString().substr(0, 24)}</Text>
-                <MyButton title={'Enter lesson room'} onPress={toStudyRoom} moreStyle={{ backgroundColor: '#3498db' }} moreTitleStyle={{ color: 'white' }} />
+                <Text style={{ ...styles.lessonOverviewContent, fontSize: 16 }}>{getTotalTime(total)}</Text>
+                <UpcomingSection data={upcomingData} />
             </View>
         )
     }
@@ -57,6 +63,40 @@ export default function HomeScreen({ navigation }) {
             </View>
             <ListRecommendedTutor />
         </SafeAreaView>
+    )
+}
+
+function getTotalTime(total) {
+    console.log(total)
+    if (total == 0) {
+        return 'Welcome to Letutor!'
+    }
+    const hours = parseInt(total / 60);
+    const hourTitle = hours > 1 ? 'hours' : 'hour';
+    const minutes = total % 60;
+    const minuteTitle = minutes > 1 ? 'minutes' : 'minute';
+    return `Total lesson time is ${hours} ${hourTitle} ${minutes} ${minuteTitle}`
+}
+
+function UpcomingSection({ data, toStudyRoom }) {
+    if (data == null) {
+        return (
+            <View style={{ alignItems: 'center' }} >
+                <Text style={styles.lessonOverviewContent} >You have no upcoming lesson</Text>
+                <Text style={styles.lessonOverviewContent}>Let choose a tutor and book</Text>
+                {/* <MyButton title={'Enter lesson room'} onPress={toStudyRoom} moreStyle={{ backgroundColor: '#3498db' }} moreTitleStyle={{ color: 'white' }} /> */}
+            </View>
+        )
+    }
+    const detail = data.scheduleDetailInfo;
+    const startTime = new Date(detail.startPeriodTimestamp);
+    const endTime = new Date(detail.endPeriodTimestamp);
+    return (
+        <View style={{ alignItems: 'center' }} >
+            <Text style={styles.lessonOverviewContent} >Upcoming lesson:</Text>
+            <Text style={styles.lessonOverviewContent}>{startTime.toString().substring(0, 21)} - {endTime.toString().substring(16, 21)}</Text>
+            <MyButton title={'Enter lesson room'} onPress={toStudyRoom} moreStyle={{ backgroundColor: '#3498db' }} moreTitleStyle={{ color: 'white' }} />
+        </View>
     )
 }
 

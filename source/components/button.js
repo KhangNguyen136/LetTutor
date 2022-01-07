@@ -78,6 +78,7 @@ const styles = StyleSheet.create(
         },
         MyButtonCotainer: {
             alignSelf: 'center',
+            alignItems: 'center',
             margin: 10,
             paddingVertical: 5,
             paddingHorizontal: 9,

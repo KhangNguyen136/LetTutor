@@ -26,14 +26,10 @@ export function handleListTutor(data) {
 }
 
 export function updateFavorTutor(tutors, id) {
-    for (let i = 0; i < tutors.length; i++) {
-        if (tutors[i].userId == id) {
 
-            tutors[i].isFavor = !tutors[i].isFavor;
-            console.log(tutors[i].isFavor)
-            break;
-        }
-    }
+    const tutor = tutors.find(item => item.userId == id);
+    if (tutors != undefined)
+        tutor.isFavor = !tutors.isFavor;
     return tutors;
 }
 

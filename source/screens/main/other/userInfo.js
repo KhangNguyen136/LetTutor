@@ -18,7 +18,8 @@ import Picker from '../../../components/picker';
 import PickWantToLearn from '../../../components/pickWantToLearn';
 import { getWantToLearnList, getWantToLearnObject } from '../../../bussiness/specialies';
 import { Levels } from '../../../constant';
-
+import ReviewImage from '../../../components/reviewAvatar';
+import { updateAvatar } from '../../../services/userInfo';
 var options = {
     title: 'Select Image',
     customButtons: [
@@ -34,13 +35,22 @@ var options = {
     // mediaType: 'photo'
 };
 
+const initImageData = {
+    fileName: '',
+    base64: ''
+}
+
 export default function UserInfoScreen({ navigation }) {
     const userInfo = useSelector(state => state.userInfoState);
+    const token = userInfo.tokens.access.token;
     const [name, setName] = React.useState(userInfo.name);
     const [phone, setPhone] = React.useState('');
     const [birthday, setBirthday] = React.useState(new Date());
     const [country, setCountry] = React.useState('VN');
     const [img, setImg] = React.useState({ uri: userInfo.avatar });
+    const [showDialog, setShowDialog] = React.useState(false);
+    const [tempImg, setTeamImg] = React.useState({});
+    const [imgData, setImgData] = React.useState({ initImageData });
     const [role, setRole] = React.useState('');
     const [level, setLevel] = React.useState(Levels[0]);
     const [wantToLearn, setWantToLearn] = React.useState([]);
@@ -49,7 +59,7 @@ export default function UserInfoScreen({ navigation }) {
     const getData = async () => {
         try {
             const res = await axios.get(serverUrl + 'user/info', {
-                headers: { 'Authorization': 'Bearer ' + userInfo.tokens.access.token }
+                headers: { 'Authorization': 'Bearer ' + token }
             })
             const data = res.data.user
             setRole(data.roles[0]);
@@ -98,13 +108,31 @@ export default function UserInfoScreen({ navigation }) {
             }
             else {
                 console.log(Response.assets)
-                setImg({ uri: Response.assets[0].uri })
+                const result = Response.assets[0]
+                // setImgData({ fileName: result.fileName, base64: result.base64 });
+                setTeamImg(result);
+                setShowDialog(true);
             }
 
         })
     }
+    const cancelUploadImg = () => {
+        setShowDialog(false);
+        setTeamImg(null);
+    }
+    const uploadImage = async () => {
+        setShowDialog(false);
+        setLoading(true);
+        const res = await updateAvatar(token, tempImg);
+        if (res) {
+            setImg({ uri: tempImg.uri });
+        }
+        setTeamImg({});
+        setLoading(false);
+    }
     return (
         <SafeAreaView style={globalStyles.container} >
+            <ReviewImage show={showDialog} imgSrc={tempImg} onCancel={cancelUploadImg} onUpdate={uploadImage} />
             <ScrollView>
                 <Card>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >

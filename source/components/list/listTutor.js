@@ -7,12 +7,10 @@ import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 import { getListLabel } from '../../bussiness/specialies';
 import { useSelector } from 'react-redux';
-import LoadMore from './loadMoreButton';
 import { FlagButton } from 'react-native-country-picker-modal';
-import { handleListTutor } from '../../bussiness/tutorHandle';
+import { handleListTutor, updateFavorTutor } from '../../bussiness/tutorHandle';
 import { getListTutor, favorAction } from '../../services/tutor';
 import { DataTable } from 'react-native-paper';
-import MyPagination from '../pagination';
 
 const defaultFilter = {
     rating: 'All',
@@ -53,6 +51,10 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
             const res = await favorAction(item.userId, token);
             if (res)
                 getData();
+            // {
+            //     console.log(res);
+            //     setData(updateFavorTutor(data, item.userId))
+            // }
         }
         function toDetail() {
             navigation.navigate('TutorInfo', { id: item.userId });

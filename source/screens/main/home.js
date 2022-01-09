@@ -5,7 +5,7 @@ import { GetIcon, MyButton, MyIconButtonLeft, MyIconButtonRight } from '../../co
 import ListRecommendedTutor from '../../components/list/listRecommendedTutor';
 import { globalStyles } from '../../styles/globalStyles';
 import { useSelector } from 'react-redux';
-import { getNext, getTotal } from '../../services/schedule';
+import { getNext, getTotal, getUpcomingSchedule } from '../../services/schedule';
 
 export default function HomeScreen({ navigation }) {
     const date = new Date();
@@ -33,17 +33,17 @@ export default function HomeScreen({ navigation }) {
     const getData = async () => {
         const totalRes = await getTotal(token);
         setTotal(totalRes * 25);
-        const upcomingRes = await getNext(token);
-        setUpcomingData(upcomingRes);
+        const upcomingRes = await getUpcomingSchedule(token);
+        setUpcomingData(upcomingRes.rows[0]);
     }
     const toStudyRoom = () => {
-        navigation.navigate('StudyRoom')
+        navigation.navigate('StudyRoom', { data: upcomingData })
     }
     const LessonOverview = () => {
         return (
             <View style={styles.lessonOverview} >
                 <Text style={{ ...styles.lessonOverviewContent, fontSize: 16 }}>{getTotalTime(total)}</Text>
-                <UpcomingSection data={upcomingData} />
+                <UpcomingSection data={upcomingData} toStudyRoom={toStudyRoom} />
             </View>
         )
     }

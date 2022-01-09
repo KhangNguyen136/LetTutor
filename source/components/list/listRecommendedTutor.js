@@ -14,7 +14,6 @@ import { favorAction, getListTutor } from '../../services/tutor';
 
 export default function ListRecommendedTutor() {
     const [data, setData] = React.useState([]);
-    const [change, setChange] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const navigation = useNavigation()
     const userInfo = useSelector(state => state.userInfoState);

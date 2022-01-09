@@ -4,7 +4,7 @@ import { GetIcon } from '../../components/button';
 import ListUpcoming from '../../components/list/listUpcoming';
 import { globalStyles } from '../../styles/globalStyles';
 
-export default function UpcomingScreen({ navigation }) {
+export default function UpcomingScreen({ navigation, route }) {
     React.useLayoutEffect(() => {
         navigation.setOptions({
             // title: 'History',
@@ -17,7 +17,7 @@ export default function UpcomingScreen({ navigation }) {
     }, [])
     return (
         <SafeAreaView style={globalStyles.container} >
-            <ListUpcoming />
+            <ListUpcoming route={route} />
         </SafeAreaView>
     )
 }

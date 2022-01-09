@@ -44,7 +44,6 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
     }
 
     const Tutor = ({ item }) => {
-        // console.log(item.userId);
         const listSpecialies = getListLabel(item.specialties.split(","));
         icon = item.isFavor ? 'heart' : 'hearto';
         const pressLike = async () => {
@@ -66,7 +65,7 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
                         <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
                         <View style={{ flex: 1, margin: 5, justifyContent: 'space-between' }} >
                             <Text style={{ fontWeight: 'bold', fontSize: 15 }}  >{item.name}</Text>
-                            <FlagButton {...{ countryCode: item.country }} withCountryNameButton />
+                            <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} withCountryNameButton />
                             {item.rating != undefined ?
                                 <Rating readonly={true}
                                     startingValue={item.rating}

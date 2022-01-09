@@ -15,6 +15,19 @@ export async function favorAction(id, token) {
     }
 }
 
+export async function reportTutor(content, id, token) {
+    try {
+        const res = await axios.post(serverUrl + 'report', {
+            tutorId: id, content
+        },
+            { headers: { 'Authorization': 'Bearer ' + token } })
+        return true;
+    } catch (error) {
+        errorHandle(error);
+        return false;
+    }
+}
+
 export async function getListTutor(page, itemPerPage, token) {
     try {
         const res = await axios.get(serverUrl + 'tutor/more', {

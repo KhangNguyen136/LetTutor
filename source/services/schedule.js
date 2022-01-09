@@ -3,9 +3,13 @@ import axios from "axios";
 import errorHandle from "../bussiness/errorHanle";
 
 export async function getNext(token) {
+    const today = new Date();
+    // today.setMinutes(today.getMinutes() - 5);
+    console.log(today.setMinutes(today.getMinutes()));
     try {
         const res = await axios.get(serverUrl + 'booking/next',
             {
+                params: { dateTime: today.valueOf() },
                 headers: { 'Authorization': 'Bearer ' + token }
             });
         return res.data.data[0];
@@ -65,7 +69,11 @@ export async function getUpcomingSchedule(token, page, perPage) {
             },
             headers: { 'Authorization': 'Bearer ' + token }
         })
-        return res.data.data;
+        const data = res.data.data
+        if (data.rows.length > 0) {
+            data.rows[0].isFirst = true;
+        }
+        return data;
 
     } catch (error) {
         errorHandle(error);

@@ -14,23 +14,24 @@ export default function ListFeedback({ data, search, filter = 'All' }) {
     }
     const navigation = useNavigation()
     const Feedback = ({ item }) => {
+        const date = new Date(item.updatedAt);
         return (
             <View style={{ marginHorizontal: 2 }}  >
                 <Card>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                        <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>
+                        <Image source={{ uri: item.firstInfo.avatar }} style={styles.img}  ></Image>
                         <View style={{ flex: 1, margin: 5 }} >
-                            <Text style={{ fontSize: 15, fontWeight: '500' }} >{item.name}</Text>
-                            <Text style={{ marginLeft: 4 }} >{item.date.toString().substr(0, 24)}</Text>
+                            <Text style={{ fontSize: 15, fontWeight: '500', margin: 3 }} >{item.firstInfo.name}</Text>
+                            <Text style={{ margin: 4 }} >{date.toUTCString().substring(0, 22)}</Text>
                             <Rating readonly={true}
                                 startingValue={item.rating}
-                                style={{ margin: 3, alignSelf: 'flex-start' }}
+                                style={{ margin: 4, alignSelf: 'flex-start' }}
                                 imageSize={20}
                             />
                         </View>
                     </View>
                     <Card>
-                        <Text style={{ fontSize: 15 }} numberOfLines={3} >{item.comment}</Text>
+                        <Text style={{ fontSize: 15 }} numberOfLines={3} >{item.content}</Text>
                     </Card>
                 </Card >
             </View >
@@ -38,7 +39,7 @@ export default function ListFeedback({ data, search, filter = 'All' }) {
     }
     return (
         <FlatList
-            data={dataTest.filter(filterData)}
+            data={data.filter(filterData)}
             renderItem={Feedback}
             keyExtractor={item => item.id.toString()}
         />

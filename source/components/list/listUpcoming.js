@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image, Alert } from 'react-native';
-import { IconButton, MyButton } from '../button';
+import { MyIconButtonLeft, MyButton } from '../button';
 import { useNavigation } from '@react-navigation/core';
 import Card, { TextCard } from '../card';
 import Tag from '../tag';
@@ -14,7 +14,8 @@ import { checkAfter2h } from '../../bussiness/date';
 import { showMessage } from 'react-native-flash-message';
 import { globalStyles } from '../../styles/globalStyles';
 import { DataTable } from 'react-native-paper';
-export default function ListUpcoming({ }) {
+import EditRequestDialog from '../editRequestDialog';
+export default function ListUpcoming({ route }) {
     const userInfo = useSelector(state => state.userInfoState);
     const token = userInfo.tokens.access.token
     const navigation = useNavigation()
@@ -23,6 +24,8 @@ export default function ListUpcoming({ }) {
     const [page, setPage] = React.useState(1);
     const [count, setCount] = React.useState(0);
     const [itemPerPage, setItemPerPage] = React.useState(4);
+    const [showEditRequest, setShowEditReqest] = React.useState(false);
+    const [editRequestItem, setEditRequestItem] = React.useState({});
     const maxPage = Math.ceil(count / itemPerPage);
     const getData = async () => {
         setLoading(true);
@@ -34,6 +37,14 @@ export default function ListUpcoming({ }) {
     React.useEffect(() => {
         getData();
     }, [page, itemPerPage])
+    const editedRequest = () => {
+        cancelEditRequest();
+        getData();
+    }
+    const cancelEditRequest = () => {
+        setShowEditReqest(false);
+        setEditRequestItem({});
+    }
 
     const Upcoming = ({ item }) => {
         const tutorInfo = item.scheduleDetailInfo.scheduleInfo.tutorInfo;
@@ -43,14 +54,14 @@ export default function ListUpcoming({ }) {
         // const date = new Date(scheduleInfo.date);
         const toStudyRoom = () => {
             navigation.navigate('StudyRoom', {
-                name: 'Juila'
+                data: item
             })
         }
         const cancel = async () => {
             const id = [item.scheduleDetailInfo.id]
             const res = await cancelLesson(id, token);
-            getData();
-            console.log(res);
+            if (res)
+                getData();
         }
         const pressCancel = async () => {
             if (!checkAfter2h(startTime)) {
@@ -72,8 +83,10 @@ export default function ListUpcoming({ }) {
                 ])
         }
         const editRequest = () => {
-            navigation.push('EditRequest', { item, token })
+            setShowEditReqest(true);
+            setEditRequestItem(item);
         }
+
         return (
             <View style={{ marginHorizontal: 2 }}  >
                 <Card>
@@ -122,12 +135,18 @@ export default function ListUpcoming({ }) {
             </View>
         )
     }
+
     return (
         <View style={{ flex: 1 }}>
+            <EditRequestDialog
+                item={editRequestItem} show={showEditRequest}
+                token={token} cancel={cancelEditRequest} onSuccess={editedRequest} />
             <FlatList
                 data={data}
                 renderItem={Upcoming}
                 keyExtractor={item => item.id.toString()}
+                refreshing={false}
+                onRefresh={getData}
                 ListEmptyComponent={() => emptyComponent(() => navigation.navigate('Tutors'))}
             />
             <DataTable.Pagination page={page - 1}

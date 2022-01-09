@@ -63,8 +63,9 @@ export default function UserInfoScreen({ navigation }) {
             })
             const data = res.data.user
             setRole(data.roles[0]);
-            setPhone(data.phone)
-            setBirthday(new Date(data.birthday));
+            setPhone(data.phone);
+            const teampDate = Date.parse(data.birthday);
+            setBirthday(isNaN(teampDate) ? new Date() : new Date(teampDate));
             setLevel(getLevelItem(data.level));
             setCountry(data.country);
             setWantToLearn(getWantToLearnList(data.learnTopics, data.testPreparations));
@@ -118,7 +119,7 @@ export default function UserInfoScreen({ navigation }) {
     }
     const cancelUploadImg = () => {
         setShowDialog(false);
-        setTeamImg(null);
+        setTeamImg({});
     }
     const uploadImage = async () => {
         setShowDialog(false);

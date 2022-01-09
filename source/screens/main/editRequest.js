@@ -8,7 +8,7 @@ import { editRequest } from '../../services/booking';
 import LoadingIndicator from '../../components/loadingIndicator';
 
 export default function EditRequest({ navigation, route }) {
-    const { item, token } = route.params;
+    const { item, token, getData } = route.params;
     const [loading, setLoading] = React.useState(false);
     const [studentRequest, setStudentRequest] = React.useState(item.studentRequest != null ? item.studentRequest : '');
     const tutorInfo = item.scheduleDetailInfo.scheduleInfo.tutorInfo;
@@ -18,8 +18,10 @@ export default function EditRequest({ navigation, route }) {
     const submit = async () => {
         setLoading(true);
         const res = await editRequest(studentRequest, item.id, token);
-        if (res)
+        if (res) {
+            getData();
             navigation.goBack();
+        }
     }
     return (
         <SafeAreaView style={globalStyles.container} >

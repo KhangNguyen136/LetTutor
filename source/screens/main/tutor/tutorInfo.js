@@ -15,6 +15,7 @@ import { serverUrl } from '../../../const';
 import { useSelector } from 'react-redux';
 import errorHanle from '../../../bussiness/errorHanle';
 import LoadingIndicator from '../../../components/loadingIndicator';
+import { favorAction } from '../../../services/tutor';
 export default function TutorInfo({ navigation, route }) {
     const id = route.params.id;
     const userInfo = useSelector(state => state.userInfoState);
@@ -22,13 +23,15 @@ export default function TutorInfo({ navigation, route }) {
     const [data, setData] = React.useState({})
     const [liked, setLiked] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+    const [loadingSchedule, setLoadingSchedule] = React.useState(false);
+    const [scheduleData, setScheduleData] = React.useState([]);
     const scrollViewRef = React.useRef(null)
     const videoRef = React.useRef(null)
     const getData = async () => {
         try {
             const info = await axios.get(serverUrl + 'tutor/' + id, { headers: { 'Authorization': 'Bearer ' + acccessToken } })
-            // console.log(info.data);
             setData(info.data);
+            setLiked(info.data.isFavorite);
             setLoading(false);
             // const schedule = await axios.post(serverUrl + 'schedule', { tutorId: id },
             //     { headers: { 'Authorization': 'Bearer ' + acccessToken } });
@@ -42,8 +45,10 @@ export default function TutorInfo({ navigation, route }) {
         getData()
     }, []
     )
-    const clickFavourite = () => {
-        setLiked(!liked)
+    const clickFavourite = async () => {
+        const res = await favorAction(data.userId, acccessToken)
+        if (res)
+            setLiked(!liked)
     }
     const scrollToBook = () =>
         scrollViewRef.current.scrollToEnd({ animated: true })
@@ -92,8 +97,8 @@ export default function TutorInfo({ navigation, route }) {
                     <Card>
                         <View style={{ ...globalStyles.rowContainer, justifyContent: 'space-around' }}>
                             <IconBtn liked={liked} title={'Favourite'} onPress={clickFavourite} />
-                            <IconBtn title={'Report'} onPress={() => navigation.navigate('Report', { tutor: data.name })} />
-                            <IconBtn title={'Reviews'} onPress={() => navigation.navigate('Reviews', { tutor: data.name })} />
+                            <IconBtn title={'Report'} onPress={() => navigation.navigate('Report', { data: data, token: acccessToken })} />
+                            <IconBtn title={'Reviews'} onPress={() => navigation.navigate('Reviews', { data: data.User.feedbacks })} />
                         </View>
                     </Card>
                     <Card>

@@ -21,3 +21,16 @@ export async function updateAvatar(token, imgData) {
     }
 
 }
+
+export async function getUserInfo(token) {
+    try {
+        const res = await axios.get(serverUrl + 'user/info', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+
+        return res.data.user;
+    } catch (error) {
+        errorHandle(error);
+        return null;
+    }
+}

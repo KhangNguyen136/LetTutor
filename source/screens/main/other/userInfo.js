@@ -61,7 +61,7 @@ export default function UserInfoScreen({ navigation }) {
             const res = await axios.get(serverUrl + 'user/info', {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
-            const data = res.data.user
+            const data = res.data.user;
             setRole(data.roles[0]);
             setPhone(data.phone);
             const teampDate = Date.parse(data.birthday);

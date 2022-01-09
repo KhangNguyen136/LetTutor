@@ -6,9 +6,10 @@ import { globalStyles } from '../../../styles/globalStyles';
 import Card from '../../../components/card';
 import SearchBox from '../../../components/searchBar';
 
-export default function ViewFeedback() {
+export default function ViewFeedback({ navigation, route }) {
     const [filter, setFilter] = React.useState('All')
-    const [searchKey, setSearchKey] = React.useState('')
+    const [searchKey, setSearchKey] = React.useState('');
+    const { data } = route.params
 
     return (
         <SafeAreaView style={globalStyles.container} >
@@ -16,7 +17,7 @@ export default function ViewFeedback() {
                 <SearchBox value={searchKey} textChange={setSearchKey} placeholder={'Search by name or comment'} />
                 <FilterReview choosen={filter} setFilter={setFilter} />
             </Card>
-            <ListFeedback filter={filter} />
+            <ListFeedback data={data} filter={filter} />
         </SafeAreaView>
     )
 }

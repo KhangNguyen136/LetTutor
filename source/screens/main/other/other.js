@@ -13,12 +13,22 @@ import { loggedOut } from '../../../redux/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetDB } from '../../../bussiness/UserInfoServices';
 import { resetData } from '../../../redux/userInfoSlice';
+import { getUserInfo } from '../../../services/userInfo';
+
 export default function OtherScreen({ navigation, route }) {
     const dispatch = useDispatch();
-    const userInfo = useSelector(state => state.userInfoState)
+    const userInfo = useSelector(state => state.userInfoState);
+    const [data, setData] = React.useState({});
     React.useEffect(() => {
-
+        getData();
     }, [])
+    const getData = async () => {
+        const res = await getUserInfo(userInfo.tokens.access.token);
+        if (res != null) {
+            setData(res);
+            console.log(res.feedbacks)
+        }
+    }
     const logOut = async () => {
         try {
             resetDB();
@@ -59,7 +69,7 @@ export default function OtherScreen({ navigation, route }) {
                     (<OtherButton title={'Become tutor'} iconName={'teach'} iconSource={'MaterialCommunityIcons'} onPress={() => navigation.navigate('BecomeTutor1')} color={'#0984e3'} />)
 
                 }
-                <OtherButton title={'View feedbacks'} iconName={'feedback'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('ViewFeedback')} color={'#e17055'} />
+                <OtherButton title={'My reviews'} iconName={'feedback'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('ViewFeedback', { data: data.feedbacks })} color={'#e17055'} />
                 {/* <OtherButton title={'Booking history'} iconName={'bars'} iconSource={'AntDesign'} onPress={() => navigation.navigate('BookingHistory')} /> */}
                 <OtherButton title={'History'} iconName={'history'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('History')} />
                 <OtherButton title={'Ebook'} iconName={'book'} iconSource={'Entypo'} onPress={() => navigation.navigate('Ebook')} color={'#00b894'} />

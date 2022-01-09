@@ -98,7 +98,7 @@ export default function TutorInfo({ navigation, route }) {
                         <View style={{ ...globalStyles.rowContainer, justifyContent: 'space-around' }}>
                             <IconBtn liked={liked} title={'Favourite'} onPress={clickFavourite} />
                             <IconBtn title={'Report'} onPress={() => navigation.navigate('Report', { data: data, token: acccessToken })} />
-                            <IconBtn title={'Reviews'} onPress={() => navigation.navigate('Reviews', { data: data.User.feedbacks })} />
+                            <IconBtn title={'Reviews'} onPress={() => navigation.navigate('Reviews', { data: data.user.feedbacks })} />
                         </View>
                     </Card>
                     <Card>

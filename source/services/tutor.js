@@ -43,3 +43,16 @@ export async function getListTutor(page, itemPerPage, token) {
         return null;
     }
 }
+
+export async function getScheduleByID(id, token) {
+    try {
+        const res = await axios.post(serverUrl + 'schedule',
+            { tutorId: id },
+            { headers: { 'Authorization': 'Bearer ' + token } }
+        );
+        return res.data.data;
+    } catch (error) {
+        errorHandle(error);
+        return null;
+    }
+}

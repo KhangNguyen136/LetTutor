@@ -69,11 +69,11 @@ export const itemsWantToLearn = [
 ]
 
 export const Levels = [
-    { value: 'BEGINNER', label: 'Beginner' },
-    { value: 'HIGHER_BEGINNER', label: 'Higher beginner' },
-    { value: 'PRE_INTERMEDIATE', label: 'Pre intermediate' },
-    { value: 'INTERMEDIATE', label: 'Intermediate' },
-    { value: 'UPPER_INTERMEDIATE', label: 'Upper intermediate' },
-    { value: 'ADVANCED', label: 'Advanced' },
-    { value: 'PROFICIENCY', label: 'Proficiency' },
+    { value: 'BEGINNER', label: 'Beginner', id: 1 },
+    { value: 'HIGHER_BEGINNER', label: 'Higher beginner', id: 2 },
+    { value: 'PRE_INTERMEDIATE', label: 'Pre intermediate', id: 3 },
+    { value: 'INTERMEDIATE', label: 'Intermediate', id: 4 },
+    { value: 'UPPER_INTERMEDIATE', label: 'Upper intermediate', id: 5 },
+    { value: 'ADVANCED', label: 'Advanced', id: 6 },
+    { value: 'PROFICIENCY', label: 'Proficiency', id: 7 },
 ];

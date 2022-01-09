@@ -4,7 +4,7 @@ import { GetIcon } from '../../../components/button';
 import Card from '../../../components/card';
 import { Rating } from 'react-native-ratings';
 import { globalStyles } from '../../../styles/globalStyles';
-import { FlagButton, } from 'react-native-country-picker-modal';
+import { FlagButton, CountryList } from 'react-native-country-picker-modal';
 import IconBtn from '../../../components/iconBtn';
 import { Video } from 'expo-av';
 import ListTag from '../../../components/list/listTag';
@@ -23,8 +23,6 @@ export default function TutorInfo({ navigation, route }) {
     const [data, setData] = React.useState({})
     const [liked, setLiked] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
-    const [loadingSchedule, setLoadingSchedule] = React.useState(false);
-    const [scheduleData, setScheduleData] = React.useState([]);
     const scrollViewRef = React.useRef(null)
     const videoRef = React.useRef(null)
     const getData = async () => {
@@ -104,7 +102,7 @@ export default function TutorInfo({ navigation, route }) {
                     <Card>
                         <View style={{ padding: 5 }} >
                             <Text style={{ ...globalStyles.title1, marginBottom: 3 }} >Languages: </Text>
-                            <ListTag tags={[data.languages]} />
+                            <ListTag tags={data.languages.split(',')} />
                         </View>
                         <View style={{ padding: 5 }}>
                             <Text style={{ ...globalStyles.title1, marginBottom: 3 }} >Specialties: </Text>
@@ -123,7 +121,7 @@ export default function TutorInfo({ navigation, route }) {
                     <Card >
                         <Text
                             style={{ ...globalStyles.title1, marginBottom: 3 }} > Booking: </Text>
-                        <TableBooking tutor={dataTest} />
+                        <TableBooking tutor={data} />
                     </Card>
                 </ScrollView>
             }
@@ -131,10 +129,14 @@ export default function TutorInfo({ navigation, route }) {
     )
 }
 
-const dataTest = {
-    name: 'Quyen',
-    rating: 4,
-    country: 'Vietnam',
-    languages: ['Vietnamese', 'English', 'Japanese'],
-    specialties: ['English for bussiness', 'Conversation', 'TOIEC', 'IELTS', 'English for kids', 'Japanese for kids'],
+function getLanguage(arrCode) {
+    console.log(arrCode)
+    const result = [];
+    let regionNames = Intl.DisplayNames(['en'], {
+        type: 'region'
+    });
+    arrCode.forEach(item => {
+        result.push(regionNames.of(item));
+    })
+    return result;
 }

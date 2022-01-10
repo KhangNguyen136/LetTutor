@@ -37,3 +37,19 @@ export async function cancelLesson(scheduleDetailIds, token) {
         return false;
     }
 }
+
+export async function bookingLesson(scheduleDetailIds, note, token) {
+    try {
+        const res = await axios.post(serverUrl + 'booking', {
+            scheduleDetailIds, note
+        },
+            {
+                headers: { 'Authorization': 'Bearer ' + token }
+
+            })
+        return true;
+    } catch (error) {
+        errorHandle(error);
+        return false;
+    }
+}

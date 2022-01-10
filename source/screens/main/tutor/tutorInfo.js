@@ -96,7 +96,7 @@ export default function TutorInfo({ navigation, route }) {
                         <View style={{ ...globalStyles.rowContainer, justifyContent: 'space-around' }}>
                             <IconBtn liked={liked} title={'Favourite'} onPress={clickFavourite} />
                             <IconBtn title={'Report'} onPress={() => navigation.navigate('Report', { data: data, token: acccessToken })} />
-                            <IconBtn title={'Reviews'} onPress={() => navigation.navigate('Reviews', { data: data.user.feedbacks })} />
+                            <IconBtn title={'Reviews'} onPress={() => navigation.navigate('Reviews', { data: data.User.feedbacks })} />
                         </View>
                     </Card>
                     <Card>
@@ -117,11 +117,8 @@ export default function TutorInfo({ navigation, route }) {
                             <Text style={{ paddingHorizontal: 5 }} >{data.interests}</Text>
                         </View>
                     </Card>
-
                     <Card >
-                        <Text
-                            style={{ ...globalStyles.title1, marginBottom: 3 }} > Booking: </Text>
-                        <TableBooking tutor={data} token={acccessToken} />
+                        <TableBooking tutor={data} token={acccessToken} userId={userInfo} />
                     </Card>
                 </ScrollView>
             }

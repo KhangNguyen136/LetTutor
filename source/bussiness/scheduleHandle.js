@@ -62,5 +62,9 @@ export function getScheduleByPage(data, page) {
 
 }
 
+export function getHasDataRange(data) {
+
+}
+
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const today = new Date();

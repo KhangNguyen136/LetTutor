@@ -41,6 +41,10 @@ export default function App() {
                 dispatch(loggedIn());
             }
             else {
+                if (data.reFreshToken == undefined) {
+                    dispatch(loggedOut());
+                    resetDB();
+                }
                 const refreshToken = await reFreshToken(data.refreshToken, 7);
                 if (refreshToken != null) {
                     dispatch(setUserInfoAction(data));
@@ -52,6 +56,7 @@ export default function App() {
                     showMessage({ type: 'warning', message: 'Token expired' });
                     // resetDB();
                     dispatch(loggedOut());
+                    resetDB();
                 }
             }
         }

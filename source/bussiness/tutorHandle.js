@@ -7,7 +7,11 @@ export function handleListTutor(data) {
     const favorTutors = data.favoriteTutor;
 
     listTutors.forEach(tutor => {
-        const favorItem = favorTutors.find(item => item.secondInfo.id == tutor.userId);
+        const favorItem = favorTutors.find(item => {
+            if (item.secondInfo == null)
+                return false
+            return item.secondInfo.id == tutor.userId
+        });
         if (favorItem != undefined)
             tutor.isFavor = true;
         var rating = undefined;

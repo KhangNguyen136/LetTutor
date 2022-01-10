@@ -11,7 +11,7 @@ export async function reFreshToken(refreshToken, timezone) {
             {
                 headers: { 'Authorization': 'Bearer ' + refreshToken }
             })
-        // console.log(res.data)
+        console.log('Refresh token success');
         return res.data;
     } catch (error) {
         errorHandle(error);
@@ -24,7 +24,7 @@ export async function checkToken(accessToken) {
         const res = await axios.get(serverUrl + 'user/info', {
             headers: { 'Authorization': 'Bearer ' + accessToken }
         })
-        // console.log('Check token success');
+        console.log('Check token success');
         return true;
     } catch (error) {
         // errorHandle(error)

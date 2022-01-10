@@ -44,8 +44,8 @@ export default function App() {
                 const refreshToken = await reFreshToken(data.refreshToken, 7);
                 if (refreshToken != null) {
                     dispatch(setUserInfoAction(data));
-                    dispatch(setTokens(refreshToken));
-                    updateToken(refreshToken);
+                    dispatch(setTokens(refreshToken.tokens));
+                    updateToken(refreshToken.tokens);
                     dispatch(loggedIn());
                 }
                 else {

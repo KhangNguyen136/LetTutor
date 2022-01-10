@@ -6,29 +6,32 @@ import { globalStyles } from '../../styles/globalStyles';
 import { GetIcon } from '../../components/button';
 
 export default function Booking({ navigation, route }) {
-    const { data } = route.params
+    const { item, tutor } = route.params
+    const startTime = new Date(item.startPeriodTimestamp);
+    const endTime = new Date(item.endPeriodTimestamp);
+
     return (
         <SafeAreaView style={globalStyles.container} >
             <Card>
-                <Image source={require('../../../assets/botAvt.jpg')} style={{ width: 120, height: 120, alignSelf: 'center' }}  ></Image>
+                <Image source={{ uri: tutor.User.avatar }} style={{ width: 120, height: 120, alignSelf: 'center' }}  ></Image>
                 <View style={{ margin: 5 }} >
                     {/* <Text style={globalStyles.title1}>Booking information: </Text> */}
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                         <GetIcon iconName={'chalkboard-teacher'} source={'FontAwesome5'} size={18} />
                         <Text style={globalStyles.title2} > Tutor: </Text>
-                        <Text style={globalStyles.titleName} >{data.name}</Text>
+                        <Text style={globalStyles.titleName} >{tutor.User.name}</Text>
                     </View>
                     <View style={globalStyles.verticalDivide} />
                     <View style={styles.rowItem} >
                         <GetIcon iconName={'calendar'} source={'AntDesign'} size={18} />
                         <Text style={globalStyles.title2}>Booking date:</Text>
-                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{data.date.toString().substr(0, 16)}</Text>
+                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{startTime.toString().substring(0, 16)}</Text>
                     </View>
                     <View style={globalStyles.verticalDivide} />
                     <View style={styles.rowItem} >
                         <GetIcon iconName={'clockcircleo'} source={'AntDesign'} size={18} />
                         <Text style={globalStyles.title2}>Booking time:</Text>
-                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{data.time}</Text>
+                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{startTime.toString().substring(16, 22)} - {endTime.toString().substring(16, 22)}</Text>
                     </View>
                     <View style={globalStyles.verticalDivide} />
                     <View style={styles.rowItem} >

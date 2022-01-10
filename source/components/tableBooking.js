@@ -7,20 +7,17 @@ import { getTableBookingTitle, initBasceSchedule, initBookingTableTitle } from '
 import { getScheduleByID } from '../services/tutor';
 import LoadingIndicator from './loadingIndicator';
 const today = new Date()
-export default function TableBooking({ data, tutor }) {
+export default function TableBooking({ tutor, token }) {
     const [loading, setLoading] = React.useState(true);
     const [page, setPage] = React.useState(0);
     const [dataSrc, setDataSrc] = React.useState([]);
-    const [dataShow, setDataShow] = React.useState(Array(7).fill(Array(48).fill(0)));
-    console.log(initBookingTableTitle());
-    const title = getListDates()
+    const [dataShow, setDataShow] = React.useState(initDataShow());
     const navigation = useNavigation();
     const baseTitle = initBasceSchedule();
     const state = {
-        tableHead: title.title,
+        tableHead: dataShow.title,
         tableTitle: baseTitle,
-        tableData: dataShow,
-        // widthArr: Array(2).fill(60),
+        tableData: dataShow.data,
         widthArrHeader: [100].concat(Array(7).fill(60)),
         heightArr: Array(48).fill(28)
     }
@@ -29,7 +26,13 @@ export default function TableBooking({ data, tutor }) {
     }, [])
     const getData = async () => {
         setLoading(true);
-        setDataSrc()
+        const res = await getScheduleByID(tutor.userId, token);
+        setDataSrc(res)
+        setDataShow({
+            title: res.title.slice(0, 8),
+            data: res.data.slice(0, 7)
+        });
+        setLoading(false)
     }
     const Booked = () => {
         return (
@@ -38,8 +41,7 @@ export default function TableBooking({ data, tutor }) {
         )
     }
     const toBooking = (item) => {
-        console.log(item)
-        navigation.navigate('Booking', { data: { date: listDate.dates[item.index].toString(), time: state.tableTitle[item.cellIndex], name: tutor.name } })
+        navigation.navigate('Booking', { item, tutor })
     }
     const BookBtn = (item) => {
         return (
@@ -65,8 +67,11 @@ export default function TableBooking({ data, tutor }) {
                                     <TableWrapper key={index} style={styles.row}>
                                         {
                                             rowData.map((cellData, cellIndex) => (
-                                                <Cell key={cellIndex} style={styles.cell} data={
-                                                    cellData === 1 ? Booked() : cellData === 2 ? BookBtn({ index, cellIndex }) : null} textStyle={styles.text} />
+                                                <Cell key={cellIndex} style={styles.cell}
+                                                    data={
+
+                                                        cellData == null ? null : cellData.isBooked ? Booked() : BookBtn(cellData)}
+                                                    textStyle={styles.text} />
                                             ))
                                         }
                                     </TableWrapper>
@@ -84,16 +89,23 @@ export default function TableBooking({ data, tutor }) {
     )
 }
 
+function initDataShow() {
+    return ({
+        title: getListDates(),
+        data: Array(7).fill(Array(48).fill(null))
+
+    })
+}
+
 function getListDates() {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    var result = { title: [''], dates: [null] }
+    var result = [''];
     var temp = new Date()
     for (var i = 0; i < 7; i++) {
         temp.setDate(today.getDate() + i)
         const date = temp.getDate() + "/" + (temp.getMonth() + 1)
         const day = daysOfWeek[temp.getDay()]
-        result.title.push(date + '\n' + day)
-        result.dates.push(temp)
+        result.push(date + '\n' + day)
     }
     return result;
 }

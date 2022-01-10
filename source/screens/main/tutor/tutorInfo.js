@@ -121,7 +121,7 @@ export default function TutorInfo({ navigation, route }) {
                     <Card >
                         <Text
                             style={{ ...globalStyles.title1, marginBottom: 3 }} > Booking: </Text>
-                        <TableBooking tutor={data} />
+                        <TableBooking tutor={data} token={acccessToken} />
                     </Card>
                 </ScrollView>
             }

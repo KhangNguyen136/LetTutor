@@ -10,36 +10,57 @@ export function initBasceSchedule() {
     return result;
 }
 
-export function initBookingTableTitle() {
-    var result = { titles: [''], dates: [today] };
+export function initBookingTableData() {
+    var result = {
+        titles: [''], data: []
+    };
     var startDate = new Date();
-    for (var i = 0; i < 14; i++) {
+    for (var i = 0; i < 28; i++) {
         const tempDate = new Date(startDate.setDate(today.getDate() + i));
         const date = tempDate.getDate() + "/" + (tempDate.getMonth() + 1)
         const day = daysOfWeek[tempDate.getDay()]
         result.titles.push(date + '\n' + day)
-        result.dates.push(tempDate)
+        result.data.push({ date: tempDate, bookingData: Array(48).fill(null) })
     }
-    console.log(result.titles.length);
-    console.log(result.dates.length)
     return result;
 }
+
+export function getBookingData(data) {
+    const today = new Date();
+    const yesterday = new Date(today.setDate(today.getDate() - 1));
+    yesterday.setHours(23)
+    yesterday.setMinutes(55)
+    const result = initBookingTableData();
+    data.forEach(section => {
+        const startTimeSection = new Date(section.startTimestamp);
+        if (startTimeSection.getTime() > yesterday.getTime()) {
+            startTimeSection.getDate()
+            const resultItem = result.data.find(item =>
+                (item.date != null && item.date.getDate() == startTimeSection.getDate()) && (item.date.getMonth() == startTimeSection.getMonth() && (item.date.getFullYear() == startTimeSection.getFullYear())))
+            if (resultItem == undefined)
+                return
+            section.scheduleDetails.forEach(
+                item => {
+                    const startTime = new Date(item.startPeriodTimestamp);
+                    const h = startTime.getHours();
+                    const m = startTime.getMinutes();
+                    const id = m > 0 ? (h * 2 + 1) : h * 2;
+                    resultItem.bookingData[id] = item
+                }
+            )
+        }
+    })
+    const bookingData = []
+    result.data.forEach(item => bookingData.push(item.bookingData))
+    return {
+        title: result.titles,
+        data: bookingData
+    };
+}
+
 export function getScheduleByPage(data, page) {
 
 }
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const today = new Date();
-export function getTableBookingTitle(page) {
-    var result = [{ title: '', date: null }];
-    var startDay = new Date(today.setDate(today.getDate() + 7 * page));
-    result.push(startDay);
-    for (var i = 0; i < 7; i++) {
-        startDay.setDate(today.getDate() + i)
-        const date = temp.getDate() + "/" + (temp.getMonth() + 1)
-        const day = daysOfWeek[temp.getDay()]
-        result.title.push(date + '\n' + day)
-        result.dates.push(temp)
-    }
-    return result;
-}

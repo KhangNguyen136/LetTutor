@@ -1,5 +1,6 @@
 import axios from "axios";
 import { serverUrl } from "../const";
+import { getBookingData } from "../bussiness/scheduleHandle";
 import errorHandle from "../bussiness/errorHanle";
 
 export async function favorAction(id, token) {
@@ -50,8 +51,9 @@ export async function getScheduleByID(id, token) {
             { tutorId: id },
             { headers: { 'Authorization': 'Bearer ' + token } }
         );
-        return res.data.data;
+        return getBookingData(res.data.data);
     } catch (error) {
+        console.log(error);
         errorHandle(error);
         return null;
     }

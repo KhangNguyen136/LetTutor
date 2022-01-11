@@ -1,13 +1,13 @@
 
 
-export function handleListTutor(data) {
+export function handleListTutor(data, favourData) {
     if (data == null)
         return [];
-    const listTutors = data.tutors.rows;
-    const favorTutors = data.favoriteTutor;
+    const listTutors = data;
+    const favourTutors = favourData;
 
     listTutors.forEach(tutor => {
-        const favorItem = favorTutors.find(item => {
+        const favorItem = favourTutors.find(item => {
             if (item.secondInfo == null)
                 return false
             return item.secondInfo.id == tutor.userId
@@ -27,6 +27,14 @@ export function handleListTutor(data) {
 
     })
     return listTutors;
+}
+
+export function handleListConst(data) {
+    const result = [];
+    data.forEach(item => {
+        result.push({ ...item, label: item.name })
+    })
+    return result;
 }
 
 export function updateFavorTutor(tutors, id) {

@@ -10,6 +10,7 @@ import { getListLabel } from '../../bussiness/specialies';
 import { FlagButton } from 'react-native-country-picker-modal';
 import { handleListTutor } from '../../bussiness/tutorHandle';
 import { favorAction, getListTutor } from '../../services/tutor';
+import { Tutor } from './listTutor';
 // import { formatFavoriteTutor } from '../../bussiness/tutorHandle';
 
 export default function ListRecommendedTutor() {
@@ -22,7 +23,7 @@ export default function ListRecommendedTutor() {
         setLoading(true);
         try {
             const res = await getListTutor(1, 9, token);
-            setData(handleListTutor(res));
+            setData(handleListTutor(res.tutors.rows, res.favoriteTutor));
         } catch (error) {
             console.log(error);
         }
@@ -32,50 +33,50 @@ export default function ListRecommendedTutor() {
     React.useEffect(() => {
         getData();
     }, [])
-    const Tutor = ({ item }) => {
-        // console.log(item.userId);
-        const listSpecialies = getListLabel(item.specialties.split(","));
-        icon = item.isFavor ? 'heart' : 'hearto';
-        const pressLike = async () => {
-            const res = await favorAction(item.userId, token);
-            if (res)
-                getData();
-        }
-        function toDetail() {
-            navigation.navigate('TutorInfo', { id: item.userId });
-        }
-        return (
-            <View style={{ marginHorizontal: 1 }}   >
-                <Card>
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={toDetail} >
-                        <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
-                        <View style={{ flex: 1, margin: 5, justifyContent: 'space-between' }} >
-                            <Text style={{ fontWeight: 'bold', fontSize: 15 }}  >{item.name}</Text>
-                            <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} withCountryNameButton />
-                            {item.rating != undefined ?
-                                <Rating readonly={true}
-                                    startingValue={item.rating}
-                                    style={{ marginVertical: 3, alignSelf: 'flex-start' }}
-                                    imageSize={20}
-                                />
-                                :
-                                <Text style={{ fontWeight: '600', fontSize: 14 }} >No review yet</Text>
-                            }
-                        </View>
-                        <View style={{ justifyContent: 'flex-start' }}>
-                            <IconButton iconName={icon} color={'pink'} source={'AntDesign'} onPress={pressLike} />
-                        </View>
-                    </TouchableOpacity>
-                    <ListTag tags={listSpecialies} />
-                    <Text style={{ maxHeight: 60, fontSize: 13, margin: 5 }} onPress={toDetail} >{item.bio}</Text>
-                </Card>
-            </View>
-        )
-    }
+    // const Tutor = ({ item }) => {
+    //     // console.log(item.userId);
+    //     const listSpecialies = getListLabel(item.specialties.split(","));
+    //     icon = item.isFavor ? 'heart' : 'hearto';
+    //     const pressLike = async () => {
+    //         const res = await favorAction(item.userId, token);
+    //         if (res)
+    //             getData();
+    //     }
+    //     function toDetail() {
+    //         navigation.navigate('TutorInfo', { id: item.userId });
+    //     }
+    //     return (
+    //         <View style={{ marginHorizontal: 1 }}   >
+    //             <Card>
+    //                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={toDetail} >
+    //                     <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
+    //                     <View style={{ flex: 1, margin: 5, justifyContent: 'space-between' }} >
+    //                         <Text style={{ fontWeight: 'bold', fontSize: 15 }}  >{item.name}</Text>
+    //                         <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} withCountryNameButton />
+    //                         {item.rating != undefined ?
+    //                             <Rating readonly={true}
+    //                                 startingValue={item.rating}
+    //                                 style={{ marginVertical: 3, alignSelf: 'flex-start' }}
+    //                                 imageSize={20}
+    //                             />
+    //                             :
+    //                             <Text style={{ fontWeight: '600', fontSize: 14 }} >No review yet</Text>
+    //                         }
+    //                     </View>
+    //                     <View style={{ justifyContent: 'flex-start' }}>
+    //                         <IconButton iconName={icon} color={'pink'} source={'AntDesign'} onPress={pressLike} />
+    //                     </View>
+    //                 </TouchableOpacity>
+    //                 <ListTag tags={listSpecialies} />
+    //                 <Text style={{ maxHeight: 60, fontSize: 13, margin: 5 }} onPress={toDetail} >{item.bio}</Text>
+    //             </Card>
+    //         </View>
+    //     )
+    // }
     return (
         <FlatList
             data={data}
-            renderItem={Tutor}
+            renderItem={({ item }) => <Tutor item={item} navigation={navigation} token={token} />}
             keyExtractor={item => item.id.toString()}
             // refreshControl={getData}
             refreshing={false}

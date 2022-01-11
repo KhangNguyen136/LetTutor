@@ -16,6 +16,8 @@ import { getListCategory } from '../../services/ebook';
 import { getListTag, getLevelTitle } from '../../bussiness/course';
 import { levelFilter } from '../../constant';
 import { getListCourse } from '../../services/course';
+import NoData from './noData';
+import LoadingIndicator from '../loadingIndicator';
 const defaultFilter = {
     level: 'Level',
     tag: 'Specialies',
@@ -111,6 +113,8 @@ export default function ListCourse({ }) {
             </TouchableOpacity>
         )
     }
+    // if (loading)
+    //     return <LoadingIndicator />
     return (
         <View style={{ flex: 1 }}>
             <Searchbar value={searchKey} onChangeText={(value) => {
@@ -141,6 +145,7 @@ export default function ListCourse({ }) {
                 ref={listRef}
                 data={data}
                 renderItem={Course}
+                ListEmptyComponent={NoData}
                 keyExtractor={item => item.id.toString()}
                 ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0} />}
             />

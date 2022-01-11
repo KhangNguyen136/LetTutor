@@ -13,6 +13,7 @@ import Filter from '../filter';
 import { getLevelTitle } from '../../bussiness/course';
 import { Searchbar } from 'react-native-paper';
 import { levelFilter } from '../../constant';
+import NoData from './noData';
 const itemPerPage = 10;
 
 export default function ListEbook() {
@@ -141,6 +142,7 @@ export default function ListEbook() {
                 ref={listRef}
                 data={dataSrc}
                 renderItem={Ebook}
+                ListEmptyComponent={NoData}
                 keyExtractor={item => item.name}
                 ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={dataSrc.length == 0} />}
             />

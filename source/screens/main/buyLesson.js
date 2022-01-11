@@ -9,8 +9,9 @@ import { GetIcon, MyButton } from '../../components/button';
 import { formatAmount } from '../../styles/globalStyles';
 
 export default function BuyLesson({ navigation }) {
-    const [nlesson, setnLesson] = React.useState(1)
-    const [nday, setnDay] = React.useState(2)
+
+    const [nlesson, setnLesson] = React.useState(lessonDaily[2])
+    const [nday, setnDay] = React.useState(dayWeekly[3]);
     const [period, setPeriod] = React.useState(periods[0])
     const [coupon, setCoupon] = React.useState('')
 
@@ -40,7 +41,7 @@ export default function BuyLesson({ navigation }) {
     }
 
     const calTotal = () => {
-        return (nday * nlesson * 4 * period.value * 100000 * period.saleValue)
+        return (nday.value * nlesson.value * 4 * period.value * 100000 * period.saleValue)
     }
 
     return (
@@ -58,10 +59,10 @@ export default function BuyLesson({ navigation }) {
                     justifyContent: 'space-evenly', alignItems: 'flex-start'
                 }}>
                     <View>
-                        <Picker value={nlesson + lessonUnit(nlesson) + "daily"} data={listNlesson} didSelect={setnLesson} config={configPicker} />
+                        <Picker value={nlesson} data={listNlesson} didSelect={setnLesson} config={configPicker} />
                         <Text style={{ fontWeight: '500', color: 'orange' }}>25 minutes per lesson</Text>
                     </View>
-                    <Picker value={nday + dayUnit(nday) + "weekly"} data={listNday} didSelect={setnDay} config={configPicker} />
+                    <Picker value={nday.value + dayUnit(nday.value) + "weekly"} data={listNday} didSelect={setnDay} config={configPicker} />
                 </View>
                 <View style={globalStyles.verticalDivide} />
                 <View style={styles.rowContainer}>
@@ -152,23 +153,73 @@ const configPicker = {
 const listNday = () => {
     const result = []
     for (let id in dayWeekly) {
-        const value = dayWeekly[id]
-        result.push({ label: value + dayUnit(value) + 'weekly', value: value })
+        const value = dayWeekly[id].value
+        result.push({ label: value + dayUnit(value) + 'weekly', value })
     } return result
 }
 
 const listNlesson = () => {
     const result = []
     for (let id in lessonDaily) {
-        const value = lessonDaily[id]
-        result.push({ label: value + lessonUnit(value) + 'daily', value: value })
+        const value = lessonDaily[id].value
+        result.push({ value, label: value + lessonUnit(value) + 'daily' })
     }
     return result
 }
 
 
-const lessonDaily = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-const dayWeekly = [1, 2, 3, 4, 5, 6, 7]
+const lessonDaily = [
+    {
+        value: 1, label: '1'
+    },
+    {
+        value: 2, label: '2'
+    },
+    {
+        value: 3, label: '3'
+    },
+    {
+        value: 4, label: '4'
+    },
+    {
+        value: 5, label: '5'
+    },
+    {
+        value: 6, label: '6'
+    },
+    {
+        value: 7, label: '7'
+    },
+    {
+        value: 8, label: '8'
+    },
+    {
+        value: 9, label: '9'
+    },
+]
+const dayWeekly = [
+    {
+        value: 1, label: '1'
+    },
+    {
+        value: 2, label: '2'
+    },
+    {
+        value: 3, label: '3'
+    },
+    {
+        value: 4, label: '4'
+    },
+    {
+        value: 5, label: '5'
+    },
+    {
+        value: 6, label: '6'
+    },
+    {
+        value: 7, label: '7'
+    },
+]
 const periods = [
     {
         value: 1, sale: '-', saleValue: 1

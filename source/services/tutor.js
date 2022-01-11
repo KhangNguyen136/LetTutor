@@ -29,6 +29,16 @@ export async function reportTutor(content, id, token) {
     }
 }
 
+export function getFavourData(token) {
+    return axios.get(serverUrl + 'tutor/more', {
+        params: {
+            perPage: 1,
+            page: 1
+        },
+        headers: { 'Authorization': 'Bearer ' + token }
+    });
+}
+
 export async function getListTutor(page, itemPerPage, token) {
     try {
         const res = await axios.get(serverUrl + 'tutor/more', {
@@ -71,4 +81,16 @@ export async function searchTutor(token, params) {
         errorHandle(error);
         return null;
     }
+}
+
+export function getListTopic(token) {
+    return axios.get(serverUrl + 'learn-topic', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+}
+
+export function getListPreTest(token) {
+    return axios.get(serverUrl + 'test-preparation', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
 }

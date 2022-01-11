@@ -8,119 +8,176 @@ import Card from '../card';
 import { getListLabel } from '../../bussiness/specialies';
 import { useSelector } from 'react-redux';
 import { FlagButton } from 'react-native-country-picker-modal';
-import { handleListTutor, updateFavorTutor } from '../../bussiness/tutorHandle';
-import { getListTutor, favorAction } from '../../services/tutor';
+import { handleListConst, handleListTutor, updateFavorTutor } from '../../bussiness/tutorHandle';
+import { getListTutor, favorAction, getListPreTest, getListTopic, searchTutor, getFavourData } from '../../services/tutor';
 import { DataTable, Searchbar } from 'react-native-paper';
+import LoadingIndicator from '../loadingIndicator';
 import Filter from '../filter';
+import errorHandle from '../../bussiness/errorHanle';
+import NoData from './noData';
+import LoadMore from './loadMoreButton';
 
+const itemPerPage = 2;
 export default function ListTutor({ }) {
     const userInfo = useSelector(state => state.userInfoState);
     const token = userInfo.tokens.access.token;
     const [offset, setOffset] = React.useState(1)
     const [loading, setLoading] = React.useState(true);
+    const [topic, setTopic] = React.useState(null);
+    const [listTopic, setListTopic] = React.useState([])
+    const [preTest, setPreTest] = React.useState(null);
+    const [listPreTest, setListPreTest] = React.useState([])
+    const [favourData, setFavourData] = React.useState([])
     const [data, setData] = React.useState([]);
-    const [count, setCount] = React.useState(0);
-    const [tag, setTag] = React.useState(null);
-    const [listTag, setListTag] = React.useState([]);
+    const listRef = React.useRef(null);
     const navigation = useNavigation();
-    const [itemPerPage, setItemPerPage] = React.useState(2);
-    const maxPage = Math.ceil(count / itemPerPage);
     React.useEffect(
         () => {
-            getData()
+            getData();
+            getConst();
         },
-        [offset, itemPerPage])
+        [])
+    const getConst = async () => {
+        Promise.all([getListTopic(token), getListPreTest(token)]).then(
+            (result) => {
+                setListTopic(handleListConst(result[0].data));
+                setListPreTest(handleListConst(result[1].data));
+            }
+        ).catch(error => errorHandle(error));
+    }
+
+    const search = async (topicParam, preTestParam) => {
+        setLoading(true);
+        const params = {
+            page: 1,
+            perPage: itemPerPage
+        }
+        const specialies = getSpecialies(topicParam, preTestParam);
+        if (specialies.length != 0)
+            params.filters = {
+                specialties: specialies,
+                date: new Date().toString()
+            }
+        console.log(params);
+        const favour = await getListTutor(1, 1, token);
+        const res = await searchTutor(token, params);
+        setData(handleListTutor(res.rows, favour.favoriteTutor));
+        setOffset(2);
+        listRef.current.scrollToOffset({ animated: true, offset: 0 });
+        setLoading(false);
+    }
+
+    const getParams = () => {
+        const params = {
+            page: offset,
+            perPage: itemPerPage
+        }
+        const specialies = getSpecialies(topic, preTest);
+        if (specialies.length != 0)
+            params.filters = {
+                specialties: specialies,
+                date: new Date().toString()
+            }
+        console.log(params);
+        return params;
+    }
+
     const getData = async () => {
         setLoading(true);
-        const res = await getListTutor(offset, itemPerPage, token);
-        const result = handleListTutor(res);
-        console.log(res);
-        setCount(res.tutors.count);
-        setData(result)
+        const favour = await getListTutor(1, 1, token);
+        setFavourData(favour.favoriteTutor);
+        const res = await searchTutor(token, getParams());
+        const result = handleListTutor(res.rows, favour.favoriteTutor);
+        setOffset(offset + 1);
+        setData(prs => prs.concat(result))
         setLoading(false)
     }
 
-    const Tutor = ({ item }) => {
-        const listSpecialies = getListLabel(item.specialties.split(","));
-        icon = item.isFavor ? 'heart' : 'hearto';
-        const pressLike = async () => {
-            const res = await favorAction(item.userId, token);
-            if (res)
-                getData();
-            // {
-            //     console.log(res);
-            //     setData(updateFavorTutor(data, item.userId))
-            // }
-        }
-        function toDetail() {
-            navigation.navigate('TutorInfo', { id: item.userId });
-        }
-        return (
-            <View style={{ marginHorizontal: 1 }}   >
-                <Card>
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={toDetail} >
-                        <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
-                        <View style={{ flex: 1, margin: 5, justifyContent: 'space-between' }} >
-                            <Text style={{ fontWeight: 'bold', fontSize: 15 }}  >{item.name}</Text>
-                            <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} withCountryNameButton />
-                            {item.rating != undefined ?
-                                <Rating readonly={true}
-                                    startingValue={item.rating}
-                                    style={{ marginVertical: 3, alignSelf: 'flex-start' }}
-                                    imageSize={20}
-                                />
-                                :
-                                <Text style={{ fontWeight: '600', fontSize: 14 }} >No review yet</Text>
-                            }
-                        </View>
-                        <View style={{ justifyContent: 'flex-start' }}>
-                            <IconButton iconName={icon} color={'pink'} source={'AntDesign'} onPress={pressLike} />
 
-                        </View>
-                    </TouchableOpacity>
-                    <ListTag tags={listSpecialies} />
-                    <Text style={{ maxHeight: 60, fontSize: 13, margin: 5 }} onPress={toDetail} >{item.bio}</Text>
-                </Card>
-            </View>
-        )
-    }
     return (
         <View style={{ flex: 1 }} >
+            {
+                loading &&
+                <LoadingIndicator />
+            }
             <View style={{
                 flexDirection: 'row', backgroundColor: 'white',
                 marginTop: 5, paddingHorizontal: 5
             }} >
-                <Filter data={listTag} value={tag} title={'Select category'} didSelect={(item) => {
-                    setTag(item);
-                    search(searchKey, item, level);
+                <Filter data={listTopic} value={topic} title={'Select topic'} didSelect={(item) => {
+                    setTopic(item);
+                    search(item, preTest);
+                }} />
+                <Filter data={listPreTest} value={preTest} title={'Select test'} didSelect={(item) => {
+                    setPreTest(item);
+                    search(topic, item);
                 }} />
             </View>
             <FlatList
+                ref={listRef}
                 data={data}
-                renderItem={Tutor}
+                renderItem={({ item }) => <Tutor item={item} token={token} navigation={navigation} />}
                 keyExtractor={item => item.id.toString()}
                 refreshing={false}
                 onRefresh={getData}
+                ListEmptyComponent={NoData}
+                ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0} />}
             />
-            <DataTable.Pagination page={offset - 1}
-                numberOfPages={maxPage}
-                style={{ width: '100%', flexWrap: 'nowrap', backgroundColor: '#7ed6df' }}
-                onPageChange={page => {
-                    console.log(page);
-                    if (page < 0 || page > maxPage - 1)
-                        return
-                    setOffset(page + 1)
-                }}
-                label={`${offset} of ${maxPage}`}
-                showFastPaginationControls
-                numberOfItemsPerPageList={numberOfItemsPerPageList}
-                numberOfItemsPerPage={itemPerPage}
-                onItemsPerPageChange={setItemPerPage}
-                selectPageDropdownLabel={'Tutor/page'}
-            />
+
         </View>
 
     )
+}
+
+export function Tutor({ item, navigation, token }) {
+    const [isFavour, setIsFavour] = React.useState(item.isFavor)
+    const listSpecialies = getListLabel(item.specialties.split(","));
+    const icon = isFavour ? 'heart' : 'hearto';
+    const pressLike = async () => {
+        const res = await favorAction(item.userId, token);
+        if (res)
+            setIsFavour(!isFavour)
+    }
+    function toDetail() {
+        navigation.navigate('TutorInfo', { id: item.userId });
+    }
+    return (
+        <View style={{ marginHorizontal: 1 }}   >
+            <Card>
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={toDetail} >
+                    <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
+                    <View style={{ flex: 1, margin: 5, justifyContent: 'space-between' }} >
+                        <Text style={{ fontWeight: 'bold', fontSize: 15 }}  >{item.name}</Text>
+                        <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} withCountryNameButton />
+                        {item.rating != undefined ?
+                            <Rating readonly={true}
+                                startingValue={item.rating}
+                                style={{ marginVertical: 3, alignSelf: 'flex-start' }}
+                                imageSize={20}
+                            />
+                            :
+                            <Text style={{ fontWeight: '600', fontSize: 14 }} >No review yet</Text>
+                        }
+                    </View>
+                    <View style={{ justifyContent: 'flex-start' }}>
+                        <IconButton iconName={icon} color={'pink'} source={'AntDesign'} onPress={pressLike} />
+
+                    </View>
+                </TouchableOpacity>
+                <ListTag tags={listSpecialies} />
+                <Text style={{ maxHeight: 60, fontSize: 13, margin: 5 }} onPress={toDetail} >{item.bio}</Text>
+            </Card>
+        </View>
+    )
+}
+
+const getSpecialies = (topic, preTest) => {
+    const result = [];
+    if (topic != null)
+        result.push(topic.key);
+    if (preTest != null)
+        result.push(preTest.key);
+    return result;
 }
 
 const numberOfItemsPerPageList = [2, 3, 4];

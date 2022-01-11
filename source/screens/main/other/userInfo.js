@@ -17,7 +17,7 @@ import errorHandle from '../../../bussiness/errorHanle';
 import Picker from '../../../components/picker';
 import PickWantToLearn from '../../../components/pickWantToLearn';
 import { getWantToLearnList, getWantToLearnObject } from '../../../bussiness/specialies';
-import { Levels } from '../../../constant';
+import { myLevels } from '../../../constant';
 import ReviewImage from '../../../components/reviewAvatar';
 import { updateAvatar } from '../../../services/userInfo';
 var options = {
@@ -52,7 +52,7 @@ export default function UserInfoScreen({ navigation }) {
     const [tempImg, setTeamImg] = React.useState({});
     const [imgData, setImgData] = React.useState({ initImageData });
     const [role, setRole] = React.useState('');
-    const [level, setLevel] = React.useState(Levels[0]);
+    const [level, setLevel] = React.useState(myLevels[0]);
     const [wantToLearn, setWantToLearn] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const dispatch = useDispatch();
@@ -170,7 +170,7 @@ export default function UserInfoScreen({ navigation }) {
 
                     <View style={{ flex: 1, flexDirection: 'row', margin: 5, alignItems: 'center', marginVertical: 2 }}>
                         <Text style={{ fontWeight: '600', fontSize: 16, marginLeft: 5 }}>My level: </Text>
-                        <Picker value={level} data={Levels} didSelect={setLevel} />
+                        <Picker value={level} data={myLevels} didSelect={setLevel} />
                     </View>
                     <SeperateVertical />
                     <PickWantToLearn value={wantToLearn} onChangeValue={setWantToLearn} />
@@ -192,6 +192,6 @@ const SeperateVertical = () => {
     )
 }
 function getLevelItem(value) {
-    return Levels.find(item => item.value == value)
+    return myLevels.find(item => item.value == value)
 }
 

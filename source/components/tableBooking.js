@@ -3,19 +3,17 @@ import { Text, Button, StyleSheet, View, ScrollView, Touchable } from 'react-nat
 import { Table, TableWrapper, Row, Rows, Col, Cell, Cols } from 'react-native-table-component';
 import { useNavigation } from '@react-navigation/native';
 import { DataTable } from 'react-native-paper';
-import { initBasceSchedule } from '../bussiness/scheduleHandle';
+import { formatBookingTable, initSectionSchedule } from '../bussiness/scheduleHandle';
 import { getScheduleByID } from '../services/tutor';
 import LoadingIndicator from './loadingIndicator';
 import { getUserInfo } from '../services/userInfo';
 // import BookingDialog from './booking/bookingDialog';
 const today = new Date()
 export default function TableBooking({ tutor, token, userId }) {
-    const allColTitle = initBasceSchedule();
     const [loading, setLoading] = React.useState(true);
     const [page, setPage] = React.useState(0);
     const [dataSrc, setDataSrc] = React.useState([]);
     const [dataShow, setDataShow] = React.useState(initDataShow());
-    const [colTitle, setColTitle] = React.useState(allColTitle)
     // const [bookingItem, setBookingItem] = React.useState({});
     // const [showBooking, setShowBooking] = React.useState(false);
     // const [bookBtnCalBack, setBookBtnCalBack] = React.useState(null);
@@ -24,7 +22,7 @@ export default function TableBooking({ tutor, token, userId }) {
     const navigation = useNavigation();
     const state = {
         tableHead: dataShow.title,
-        tableTitle: colTitle,
+        tableTitle: dataShow.section,
         tableData: dataShow.data,
         widthArrHeader: [100].concat(Array(7).fill(60)),
         heightArr: Array(48).fill(28)
@@ -37,10 +35,10 @@ export default function TableBooking({ tutor, token, userId }) {
         if (dataSrc.length == 0)
             return
         const data = dataSrc.data.slice(page * 7, page * 7 + 7);
-        setDataShow({
+        setDataShow(formatBookingTable({
             title: [dataSrc.title[0]].concat(dataSrc.title.slice(7 * page + 1, 7 * page + 8)),
-            data
-        })
+            data,
+        }))
         // set
     }, [page])
     const getData = async () => {
@@ -49,10 +47,10 @@ export default function TableBooking({ tutor, token, userId }) {
         setUserInfo(userInfo);
         const res = await getScheduleByID(tutor.userId, token);
         setDataSrc(res)
-        setDataShow({
+        setDataShow(formatBookingTable({
             title: res.title.slice(0, 8),
             data: res.data.slice(0, 7)
-        });
+        }));
         // setBalance(userInfo.walletInfo.amount / 100000);
         setLoading(false);
     }
@@ -93,14 +91,16 @@ export default function TableBooking({ tutor, token, userId }) {
                 <View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ marginLeft: 5 }}>{dataShow.title[1].substring(0, 4)} - {dataShow.title[7].substring(0, 4)}</Text>
-                        <DataTable.Pagination numberOfPages={4} onPageChange={
-                            page => {
-                                if (page < 0 || page > 3)
-                                    return
-                                setPage(page)
+                        <DataTable.Pagination
+                            numberOfPages={4} onPageChange={
+                                page => {
+                                    console.log(page);
+                                    if (page < 0 || page > 3)
+                                        return
+                                    setPage(page)
+                                }
                             }
-                        }
-                            page={0} style={{ alignSelf: 'flex-start' }} />
+                            page={page} style={{ alignSelf: 'flex-start' }} />
 
                     </View>
                     <Table borderStyle={{ borderWidth: 1 }}>
@@ -168,6 +168,7 @@ const Reverse = () => {
 function initDataShow() {
     return ({
         title: getListDates(),
+        section: initSectionSchedule(8, 17),
         data: Array(7).fill(Array(48).fill(null))
 
     })

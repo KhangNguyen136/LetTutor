@@ -73,7 +73,7 @@ export default function OtherScreen({ navigation, route }) {
                 {/* <OtherButton title={'Booking history'} iconName={'bars'} iconSource={'AntDesign'} onPress={() => navigation.navigate('BookingHistory')} /> */}
                 <OtherButton title={'History'} iconName={'history'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('History')} />
                 <OtherButton title={'Ebook'} iconName={'book'} iconSource={'Entypo'} onPress={() => navigation.navigate('Ebook')} color={'#00b894'} />
-                <OtherButton title={'Buy lesson'} iconName={'shop'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('BuyLesson')} color={'#0984e3'} />
+                {/* <OtherButton title={'Buy lesson'} iconName={'shop'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('BuyLesson')} color={'#0984e3'} /> */}
 
                 <OtherButton title={'Advanced setting'} iconName={'setting'} iconSource={'AntDesign'} onPress={() => navigation.navigate('AdvancedSetting')} color={'#2d3436'} />
 

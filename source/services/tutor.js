@@ -58,3 +58,17 @@ export async function getScheduleByID(id, token) {
         return null;
     }
 }
+
+export async function searchTutor(token, params) {
+    try {
+        const res = await axios.post(serverUrl + 'tutor/search',
+            params,
+            {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+        return res.data
+    } catch (error) {
+        errorHandle(error);
+        return null;
+    }
+}

@@ -10,21 +10,18 @@ import { useSelector } from 'react-redux';
 import { FlagButton } from 'react-native-country-picker-modal';
 import { handleListTutor, updateFavorTutor } from '../../bussiness/tutorHandle';
 import { getListTutor, favorAction } from '../../services/tutor';
-import { DataTable } from 'react-native-paper';
+import { DataTable, Searchbar } from 'react-native-paper';
+import Filter from '../filter';
 
-const defaultFilter = {
-    rating: 'All',
-    country: 'Country',
-    tag: 'Specialies'
-}
-
-export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
+export default function ListTutor({ }) {
     const userInfo = useSelector(state => state.userInfoState);
     const token = userInfo.tokens.access.token;
     const [offset, setOffset] = React.useState(1)
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState([]);
     const [count, setCount] = React.useState(0);
+    const [tag, setTag] = React.useState(null);
+    const [listTag, setListTag] = React.useState([]);
     const navigation = useNavigation();
     const [itemPerPage, setItemPerPage] = React.useState(2);
     const maxPage = Math.ceil(count / itemPerPage);
@@ -89,6 +86,15 @@ export default function ListTutor({ searchKey = '', filter = defaultFilter }) {
     }
     return (
         <View style={{ flex: 1 }} >
+            <View style={{
+                flexDirection: 'row', backgroundColor: 'white',
+                marginTop: 5, paddingHorizontal: 5
+            }} >
+                <Filter data={listTag} value={tag} title={'Select category'} didSelect={(item) => {
+                    setTag(item);
+                    search(searchKey, item, level);
+                }} />
+            </View>
             <FlatList
                 data={data}
                 renderItem={Tutor}

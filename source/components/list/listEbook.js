@@ -2,14 +2,12 @@ import React from 'react';
 import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image } from 'react-native';
 import { IconButton } from '../button';
 import ListTag from './listTag';
-import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 import Tag from '../tag';
 import LoadingIndicator from '../loadingIndicator';
 import LoadMore from './loadMoreButton';
 import * as Linking from 'expo-linking';
 import { getListCategory, getListEbook } from '../../services/ebook';
-import { Levels } from '../../constant';
 import { useSelector } from 'react-redux';
 import Filter from '../filter';
 import { getLevelTitle } from '../../bussiness/course';
@@ -28,7 +26,6 @@ export default function ListEbook() {
     const [listTag, setListTag] = React.useState([]);
     const [tag, setTag] = React.useState(null);
     const [level, setLevel] = React.useState(null);
-    const [sortBy, setSortBy] = React.useState('');
     React.useEffect(() => {
         getData();
         getCategorys();
@@ -50,7 +47,7 @@ export default function ListEbook() {
             params.level = [level.id]
         return params;
     }
-    const search = async (tagParam, levelParam) => {
+    const search = React.useCallback(async (searchKey, tagParam, levelParam) => {
         setLoading(true)
         const params = {
             page: 1, size: itemPerPage
@@ -68,7 +65,7 @@ export default function ListEbook() {
         setPage(2)
         listRef.current.scrollToOffset({ animated: true, offset: 0 })
         setLoading(false);
-    }
+    }, [searchKey, tag, level])
 
     const getData = async () => {
         setLoading(true)
@@ -116,24 +113,26 @@ export default function ListEbook() {
     }
     return (
         <View style={{ flex: 1 }} >
-            <Searchbar value={searchKey} onChangeText={setSearchKey}
+            <Searchbar value={searchKey} onChangeText={(value) => {
+                if (value == '')
+                    search('', tag, level)
+                setSearchKey(value)
+            }}
                 // inputStyle={{ textDecorationLine: 'underline' }}
                 // style={{ borderBottomColor: 'gray', borderBottomWidth: 0.5 }} 
-                onIconPress={search} placeholder="Search by course's name" />
+                onIconPress={() => search(searchKey, tag, level)} placeholder="Search by course's name" />
 
             <View style={{
                 flexDirection: 'row', backgroundColor: 'white',
                 marginTop: 5, paddingHorizontal: 5
             }} >
                 <Filter data={listTag} value={tag} title={'Select category'} didSelect={(item) => {
-                    console.log(item);
                     setTag(item);
-                    search(item, level);
+                    search(searchKey, item, level);
                 }} />
                 <Filter data={levelFilter} value={level} title={'Select level'} didSelect={(item) => {
-                    console.log(item)
                     setLevel(item);
-                    search(tag, item);
+                    search(searchKey, tag, item);
                 }} />
             </View>
 

@@ -6,7 +6,7 @@ import ListCourse from '../../../components/list/listCourse';
 import { globalStyles } from '../../../styles/globalStyles';
 import FilterReview from '../../../components/filterRating';
 import Card from '../../../components/card';
-import Filter from '../../../components/filter';
+// import Filter from '../../../components/filter';
 import { levels, sortBy } from '../other/ebook';
 import { specialies } from '../tutor/tutors';
 
@@ -22,7 +22,7 @@ export default function Course() {
     return (
         <SafeAreaView style={globalStyles.container} >
             <Card>
-                <View style={{ flexDirection: 'row' }} >
+                {/* <View style={{ flexDirection: 'row' }} >
                     <View style={{ flex: 1 }} >
                         <SearchBox placeholder={"Search course"} value={searchKey} textChange={updateSearch} />
                     </View>
@@ -33,7 +33,7 @@ export default function Course() {
 
                     <Filter didSelect={setTag} value={tag} data={specialies} title={'Specialies'} />
                     <Filter didSelect={setSort} value={sort} data={sortBy} title={'Sort by'} />
-                </View>
+                </View> */}
                 {/* <FilterReview title={'Rating:'} setFilter={setFilterRating} choosen={filterRating} /> */}
             </Card>
             <ListCourse searchKey={searchKey} filter={{

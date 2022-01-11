@@ -6,7 +6,8 @@ export default function SearchBox({ value, textChange, placeholder }) {
     return (
         <View style={styles.container} >
             <GetIcon iconName={'search1'} source={'AntDesign'} size={18} />
-            <TextInput style={{ flex: 1, marginLeft: 5 }} value={value} onChangeText={textChange} placeholder={placeholder} />
+            <TextInput style={{ flex: 1, marginLeft: 5 }} value={value}
+                onChangeText={textChange} placeholder={placeholder} />
         </View>
     )
 }

@@ -9,12 +9,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUserInfoFromDB, updateToken, resetDB } from './bussiness/UserInfoServices';
 import { setUserInfoAction, setTokens } from './redux/userInfoSlice';
 import { checkToken, reFreshToken } from './services/refreshToken';
-import { serverUrl } from './const';
-import errorHandle from './bussiness/errorHanle';
 
 export default function App() {
     const isLoggedIn = useSelector(state => state.authState.isLoggedIn)
     const [isLoading, setIsLoading] = React.useState(true)
+    var isValidToken = false;
+    var refreshToken = null;
     const dispatch = useDispatch();
 
     const getUserInfo = async () => {
@@ -24,7 +24,7 @@ export default function App() {
             const data = userInfo[0];
             console.log('User info from db: ');
             console.log(data);
-            const isValidToken = await checkToken(data.accessToken);
+            isValidToken = await checkToken(data.accessToken);
             if (isValidToken) {
                 const tokens = {
                     access: {
@@ -45,7 +45,7 @@ export default function App() {
                     dispatch(loggedOut());
                     resetDB();
                 }
-                const refreshToken = await reFreshToken(data.refreshToken, 7);
+                refreshToken = await reFreshToken(data.refreshToken, 7);
                 if (refreshToken != null) {
                     dispatch(setUserInfoAction(data));
                     dispatch(setTokens(refreshToken.tokens));
@@ -66,6 +66,10 @@ export default function App() {
     }
     React.useEffect(() => {
         getUserInfo()
+        return () => {
+            isValidToken = false;
+            refreshToken = null;
+        }
     }, [])
 
     if (isLoading) {

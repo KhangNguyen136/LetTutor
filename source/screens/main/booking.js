@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, Text, Image, StyleSheet, TextInput } from 'react-native';
+import { SafeAreaView, View, Text, Image, StyleSheet, TextInput, Alert } from 'react-native';
 import { MyButton } from '../../components/button';
 import Card, { TextCard } from '../../components/card';
 import { globalStyles } from '../../styles/globalStyles';
@@ -30,6 +30,23 @@ export default function Booking({ navigation, route }) {
     }
     const submit = async () => {
         setLoading(true);
+        // if (balance == 0) {
+        //     Alert.alert("You don't have enough balance", 'Do you want to buy lesson?',
+        //         [
+        //             {
+        //                 text: 'Yes',
+        //                 onPress: () => navigation.navigate('BuyLesson'),
+        //                 style: 'default'
+        //             },
+        //             {
+        //                 text: 'Cancel',
+        //                 onPress: () => { },
+        //                 style: 'cancel'
+        //             },
+        //         ])
+        //     return
+        // }
+
         const res = await bookingLesson([item.id], note, token);
         if (res) {
             setSucess(true);

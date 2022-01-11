@@ -10,10 +10,8 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import errorHandle from '../../bussiness/errorHanle';
 import LoadMore from '../list/loadMoreButton';
-import { getListTag } from '../../bussiness/course';
-import { Levels } from '../../constant';
-import { globalStyles } from '../../styles/globalStyles';
-
+import { getListTag, getLevelTitle } from '../../bussiness/course';
+import { levelFilter } from '../../constant';
 const defaultFilter = {
     level: 'Level',
     tag: 'Specialies',
@@ -130,12 +128,3 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start'
     }
 })
-
-function getLevelTitle(id) {
-    if (id == 0)
-        return 'Any Level'
-    const result = Levels.find(item => item.id == id);
-    if (result != undefined)
-        return result.label;
-    return 'Any Level'
-}

@@ -1,168 +1,164 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image } from 'react-native';
 import { IconButton } from '../button';
-import { Rating } from 'react-native-ratings';
 import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 import Tag from '../tag';
+import LoadingIndicator from '../loadingIndicator';
+import LoadMore from './loadMoreButton';
+import * as Linking from 'expo-linking';
+import { getListCategory, getListEbook } from '../../services/ebook';
+import { Levels } from '../../constant';
+import { useSelector } from 'react-redux';
+import Filter from '../filter';
+import { getLevelTitle } from '../../bussiness/course';
+import { Searchbar } from 'react-native-paper';
+import { levelFilter } from '../../constant';
+const itemPerPage = 10;
 
-const defaultFilter = {
-    rating: 'All',
-    level: 'Level',
-    tag: 'Specialies'
-}
-
-
-export default function ListEbook({ data, searchKey = '', filter = defaultFilter }) {
-    const navigation = useNavigation()
-    const filterItem = (item) => {
-        if (!item.name.toLowerCase().includes(searchKey.toLocaleLowerCase()))
-            return false
-        if (filter.level != 'Level' && item.level != filter.level)
-            return false
-        if (filter.tag != 'Specialies')
-            if (!item.tag.find((tag) => tag == filter.tag))
-                return false
-        if (filter.rating != 'All')
-            switch (filter.rating) {
-                case '5':
-                    return item.rating <= 5 && item.rating > 4
-                case '2':
-                    return item.rating <= 2 && item.rating > 1
-                case '3':
-                    return item.rating <= 3 && item.rating > 2
-                case '4':
-                    return item.rating <= 4 && item.rating > 3
-                default:
-                    return item.rating <= 1
-            }
-        return true
-
+export default function ListEbook() {
+    const userInfo = useSelector(stt => stt.userInfoState);
+    const token = userInfo.tokens.access.token;
+    const [loading, setLoading] = React.useState(true);
+    const [page, setPage] = React.useState(1);
+    const [dataSrc, setDataSrc] = React.useState([]);
+    const [searchKey, setSearchKey] = React.useState('');
+    const listRef = React.useRef();
+    const [listTag, setListTag] = React.useState([]);
+    const [tag, setTag] = React.useState(null);
+    const [level, setLevel] = React.useState(null);
+    const [sortBy, setSortBy] = React.useState('');
+    React.useEffect(() => {
+        getData();
+        getCategorys();
+    }, [])
+    const getCategorys = async () => {
+        const res = await getListCategory(token);
+        console.log(res.length)
+        setListTag(res);
     }
+    const getParams = (paramPage) => {
+        const params = {
+            page: paramPage, size: itemPerPage
+        }
+        if (searchKey != '')
+            params.q = searchKey.toLowerCase();
+        if (tag != null)
+            params.categoryId = [tag.id]
+        if (level != null)
+            params.level = [level.id]
+        return params;
+    }
+    const search = async (tagParam, levelParam) => {
+        setLoading(true)
+        const params = {
+            page: 1, size: itemPerPage
+        }
+        if (searchKey != '')
+            params.q = searchKey.toLowerCase();
+        if (tagParam != null)
+            params.categoryId = [tagParam.id]
+        if (levelParam != null)
+            params.level = [levelParam.id];
+        console.log(params);
+        const res = await getListEbook(token, params);
+        console.log(res.length)
+        setDataSrc(res);
+        setPage(2)
+        listRef.current.scrollToOffset({ animated: true, offset: 0 })
+        setLoading(false);
+    }
+
+    const getData = async () => {
+        setLoading(true)
+        const params = getParams(page);
+        console.log(params);
+        const res = await getListEbook(token, params);
+        console.log(res.length)
+        setDataSrc(pre => pre.concat(res));
+        setPage(page + 1)
+        setLoading(false);
+    }
+
     const Ebook = ({ item }) => {
-        icon = item.liked ? 'heart' : 'hearto'
+        const getListTag = () => {
+            const result = []
+            item.categories.forEach(category =>
+                result.push(category.title))
+            return result;
+        }
         const toDetail = () => {
-            navigation.navigate('EbookDetail')
+            // navigation.navigate('EbookDetail')
+            Linking.openURL(item.fileUrl);
         }
         return (
             <TouchableOpacity style={{ marginHorizontal: 1 }} onPress={toDetail} >
                 <Card>
                     <View style={{ flexDirection: 'row' }} >
-                        <Image source={require('../../../assets/botAvt.jpg')} style={styles.img}  ></Image>
+                        <Image source={{ uri: item.imageUrl }} style={styles.img}  ></Image>
                         <View style={{ flex: 1, margin: 5 }} >
-                            <Text style={{ fontWeight: '500' }} >{item.name}</Text>
-                            <Rating readonly={true}
-                                startingValue={item.rating}
-                                style={{ marginVertical: 3, alignSelf: 'flex-start' }}
-                                imageSize={20}
-                            />
-                            <ListTag tags={item.tag} />
+                            <Text style={{ fontWeight: 'bold', fontSize: 17 }} >{item.name}</Text>
+                            <View style={{ flexDirection: 'row', marginVertical: 5 }}>
+                                <Text style={styles.title}>Level: </Text>
+                                <Tag item={getLevelTitle(item.level)} />
+                            </View>
+                            <View style={{ flexDirection: 'row', marginVertical: 5 }}>
+                                <Text style={styles.title}>Category: </Text>
+                                <ListTag tags={getListTag()} />
+                            </View>
                         </View>
-                        <IconButton iconName={icon} color={'pink'} source={'AntDesign'} />
                     </View>
-                    <Text style={{ maxHeight: 60, fontSize: 13 }}>{item.intro}</Text>
-                    <Tag item={item.level} />
+                    <Text style={{ maxHeight: 60, fontSize: 14, margin: 3 }}>{item.description}</Text>
                 </Card>
             </TouchableOpacity>
         )
     }
     return (
-        <FlatList
-            data={dataTest.filter(filterItem)}
-            renderItem={Ebook}
-            keyExtractor={item => item.id.toString()}
-        />
+        <View style={{ flex: 1 }} >
+            <Searchbar value={searchKey} onChangeText={setSearchKey}
+                // inputStyle={{ textDecorationLine: 'underline' }}
+                // style={{ borderBottomColor: 'gray', borderBottomWidth: 0.5 }} 
+                onIconPress={search} placeholder="Search by course's name" />
+
+            <View style={{
+                flexDirection: 'row', backgroundColor: 'white',
+                marginTop: 5, paddingHorizontal: 5
+            }} >
+                <Filter data={listTag} value={tag} title={'Select category'} didSelect={(item) => {
+                    console.log(item);
+                    setTag(item);
+                    search(item, level);
+                }} />
+                <Filter data={levelFilter} value={level} title={'Select level'} didSelect={(item) => {
+                    console.log(item)
+                    setLevel(item);
+                    search(tag, item);
+                }} />
+            </View>
+
+            {loading && <LoadingIndicator />}
+            <FlatList
+                ref={listRef}
+                data={dataSrc}
+                renderItem={Ebook}
+                keyExtractor={item => item.name}
+                ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={dataSrc.length == 0} />}
+            />
+        </View>
+
     )
 }
 
 const styles = StyleSheet.create({
     img: {
-        width: 60,
-        height: 60,
+        width: 120,
+        height: 120,
         borderRadius: 10,
-        margin: 5
+        margin: 5,
+        resizeMode: 'contain'
     },
-    rating: {
-        alignSelf: 'flex-start'
+    title: {
+        fontSize: 15, fontWeight: '600'
     }
 })
-
-const dataTest = [
-    {
-        id: 0,
-        name: 'book1',
-        rating: 4.6,
-        tag: ['TOIEC', 'IELTS'],
-        intro: 'Intro for book1',
-        level: 'Beginner'
-    },
-    {
-        id: 1,
-        name: 'book2',
-        rating: 4,
-        tag: ['English for kid', 'Conversational'],
-        intro: 'Intro for book2',
-        level: 'Beginner'
-    },
-    {
-        id: 2,
-        name: 'book3',
-        rating: 4.8,
-        tag: ['TOIEC', 'IELTS', 'English for business'],
-        intro: 'Intro for book3',
-        level: 'Advanced'
-    },
-    {
-        id: 3,
-        name: 'book4',
-        rating: 3.5,
-        tag: ['English for business'],
-        intro: 'Intro for book4',
-        level: 'Intermediate'
-    },
-    {
-        id: 4,
-        name: 'book5',
-        rating: 2.7,
-        tag: ['TOIEC'],
-        intro: 'Intro for book5',
-        level: 'Beginner'
-
-    },
-    {
-        id: 5,
-        name: 'book6',
-        rating: 1,
-        tag: ['TOEFL', 'KET', 'PET'],
-        intro: 'Intro for book6',
-        level: 'Intermediate'
-    },
-    {
-        id: 6,
-        name: 'book7',
-        rating: 1.6,
-        tag: ['STARTER', 'MOVERS'],
-        intro: 'Intro for book7',
-        level: 'Beginner'
-
-    },
-    {
-        id: 7,
-        name: 'book8',
-        rating: 4.9,
-        tag: ['MOVERS', 'FLYERS'],
-        intro: 'Intro for book8',
-        level: 'Beginner'
-
-    },
-    {
-        id: 8,
-        name: 'book9',
-        rating: 2.9,
-        tag: ['PET', 'KET'],
-        intro: 'Intro for book9',
-        level: 'Advanced'
-
-    },
-]

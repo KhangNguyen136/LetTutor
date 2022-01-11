@@ -19,17 +19,16 @@ export default function TutorScreen() {
     const updateCountry = (country) => setFilterCountry(country)
     return (
         <SafeAreaView style={globalStyles.container} >
-            <Card>
+            {/* <Card>
                 <SearchBox placeholder={"Search by tutor's name"} value={searchKey} textChange={updateSearch} />
 
                 <View style={{ flexDirection: 'row', margin: 3, marginEnd: 10 }} >
 
                     <CountryFilter value={filterCountry} didSelect={updateCountry} title={'Country'} />
                     <Picker didSelect={setTag} value={tag} data={specialies} title={'Specialies'} />
-                    {/* <View style={globalStyles.horizontalDivide} /> */}
                 </View>
                 <FilterReview title={'Rating:'} setFilter={setFilterRating} choosen={filterRating} />
-            </Card>
+            </Card> */}
             <ListTutor searchKey={searchKey} filter={{
                 rating: filterRating, tag, country: filterCountry
             }} />

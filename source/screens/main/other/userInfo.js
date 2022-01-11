@@ -62,6 +62,7 @@ export default function UserInfoScreen({ navigation }) {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
             const data = res.data.user;
+            setImg({ uri: data.avatar })
             setRole(data.roles[0]);
             setPhone(data.phone);
             const teampDate = Date.parse(data.birthday);

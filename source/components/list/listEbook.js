@@ -137,15 +137,15 @@ export default function ListEbook() {
                 }} />
             </View>
 
-            {loading && <LoadingIndicator />}
             <FlatList
                 ref={listRef}
                 data={dataSrc}
                 renderItem={Ebook}
-                ListEmptyComponent={NoData}
+                ListEmptyComponent={() => <NoData loading={loading} />}
                 keyExtractor={item => item.name}
                 ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={dataSrc.length == 0} />}
             />
+            {loading && <LoadingIndicator />}
         </View>
 
     )

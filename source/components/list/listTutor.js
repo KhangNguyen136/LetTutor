@@ -96,10 +96,7 @@ export default function ListTutor({ }) {
 
     return (
         <View style={{ flex: 1 }} >
-            {
-                loading &&
-                <LoadingIndicator />
-            }
+
             <View style={{
                 flexDirection: 'row', backgroundColor: 'white',
                 marginTop: 5, paddingHorizontal: 5
@@ -120,10 +117,13 @@ export default function ListTutor({ }) {
                 keyExtractor={item => item.id.toString()}
                 refreshing={false}
                 onRefresh={getData}
-                ListEmptyComponent={NoData}
+                ListEmptyComponent={() => <NoData loading={loading} />}
                 ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0} />}
             />
-
+            {
+                loading &&
+                <LoadingIndicator />
+            }
         </View>
 
     )

@@ -75,6 +75,7 @@ export default function ListCourse({ }) {
         console.log(res.length)
         setData(res);
         setPage(2)
+        // if (listRef != null || listRef.current != null)
         listRef.current.scrollToOffset({ animated: true, offset: 0 })
         setLoading(false);
     }
@@ -145,10 +146,14 @@ export default function ListCourse({ }) {
                 ref={listRef}
                 data={data}
                 renderItem={Course}
-                ListEmptyComponent={NoData}
+                ListEmptyComponent={() => <NoData loading={loading} />}
                 keyExtractor={item => item.id.toString()}
                 ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0} />}
             />
+            {
+                loading &&
+                <LoadingIndicator />
+            }
         </View>
     )
 }

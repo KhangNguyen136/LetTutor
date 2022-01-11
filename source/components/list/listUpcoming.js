@@ -147,7 +147,7 @@ export default function ListUpcoming({ route }) {
                 keyExtractor={item => item.id.toString()}
                 refreshing={false}
                 onRefresh={getData}
-                ListEmptyComponent={() => emptyComponent(() => navigation.navigate('Tutors'))}
+                ListEmptyComponent={() => emptyComponent(() => navigation.navigate('Tutors'), loading)}
             />
             <DataTable.Pagination page={page - 1}
                 numberOfPages={maxPage}
@@ -175,7 +175,9 @@ export default function ListUpcoming({ route }) {
 const numberOfItemsPerPageList = [2, 3, 4];
 
 
-const emptyComponent = (toBook) => {
+const emptyComponent = (toBook, loading) => {
+    if (loading)
+        return null
     return (
         <Card>
             <View style={{ alignItems: 'center' }} >

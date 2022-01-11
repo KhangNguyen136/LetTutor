@@ -85,7 +85,7 @@ export default function ListHistory({ }) {
                 data={data}
                 renderItem={History}
                 keyExtractor={item => item.id.toString()}
-                ListEmptyComponent={() => emptyComponent(() => navigation.navigate('Tutors'))}
+                ListEmptyComponent={() => emptyComponent(() => navigation.navigate('Tutors'), loading)}
                 ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0} />}
             />
             {
@@ -96,7 +96,9 @@ export default function ListHistory({ }) {
     )
 }
 
-const emptyComponent = (toBook) => {
+const emptyComponent = (toBook, loading) => {
+    if (loading)
+        return null
     return (
         <Card>
             <View style={{ alignItems: 'center' }} >

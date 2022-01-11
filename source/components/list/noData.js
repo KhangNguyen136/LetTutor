@@ -3,7 +3,9 @@ import { View, Text } from 'react-native';
 import { GetIcon } from '../button';
 import Card from '../card';
 
-export default function NoData() {
+export default function NoData({ loading }) {
+    if (loading)
+        return null
     return (
         <Card>
             <View style={{ padding: 20, width: '100%', alignItems: 'center' }}>

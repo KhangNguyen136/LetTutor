@@ -6,24 +6,11 @@ import Card from '../../../components/card';
 import { globalStyles } from '../../../styles/globalStyles';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { showMessage } from 'react-native-flash-message';
+import Step from '../../../components/stepProcess';
 
-var options = {
-    title: 'Select Image',
-    customButtons: [
-        {
-            name: 'customOptionKey',
-            title: 'Choose Photo from Custom Option'
-        },
-    ],
-    storageOptions: {
-        skipBackup: true,
-        path: 'images',
-    },
-    // mediaType: 'photo'
-};
-
-export default function BecomeTutor2({ navigation }) {
-    const [haveVid, setHaveVid] = React.useState(false)
+export default function BecomeTutor2({ navigation, route }) {
+    const { data } = route.params;
+    console.log(data.birthday)
     const [video, setVideo] = React.useState(null)
     const videoRef = React.useRef(null)
 
@@ -34,7 +21,6 @@ export default function BecomeTutor2({ navigation }) {
                 durationLimit: 360,
 
             }, Response => {
-                console.log(Response)
                 if (Response.didCancel) {
                     return
                 }
@@ -46,11 +32,8 @@ export default function BecomeTutor2({ navigation }) {
                     })
                 }
                 else {
-                    setHaveVid(true)
-                    setVideo({
-                        uri: Response.assets[0].uri
-                    })
-                    // console.log(Response.assets[0].uri)
+                    setVideo(Response.assets[0])
+                    // console.log(Response.assets[0])
                 }
 
             }
@@ -60,6 +43,7 @@ export default function BecomeTutor2({ navigation }) {
     }
     return (
         <SafeAreaView style={globalStyles.container} >
+            <Step step={1} />
             <ScrollView>
                 <Card>
                     <Text style={{
@@ -78,19 +62,19 @@ export default function BecomeTutor2({ navigation }) {
                         4. Speak for 1-3 minutes{'\n'}
                         5. Brand yourself and have fun!
                     </Text>
-                    <MyButton title={'Choose video'} moreStyle={globalStyles.authBtnContainer} onPress={pickVideo} />
                     {
-                        haveVid &&
+                        video != null &&
                         (<View>
                             <Video ref={videoRef}
                                 style={{ width: '96%', height: 200, alignSelf: 'center', margin: 5 }}
-                                source={video}
+                                source={{ uri: video.uri }}
                                 useNativeControls
                                 resizeMode={'contain'}
                                 isLooping={false}
                             />
                         </View>)
                     }
+                    <MyButton title={'Choose video'} onPress={pickVideo} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', }} >
                         <MyButton title={'Previous'} moreStyle={{ backgroundColor: '#dfe6e9' }} onPress={() => navigation.goBack()} />
                         <MyButton title={'Done'} onPress={() => navigation.navigate('BecomeTutor3')} />

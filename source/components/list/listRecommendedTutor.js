@@ -4,8 +4,7 @@ import { useNavigation } from '@react-navigation/core';
 import { useSelector } from 'react-redux';
 import { handleListTutor } from '../../bussiness/tutorHandle';
 import { getListTutor } from '../../services/tutor';
-import { Tutor } from './listTutor';
-// import { formatFavoriteTutor } from '../../bussiness/tutorHandle';
+import { Tutor } from '../tutor';
 
 export default function ListRecommendedTutor() {
     const [data, setData] = React.useState([]);
@@ -40,12 +39,7 @@ export default function ListRecommendedTutor() {
 }
 
 const styles = StyleSheet.create({
-    img: {
-        width: 80,
-        height: 80,
-        borderRadius: 10,
-        margin: 5
-    },
+
     rating: {
         alignSelf: 'flex-start'
     },

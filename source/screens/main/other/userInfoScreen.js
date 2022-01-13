@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, Image, View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { GetIcon, MyButton, MyIconButtonRight } from '../../../components/button';
-import Card, { FlexCard } from '../../../components/card';
+import { GetIcon, MyButton } from '../../../components/button';
+import Card from '../../../components/card';
 import CountryPicker from '../../../components/countryPicker';
 import MyDatePicker from '../../../components/datePicker';
 import TextInputCard from '../../../components/TextInputCard';
@@ -11,8 +11,7 @@ import { showMessage } from 'react-native-flash-message';
 import { serverUrl } from '../../../const';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUserInfoAction } from '../../../redux/userInfoSlice';
-import LoadingIndicator from '../../../components/loadingIndicator';
+import { setUserInfoAction, updateAvatarAction } from '../../../redux/userInfoSlice';
 import errorHandle from '../../../bussiness/errorHanle';
 import Picker from '../../../components/picker';
 import PickWantToLearn from '../../../components/pickWantToLearn';
@@ -20,25 +19,7 @@ import { getWantToLearnList, getWantToLearnObject } from '../../../bussiness/spe
 import { myLevels } from '../../../constant';
 import ReviewImage from '../../../components/reviewAvatar';
 import { updateAvatar } from '../../../services/userInfo';
-var options = {
-    title: 'Select Image',
-    customButtons: [
-        {
-            name: 'customOptionKey',
-            title: 'Choose Photo from Custom Option'
-        },
-    ],
-    storageOptions: {
-        skipBackup: true,
-        path: 'images',
-    },
-    // mediaType: 'photo'
-};
-
-const initImageData = {
-    fileName: '',
-    base64: ''
-}
+import LoadingIndicator from '../../../components/loadingIndicator';
 
 export default function UserInfoScreen({ navigation }) {
     const userInfo = useSelector(state => state.userInfoState);
@@ -48,13 +29,11 @@ export default function UserInfoScreen({ navigation }) {
     const [birthday, setBirthday] = React.useState(new Date());
     const [country, setCountry] = React.useState('VN');
     const [img, setImg] = React.useState({ uri: userInfo.avatar });
-    const [showDialog, setShowDialog] = React.useState(false);
-    const [tempImg, setTeamImg] = React.useState({});
-    const [imgData, setImgData] = React.useState({ initImageData });
+    const [tempImg, setTeamImg] = React.useState(null);
     const [role, setRole] = React.useState('');
     const [level, setLevel] = React.useState(myLevels[0]);
     const [wantToLearn, setWantToLearn] = React.useState([]);
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
     const dispatch = useDispatch();
     const getData = async () => {
         try {
@@ -62,7 +41,7 @@ export default function UserInfoScreen({ navigation }) {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
             const data = res.data.user;
-            setImg({ uri: data.avatar })
+            // setImg({ uri: data.avatar })
             setRole(data.roles[0]);
             setPhone(data.phone);
             const teampDate = Date.parse(data.birthday);
@@ -111,30 +90,32 @@ export default function UserInfoScreen({ navigation }) {
             else {
                 console.log(Response.assets)
                 const result = Response.assets[0]
-                // setImgData({ fileName: result.fileName, base64: result.base64 });
                 setTeamImg(result);
-                setShowDialog(true);
             }
 
         })
     }
     const cancelUploadImg = () => {
-        setShowDialog(false);
-        setTeamImg({});
+        setTeamImg(null);
     }
     const uploadImage = async () => {
-        setShowDialog(false);
         setLoading(true);
         const res = await updateAvatar(token, tempImg);
         if (res) {
-            setImg({ uri: tempImg.uri });
+            setImg({ uri: tempImg.uri })
+            setTeamImg(null);
+            dispatch(updateAvatarAction({ avatar: tempImg.uri }));
         }
-        setTeamImg({});
         setLoading(false);
     }
     return (
         <SafeAreaView style={globalStyles.container} >
-            <ReviewImage show={showDialog} imgSrc={tempImg} onCancel={cancelUploadImg} onUpdate={uploadImage} />
+            {
+                loading &&
+                <LoadingIndicator />
+            }
+            <ReviewImage loading={loading}
+                show={tempImg != null} imgSrc={tempImg} onCancel={cancelUploadImg} onUpdate={uploadImage} />
             <ScrollView>
                 <Card>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }} >
@@ -178,10 +159,6 @@ export default function UserInfoScreen({ navigation }) {
             </ScrollView>
             <MyButton onPress={updateData} moreStyle={{ ...globalStyles.authBtnContainer, width: '69%' }} title={'Save'} moreTitleStyle={{ color: 'white' }} />
 
-            {
-                loading &&
-                <LoadingIndicator />
-            }
         </SafeAreaView>
     )
 }
@@ -195,3 +172,16 @@ function getLevelItem(value) {
     return myLevels.find(item => item.value == value)
 }
 
+const options = {
+    title: 'Select Image',
+    customButtons: [
+        {
+            name: 'customOptionKey',
+            title: 'Choose Photo from Custom Option'
+        },
+    ],
+    storageOptions: {
+        skipBackup: true,
+        path: 'images',
+    },
+};

@@ -1,15 +1,21 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { MyButton } from './button';
-import { uploadImg } from '../services/userInfo';
 import { Dialog, Portal } from 'react-native-paper';
-import { globalStyles } from '../styles/globalStyles';
+import LoadingIndicator from './loadingIndicator';
 
-export default function ReviewImage({ imgSrc, onCancel, onUpdate, show }) {
+export default function ReviewImage({ imgSrc, onCancel, onUpdate, show, loading }) {
+    if (!show)
+        return null
+
     return (
         <Portal>
             <Dialog visible={show} >
                 <Dialog.Content>
+                    {
+                        loading &&
+                        <LoadingIndicator />
+                    }
                     <View style={{
                         alignSelf: 'center', padding: 10, margin: 10, alignItems: 'center',
                         backgroundColor: 'white'

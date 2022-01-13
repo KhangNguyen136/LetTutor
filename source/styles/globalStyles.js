@@ -15,6 +15,9 @@ export const globalStyles = StyleSheet.create(
             bottom: 0,
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundColor: 'white',
+            opacity: 0.5,
+            zIndex: 2,
         },
         authBtnContainer: {
             backgroundColor: '#3399ff',
@@ -51,7 +54,7 @@ export const globalStyles = StyleSheet.create(
         title2: {
             fontWeight: '600',
             margin: 4,
-            fontSize: 15
+            fontSize: 16
         },
         button: {
             padding: 4, margin: 3, borderColor: '#0984e3',

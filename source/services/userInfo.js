@@ -6,14 +6,16 @@ import FormData from 'form-data';
 
 export async function updateAvatar(token, imgData) {
     try {
+        // return false;
         let data = new FormData();
         data.append('avatar', {
             uri: imgData.uri,
             type: imgData.type, name: imgData.fileName
         })
-        const res = await axios.post(serverUrl + 'user/uploadAvatar', { formData: data }, {
+        const res = await axios.post(serverUrl + 'user/uploadAvatar', data, {
             headers: { 'Authorization': 'Bearer ' + token }
         })
+        showMessage({ type: 'success', message: 'Upload avatar successfully' })
         return true;
     } catch (error) {
         errorHandle(error);

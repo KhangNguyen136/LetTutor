@@ -4,7 +4,6 @@ import errorHandle from "../bussiness/errorHanle";
 
 export async function reFreshToken(refreshToken, timezone) {
     try {
-        console.log({ refreshToken, timezone });
         const res = await axios.post(serverUrl + 'auth/refresh-token', {
             refreshToken, timezone
         },
@@ -25,10 +24,10 @@ export async function checkToken(accessToken) {
             headers: { 'Authorization': 'Bearer ' + accessToken }
         })
         console.log('Check token success');
-        return true;
+        return res.data;
     } catch (error) {
         // errorHandle(error)
         console.log('Check token fail: ' + error.response.data.message);
-        return false;
+        return null;
     }
 }

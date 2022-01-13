@@ -4,7 +4,7 @@ const initValue = {
     id: '',
     name: '',
     email: '',
-    avt: '',
+    avatar: '',
     tokens: {
         access: {
             token: '',
@@ -26,7 +26,11 @@ export const userInfoSlice = createSlice({
             state.name = data.name;
             state.email = data.email;
             state.avatar = data.avatar;
-            console.log('Update user info action');
+            console.log('Update user info action', data);
+        },
+        updateAvatarAction: (state, action) => {
+            state.avatar = action.payload.avatar;
+            console.log('Update user avatar action');
         },
         setTokens: (state, action) => {
             state.tokens = action.payload
@@ -40,6 +44,6 @@ export const userInfoSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setUserInfoAction, setTokens, resetData } = userInfoSlice.actions
+export const { setUserInfoAction, setTokens, resetData, updateAvatarAction } = userInfoSlice.actions
 
 export default userInfoSlice.reducer

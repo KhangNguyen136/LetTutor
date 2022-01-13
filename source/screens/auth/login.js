@@ -13,7 +13,7 @@ import axios from 'axios';
 import { serverUrl } from '../../const';
 import { loggedIn } from '../../redux/authSlice';
 import { useDispatch } from 'react-redux';
-import { saveUserInfoToDB } from '../../bussiness/UserInfoServices';
+import { saveTokenToDB, saveUserInfoToDB } from '../../bussiness/UserInfoServices';
 import { validateEmail, checkPassword } from '../../bussiness/validInput';
 import { setUserInfoAction, setTokens } from '../../redux/userInfoSlice';
 import errorHandle from '../../bussiness/errorHanle';
@@ -28,7 +28,7 @@ export default function Login(props) {
     const dispatch = useDispatch();
     const SaveUseInfo = async (data) => {
         try {
-            saveUserInfoToDB(data);
+            saveTokenToDB(data.tokens);
             dispatch(setUserInfoAction(data.user));
             dispatch(setTokens(data.tokens))
             dispatch(loggedIn());

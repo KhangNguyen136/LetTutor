@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
 import { loggedIn, loggedOut } from './redux/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserInfoFromDB, updateToken, resetDB } from './bussiness/UserInfoServices';
+import { getUserInfoFromDB, saveTokenToDB, resetDB } from './bussiness/UserInfoServices';
 import { setUserInfoAction, setTokens } from './redux/userInfoSlice';
 import { checkToken, reFreshToken } from './services/refreshToken';
 
@@ -19,13 +19,10 @@ export default function App() {
 
     const getUserInfo = async () => {
         const userInfo = await getUserInfoFromDB();
-
         if (userInfo.length != 0) {
             const data = userInfo[0];
-            console.log('User info from db: ');
-            console.log(data);
-            isValidToken = await checkToken(data.accessToken);
-            if (isValidToken) {
+            const getUserInfo = await checkToken(data.accessToken);
+            if (getUserInfo != null) {
                 const tokens = {
                     access: {
                         token: data.accessToken,
@@ -36,20 +33,22 @@ export default function App() {
                         expire: data.expireRefresh
                     }
                 }
-                dispatch(setUserInfoAction(data));
+                dispatch(setUserInfoAction(getUserInfo.user));
                 dispatch(setTokens(tokens));
                 dispatch(loggedIn());
             }
             else {
-                if (data.reFreshToken == undefined) {
+                if (data.refreshToken == undefined) {
+                    console.log('DB error!')
                     dispatch(loggedOut());
                     resetDB();
+                    return
                 }
                 refreshToken = await reFreshToken(data.refreshToken, 7);
                 if (refreshToken != null) {
-                    dispatch(setUserInfoAction(data));
+                    dispatch(setUserInfoAction(refreshToken.user));
                     dispatch(setTokens(refreshToken.tokens));
-                    updateToken(refreshToken.tokens);
+                    saveTokenToDB(refreshToken.tokens);
                     dispatch(loggedIn());
                 }
                 else {

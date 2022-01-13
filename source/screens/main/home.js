@@ -8,12 +8,10 @@ import { useSelector } from 'react-redux';
 import { getNext, getTotal, getUpcomingSchedule } from '../../services/schedule';
 
 export default function HomeScreen({ navigation }) {
-    const date = new Date();
     const [total, setTotal] = React.useState(0);
     const [upcomingData, setUpcomingData] = React.useState(null);
     const userInfo = useSelector(state => state.userInfoState);
     const token = userInfo.tokens.access.token;
-    console.log(token)
     React.useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Home',

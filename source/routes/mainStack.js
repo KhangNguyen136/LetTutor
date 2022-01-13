@@ -4,7 +4,7 @@ import ChatboxScreen from '../screens/main/message/chatBox';
 import WatchVideo from '../screens/main/watchVideo';
 import History from '../screens/main/history';
 import ViewFeedback from '../screens/main/other/viewFeedbacks';
-import UserInfo from '../screens/main/other/userInfo';
+import UserInfo from '../screens/main/other/userInfoScreen';
 import ChangePassword from '../screens/auth/changePassword';
 import AdvancedSetting from '../screens/main/other/advancedSetting';
 import TutorInfo from '../screens/main/tutor/tutorInfo';

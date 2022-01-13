@@ -18,6 +18,8 @@ export default function MyCountryPicker({ value, didSelect }) {
                     withFilter: true,
                     withCountryNameButton: true,
                     onSelect: onSelect,
+                    containerButtonStyle: { padding: 0 },
+
                 }} />
                 <GetIcon iconName={'down'} source={'AntDesign'} size={18} />
             </View>
@@ -35,8 +37,7 @@ const styles = StyleSheet.create({
     },
     title: { fontWeight: '500', marginLeft: 4 },
     typeContainer: {
-        // padding: 6,
-        paddingHorizontal: 9,
+        paddingHorizontal: 5,
         flexDirection: 'row',
         borderWidth: 0.25,
         borderColor: 'gray',

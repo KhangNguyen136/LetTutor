@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     content: {
-        fontSize: 16,
+        fontSize: 15,
         paddingVertical: 5,
         // alignContent: 'center',
         paddingHorizontal: 10,
@@ -66,5 +66,5 @@ const styles = StyleSheet.create({
     contentContainer: {
         margin: 2,
     },
-    title: { fontSize: 17, fontWeight: '500', marginLeft: 4 }
+    title: { fontSize: 16, fontWeight: '500', marginLeft: 4 }
 })

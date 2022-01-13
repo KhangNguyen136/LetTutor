@@ -4,7 +4,7 @@ import MultiSelect from 'react-native-sectioned-multi-select';
 import { MaterialIcons } from '@expo/vector-icons';
 import { itemsWantToLearn } from '../constant';
 
-export default function PickWantToLearn({ value, onChangeValue }) {
+export default function PickWantToLearn({ title = 'Topic want to learn', value, onChangeValue }) {
     const onSelected = (result) => {
         console.log(result);
         onChangeValue(result);
@@ -18,7 +18,7 @@ export default function PickWantToLearn({ value, onChangeValue }) {
                 onSelectedItemsChange={onSelected}
                 selectedItems={value} subKey='children'
                 items={itemsWantToLearn} uniqueKey='id'
-                selectText='Select topic want to learn'
+                selectText={title}
                 showRemoveAll
                 modalWithSafeAreaView={true}
                 styles={{

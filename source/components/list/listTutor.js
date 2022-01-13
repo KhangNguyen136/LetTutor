@@ -1,16 +1,10 @@
 import React from 'react';
-import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image, ActivityIndicator } from 'react-native';
-import { IconButton } from '../button';
-import { Rating } from 'react-native-ratings';
-import ListTag from './listTag';
+import { FlatList, View, StyleSheet, } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import Card from '../card';
-import { getListLabel } from '../../bussiness/specialies';
+import { Tutor } from '../tutor';
 import { useSelector } from 'react-redux';
-import { FlagButton } from 'react-native-country-picker-modal';
-import { handleListConst, handleListTutor, updateFavorTutor } from '../../bussiness/tutorHandle';
-import { getListTutor, favorAction, getListPreTest, getListTopic, searchTutor, getFavourData } from '../../services/tutor';
-import { DataTable, Searchbar } from 'react-native-paper';
+import { handleListConst, handleListTutor } from '../../bussiness/tutorHandle';
+import { getListTutor, getListPreTest, getListTopic, searchTutor } from '../../services/tutor';
 import LoadingIndicator from '../loadingIndicator';
 import Filter from '../filter';
 import errorHandle from '../../bussiness/errorHanle';
@@ -129,47 +123,7 @@ export default function ListTutor({ }) {
     )
 }
 
-export function Tutor({ item, navigation, token }) {
-    const [isFavour, setIsFavour] = React.useState(item.isFavor)
-    const listSpecialies = getListLabel(item.specialties.split(","));
-    const icon = isFavour ? 'heart' : 'hearto';
-    const pressLike = async () => {
-        const res = await favorAction(item.userId, token);
-        if (res)
-            setIsFavour(!isFavour)
-    }
-    function toDetail() {
-        navigation.navigate('TutorInfo', { id: item.userId });
-    }
-    return (
-        <View style={{ marginHorizontal: 1 }}   >
-            <Card>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={toDetail} >
-                    <Image source={{ uri: item.avatar }} style={styles.img}  ></Image>
-                    <View style={{ flex: 1, margin: 5, justifyContent: 'space-between' }} >
-                        <Text style={{ fontWeight: 'bold', fontSize: 15 }}  >{item.name}</Text>
-                        <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} withCountryNameButton />
-                        {item.rating != undefined ?
-                            <Rating readonly={true}
-                                startingValue={item.rating}
-                                style={{ marginVertical: 3, alignSelf: 'flex-start' }}
-                                imageSize={20}
-                            />
-                            :
-                            <Text style={{ fontWeight: '600', fontSize: 14 }} >No review yet</Text>
-                        }
-                    </View>
-                    <View style={{ justifyContent: 'flex-start' }}>
-                        <IconButton iconName={icon} color={'pink'} source={'AntDesign'} onPress={pressLike} />
 
-                    </View>
-                </TouchableOpacity>
-                <ListTag tags={listSpecialies} />
-                <Text style={{ maxHeight: 60, fontSize: 13, margin: 5 }} onPress={toDetail} >{item.bio}</Text>
-            </Card>
-        </View>
-    )
-}
 
 const getSpecialies = (topic, preTest) => {
     const result = [];

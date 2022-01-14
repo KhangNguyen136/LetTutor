@@ -40,7 +40,7 @@ export default function HomeScreen({ navigation }) {
     const LessonOverview = () => {
         return (
             <View style={styles.lessonOverview} >
-                <Text style={{ ...styles.lessonOverviewContent, fontSize: 16 }}>{getTotalTime(total)}</Text>
+                <Text style={{ ...styles.lessonOverviewContent, fontSize: 15 }}>{getTotalTime(total)}</Text>
                 <UpcomingSection data={upcomingData} toStudyRoom={toStudyRoom} />
             </View>
         )
@@ -48,7 +48,7 @@ export default function HomeScreen({ navigation }) {
     return (
         <SafeAreaView style={globalStyles.container} >
             <LessonOverview />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10, alignItems: 'center' }} >
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 5, alignItems: 'center' }} >
                 <View style={{ padding: 0.5, borderBottomColor: 'black', borderBottomWidth: 1 }}>
                     <Text style={{ fontSize: 16, fontWeight: '600' }} >Recommended tutors: </Text>
                 </View>
@@ -79,7 +79,6 @@ function UpcomingSection({ data, toStudyRoom }) {
             <View style={{ alignItems: 'center' }} >
                 <Text style={styles.lessonOverviewContent} >You have no upcoming lesson</Text>
                 <Text style={styles.lessonOverviewContent}>Let choose a tutor and book</Text>
-                {/* <MyButton title={'Enter lesson room'} onPress={toStudyRoom} moreStyle={{ backgroundColor: '#3498db' }} moreTitleStyle={{ color: 'white' }} /> */}
             </View>
         )
     }
@@ -90,7 +89,7 @@ function UpcomingSection({ data, toStudyRoom }) {
         <View style={{ alignItems: 'center' }} >
             <Text style={styles.lessonOverviewContent} >Upcoming lesson:</Text>
             <Text style={styles.lessonOverviewContent}>{startTime.toString().substring(0, 21)} - {endTime.toString().substring(16, 21)}</Text>
-            <MyButton title={'Enter lesson room'} onPress={toStudyRoom} moreStyle={{ backgroundColor: '#3498db' }} moreTitleStyle={{ color: 'white' }} />
+            <MyButton title={'Enter lesson room'} onPress={toStudyRoom} moreStyle={{ backgroundColor: '#3498db', marginTop: 5, margin: 0 }} moreTitleStyle={{ color: 'white' }} />
         </View>
     )
 }

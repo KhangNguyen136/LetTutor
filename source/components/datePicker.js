@@ -11,13 +11,13 @@ export default function MyDateTimePicker({ title, mode, value, onChageValue }) {
         const [show, setShow] = React.useState(false)
         const onChangeAndroid = (event, selectedDate) => {
             setShow(false)
-            const currentDate = selectedDate || date;
+            const currentDate = selectedDate || value;
             // setDate(currentDate)
             onChageValue(currentDate)
         }
         return (
             <View>
-                <Button title={date.toLocaleDateString()} onPress={() => setShow(true)} />
+                <Button title={value.toLocaleDateString()} onPress={() => setShow(true)} />
                 {show &&
                     <DateTimePicker
                         testID="dateTimePickerAndroid"
@@ -32,7 +32,7 @@ export default function MyDateTimePicker({ title, mode, value, onChageValue }) {
         )
     }
     const onChangeIOS = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
+        const currentDate = selectedDate || value;
         // setDate(currentDate)
         onChageValue(currentDate)
     }

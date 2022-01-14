@@ -7,24 +7,27 @@ import { globalStyles } from '../../../styles/globalStyles';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { showMessage } from 'react-native-flash-message';
 import Step from '../../../components/stepProcess';
+import { becomeTutor } from '../../../services/userInfo';
+import { useSelector } from 'react-redux';
+import LoadingIndicator from '../../../components/loadingIndicator';
 
 export default function BecomeTutor2({ navigation, route }) {
+    const userInfo = useSelector(state => state.userInfoState)
+    const token = userInfo.tokens.access.token;
     const { data } = route.params;
     console.log(data.birthday)
     const [video, setVideo] = React.useState(null)
     const videoRef = React.useRef(null)
-
+    const [loading, setLoading] = React.useState(false);
     const pickVideo = () => {
         launchImageLibrary(
             {
                 mediaType: 'video',
                 durationLimit: 360,
-
             }, Response => {
                 if (Response.didCancel) {
                     return
                 }
-                // console.log(Response.errorMessage)
                 else if (Response.errorCode) {
                     console.log(Response.errorMessage)
                     showMessage({
@@ -33,17 +36,28 @@ export default function BecomeTutor2({ navigation, route }) {
                 }
                 else {
                     setVideo(Response.assets[0])
-                    // console.log(Response.assets[0])
                 }
-
             }
-
         )
+    }
 
+    const submit = async () => {
+        if (video == null) {
+            showMessage({ type: 'warning', message: 'Please choose a introduce video' })
+            return
+        }
+        setLoading(true);
+        data.video = video;
+        const res = await becomeTutor(data, token);
+        // if (res != null)
+        navigation.replace('BecomeTutor3')
+        setLoading(false)
     }
     return (
         <SafeAreaView style={globalStyles.container} >
             <Step step={1} />
+            {loading &&
+                <LoadingIndicator />}
             <ScrollView>
                 <Card>
                     <Text style={{
@@ -77,7 +91,7 @@ export default function BecomeTutor2({ navigation, route }) {
                     <MyButton title={'Choose video'} onPress={pickVideo} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', }} >
                         <MyButton title={'Previous'} moreStyle={{ backgroundColor: '#dfe6e9' }} onPress={() => navigation.goBack()} />
-                        <MyButton title={'Done'} onPress={() => navigation.navigate('BecomeTutor3')} />
+                        <MyButton title={'Done'} onPress={submit} />
                     </View>
                 </Card>
             </ScrollView>

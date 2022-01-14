@@ -23,7 +23,6 @@ export async function updateAvatar(token, imgData) {
     }
 
 }
-
 export async function getUserInfo(token) {
     try {
         const res = await axios.get(serverUrl + 'user/info', {
@@ -35,4 +34,36 @@ export async function getUserInfo(token) {
         errorHandle(error);
         return null;
     }
+}
+
+export async function becomeTutor(data, token) {
+    try {
+        const params = new FormData()
+        for (var key in data) {
+            if (key == 'avatar' || key == 'video')
+                continue;
+            params.append(key, data[key]);
+        }
+        const videoInfo = data.video;
+        params.append('video', {
+            name: videoInfo.fileName,
+            uri: videoInfo.uri,
+            type: videoInfo.type
+        })
+        const imageInfo = data.avatar;
+        params.append('avatar', {
+            name: imageInfo.fileName,
+            uri: imageInfo.uri,
+            type: imageInfo.type
+        })
+        console.log(params);
+        const res = await axios.post(serverUrl + 'tutor/', params, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+        return res;
+    } catch (error) {
+        errorHandle(error)
+        return null;
+    }
+
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import BottomTab from './bottomTab';
-import ChatboxScreen from '../screens/main/message/chatBox';
+// import ChatboxScreen from '../screens/main/message/chatBox';
 import WatchVideo from '../screens/main/watchVideo';
 import History from '../screens/main/history';
 import ViewFeedback from '../screens/main/other/viewFeedbacks';
@@ -15,7 +15,7 @@ import BecomeTutor1 from '../screens/main/becomeTutor/step1';
 import BecomeTutor2 from '../screens/main/becomeTutor/step2';
 import BecomeTutor3 from '../screens/main/becomeTutor/step3';
 import Ebook from '../screens/main/other/ebook';
-import Message from '../screens/main/message/messages';
+// import Message from '../screens/main/message/messages';
 import EbookDetail from '../screens/main/other/bookDetail';
 import CourseDetail from '../screens/main/course/couseDetail';
 import DiscoverCourse from '../screens/main/course/discoverCourse';
@@ -33,7 +33,7 @@ function MainStack({ navigation }) {
         <Stack.Navigator initialRouteName="BottomTab"
             screenOptions={{ headerTitleAlign: 'center' }}>
             <Stack.Screen name="BottomTab" component={BottomTab} options={{ headerShown: false }} />
-            <Stack.Screen name="ChatBox" component={ChatboxScreen} />
+            {/* <Stack.Screen name="ChatBox" component={ChatboxScreen} /> */}
             <Stack.Screen name="WatchVideo" component={WatchVideo} options={{ title: 'Lesson video' }} />
             <Stack.Screen name="History" component={History} options={{ title: 'Booking history' }} />
             <Stack.Screen name="ViewFeedback" component={ViewFeedback} options={{ title: 'Feedback' }} />
@@ -49,7 +49,7 @@ function MainStack({ navigation }) {
             <Stack.Screen name="BecomeTutor3" component={BecomeTutor3} options={{ title: 'Approval' }} />
             <Stack.Screen name="Ebook" component={Ebook} options={{ title: 'Ebooks' }} />
             <Stack.Screen name="EbookDetail" component={EbookDetail} options={{ title: '' }} />
-            <Stack.Screen name="Message" component={Message} options={{ title: 'Messages' }} />
+            {/* <Stack.Screen name="Message" component={Message} options={{ title: 'Messages' }} /> */}
             <Stack.Screen name="CourseDetail" component={CourseDetail} options={{ title: '' }} />
             <Stack.Screen name="DiscoverCourse" component={DiscoverCourse} options={{ title: 'Discover' }} />
             <Stack.Screen name="GiveFeedback" component={GiveFeedback} options={{ title: 'Feedback' }} />

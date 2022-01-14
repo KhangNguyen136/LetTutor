@@ -3,7 +3,6 @@ import { Text, SafeAreaView } from 'react-native';
 import { Video } from 'expo-av';
 import ListBooking from '../../components/list/listBooking';
 import Card from '../../components/card';
-import SearchBox from '../../components/searchBar';
 import { globalStyles } from '../../styles/globalStyles';
 
 export default function WatchVideo({ navigation, route }) {

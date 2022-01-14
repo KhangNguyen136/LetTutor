@@ -5,7 +5,7 @@ import {
 import { GetIcon, MyButton } from '../../../components/button';
 import Card from '../../../components/card';
 import { globalStyles } from '../../../styles/globalStyles';
-import { CheckBox } from 'react-native-elements';
+import { Checkbox } from 'react-native-paper';
 import { reportTutor } from '../../../services/tutor';
 import { showMessage } from 'react-native-flash-message';
 
@@ -43,45 +43,62 @@ export default function ReportScreen({ navigation, route }) {
                 </View>
                 <Text style={styles.title}>You are reporting {data.User.name}</Text>
                 <Text style={styles.title}>Help us understand what's happening!</Text>
-                <CheckBox title={'This tutor is annoying me'} checked={report1} onPress={() => {
-                    if (!report1)
-                        setDescription(0);
-                    else
-                        removeDescription(0)
-                    setReport1(!report1)
-                }} />
-                <CheckBox title={'This profile is pretending be someone or is fake'} checked={report2}
-                    onPress={() => {
-                        if (!report2)
-                            setDescription(1);
+                <View style={styles.checkBoxRow}>
+                    <Checkbox status={report1 ? 'checked' : 'unchecked'} onPress={() => {
+                        if (!report1)
+                            setDescription(0);
                         else
-                            removeDescription(1);
-                        setReport2(!report2)
+                            removeDescription(0)
+                        setReport1(!report1)
                     }} />
-                <CheckBox title={'Inappropriate profile photo'} checked={report3}
-                    onPress={() => {
-                        if (!report3)
-                            setDescription(2)
-                        else
-                            removeDescription(2);
-                        setReport3(!report3)
-                    }} />
-                <CheckBox title={"This tutor didn't appear at lesson"} checked={report4}
-                    onPress={() => {
-                        if (!report4)
-                            setDescription(3)
-                        else
-                            removeDescription(3);
-                        setReport4(!report4)
-                    }} />
-                <CheckBox title={"This tutor's behavior is not appropriate"} checked={report5}
-                    onPress={() => {
-                        if (!report5)
-                            setDescription(4)
-                        else
-                            removeDescription(4);
-                        setReport5(!report5)
-                    }} />
+                    <Text style={styles.itemContent}> This tutor is annoying me </Text>
+                </View>
+                <View style={styles.checkBoxRow}>
+
+                    <Checkbox status={report2 ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                            if (!report2)
+                                setDescription(1);
+                            else
+                                removeDescription(1);
+                            setReport2(!report2)
+                        }} />
+                    <Text style={styles.itemContent}>This profile is pretending be someone or is fake</Text>
+                </View>
+                <View style={styles.checkBoxRow}>
+                    <Checkbox status={report3 ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                            if (!report3)
+                                setDescription(2)
+                            else
+                                removeDescription(2);
+                            setReport3(!report3)
+                        }} />
+                    <Text style={styles.itemContent}>Inappropriate profile photo</Text>
+                </View>
+                <View style={styles.checkBoxRow}>
+                    <Checkbox status={report4 ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                            if (!report4)
+                                setDescription(3)
+                            else
+                                removeDescription(3);
+                            setReport4(!report4)
+                        }} />
+                    <Text style={styles.itemContent}>This tutor didn't appear at lesson</Text>
+                </View>
+                <View style={styles.checkBoxRow}>
+
+                    <Checkbox status={report5 ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                            if (!report5)
+                                setDescription(4)
+                            else
+                                removeDescription(4);
+                            setReport5(!report5)
+                        }} />
+                    <Text style={styles.itemContent}>This tutor's behavior is not appropriate</Text>
+                </View>
                 <TextInput multiline={true} style={styles.textInput} placeholder={'Let us know details about the problem'} value={description} onChangeText={setDescript} />
                 <MyButton title={'Send'} onPress={send}
                     moreStyle={{ ...globalStyles.authBtnContainer, width: '44%' }} />
@@ -100,7 +117,7 @@ const reportContent = [
 
 const styles = StyleSheet.create({
     title: {
-        fontWeight: '600',
+        fontWeight: 'bold',
         color: '#6ab04c',
         fontSize: 18,
         textAlign: 'center'
@@ -112,5 +129,11 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 5
+    },
+    checkBoxRow: {
+        flexDirection: 'row', alignItems: 'center',
+    },
+    itemContent: {
+        fontSize: 15, fontWeight: '600'
     }
 })

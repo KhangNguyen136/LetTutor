@@ -6,6 +6,12 @@ import Step from '../../../components/stepProcess';
 import { globalStyles } from '../../../styles/globalStyles';
 
 export default function BecomeTutor3({ navigation }) {
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            title: 'Become tutor',
+            headerBackVisible: false
+        })
+    }, [])
     return (
         <SafeAreaView style={globalStyles.container} >
             <Step step={2} />

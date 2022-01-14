@@ -42,6 +42,7 @@ export default function App() {
                     console.log('DB error!')
                     dispatch(loggedOut());
                     resetDB();
+                    setIsLoading(false);
                     return
                 }
                 refreshToken = await reFreshToken(data.refreshToken, 7);

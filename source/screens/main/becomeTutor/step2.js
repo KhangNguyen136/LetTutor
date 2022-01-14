@@ -15,7 +15,6 @@ export default function BecomeTutor2({ navigation, route }) {
     const userInfo = useSelector(state => state.userInfoState)
     const token = userInfo.tokens.access.token;
     const { data } = route.params;
-    console.log(data.birthday)
     const [video, setVideo] = React.useState(null)
     const videoRef = React.useRef(null)
     const [loading, setLoading] = React.useState(false);
@@ -49,8 +48,8 @@ export default function BecomeTutor2({ navigation, route }) {
         setLoading(true);
         data.video = video;
         const res = await becomeTutor(data, token);
-        // if (res != null)
-        navigation.replace('BecomeTutor3')
+        if (res != null)
+            navigation.replace('BecomeTutor3')
         setLoading(false)
     }
     return (

@@ -13,7 +13,7 @@ import { cancelLesson } from '../../services/booking';
 import { checkAfter2h } from '../../bussiness/date';
 import { showMessage } from 'react-native-flash-message';
 import { globalStyles } from '../../styles/globalStyles';
-import { DataTable } from 'react-native-paper';
+import { DataTable, Searchbar } from 'react-native-paper';
 import EditRequestDialog from '../editRequestDialog';
 export default function ListUpcoming({ route }) {
     const userInfo = useSelector(state => state.userInfoState);
@@ -26,6 +26,7 @@ export default function ListUpcoming({ route }) {
     const [itemPerPage, setItemPerPage] = React.useState(4);
     const [showEditRequest, setShowEditReqest] = React.useState(false);
     const [editRequestItem, setEditRequestItem] = React.useState({});
+    const [searchKey, setSearchKey] = React.useState('');
     const maxPage = Math.ceil(count / itemPerPage);
     const getData = async () => {
         setLoading(true);
@@ -44,6 +45,11 @@ export default function ListUpcoming({ route }) {
     const cancelEditRequest = () => {
         setShowEditReqest(false);
         setEditRequestItem({});
+    }
+
+    const filter = (item) => {
+        const key = searchKey.toLowerCase()
+        return item.studentRequest?.toLowerCase().includes(key) || item.scheduleDetailInfo.scheduleInfo.tutorInfo.name.toLowerCase().includes(key)
     }
 
     const Upcoming = ({ item }) => {
@@ -138,11 +144,12 @@ export default function ListUpcoming({ route }) {
 
     return (
         <View style={{ flex: 1 }}>
+            <Searchbar placeholder="Search by tutor's name or request" value={searchKey} onChangeText={setSearchKey} />
             <EditRequestDialog
                 item={editRequestItem} show={showEditRequest}
                 token={token} cancel={cancelEditRequest} onSuccess={editedRequest} />
             <FlatList
-                data={data}
+                data={data.filter(filter)}
                 renderItem={Upcoming}
                 keyExtractor={item => item.id.toString()}
                 refreshing={false}

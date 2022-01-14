@@ -3,6 +3,7 @@ import { serverUrl } from '../const';
 import errorHandle from '../bussiness/errorHanle';
 import axios from 'axios';
 import FormData from 'form-data';
+import { itemsWantToLearn } from '../constant';
 
 export async function updateAvatar(token, imgData) {
     try {
@@ -40,8 +41,28 @@ export async function becomeTutor(data, token) {
     try {
         const params = new FormData()
         for (var key in data) {
+            console.log({ key })
+            console.log(data[key])
             if (key == 'avatar' || key == 'video')
                 continue;
+            if (key == 'languages') {
+                var result = '';
+                data[key].forEach(item => result += item + ', ')
+                params.append(key, result.substring(0, result.length - 2))
+                console.log('languages: ' + result);
+                continue
+            }
+            if (key == 'specialties') {
+                // const result = [];
+                // data[key].forEach(id => result += itemsWantToLearn.find(
+                //     section => 
+                //     section.children.find(
+                //         item=> item.id == id
+                //     )
+                // ). + ', ')
+                params.append(key, 'english-for-kids,business-english');
+                continue
+            }
             params.append(key, data[key]);
         }
         const videoInfo = data.video;
@@ -58,7 +79,7 @@ export async function becomeTutor(data, token) {
         })
         console.log(params);
         const res = await axios.post(serverUrl + 'tutor/', params, {
-            headers: { 'Authorization': 'Bearer ' + token }
+            headers: { 'Authorization': 'Bearer ' + token },
         })
         return res;
     } catch (error) {

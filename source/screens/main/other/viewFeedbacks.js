@@ -7,7 +7,6 @@ import Card from '../../../components/card';
 
 export default function ViewFeedback({ navigation, route }) {
     const [filter, setFilter] = React.useState('All')
-    const [searchKey, setSearchKey] = React.useState('');
     const { data } = route.params
 
     return (

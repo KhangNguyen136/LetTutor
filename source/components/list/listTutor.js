@@ -10,6 +10,7 @@ import Filter from '../filter';
 import errorHandle from '../../bussiness/errorHanle';
 import NoData from './noData';
 import LoadMore from './loadMoreButton';
+import { Searchbar } from 'react-native-paper';
 
 const itemPerPage = 2;
 export default function ListTutor({ }) {
@@ -21,8 +22,8 @@ export default function ListTutor({ }) {
     const [listTopic, setListTopic] = React.useState([])
     const [preTest, setPreTest] = React.useState(null);
     const [listPreTest, setListPreTest] = React.useState([])
-    const [favourData, setFavourData] = React.useState([])
     const [data, setData] = React.useState([]);
+    const [searchKey, setSearchKey] = React.useState('');
     const listRef = React.useRef(null);
     const navigation = useNavigation();
     React.useEffect(
@@ -39,7 +40,9 @@ export default function ListTutor({ }) {
             }
         ).catch(error => errorHandle(error));
     }
-
+    const filter = (item) => {
+        return item.name.toLowerCase().includes(searchKey.toLowerCase());
+    }
     const search = async (topicParam, preTestParam) => {
         setLoading(true);
         const params = {
@@ -79,7 +82,7 @@ export default function ListTutor({ }) {
     const getData = async () => {
         setLoading(true);
         const favour = await getListTutor(1, 1, token);
-        setFavourData(favour.favoriteTutor);
+        // setFavourData(favour.favoriteTutor);
         const res = await searchTutor(token, getParams());
         const result = handleListTutor(res.rows, favour.favoriteTutor);
         setOffset(offset + 1);
@@ -90,7 +93,7 @@ export default function ListTutor({ }) {
 
     return (
         <View style={{ flex: 1 }} >
-
+            <Searchbar placeholder="Search by tutor's name" value={searchKey} onChangeText={setSearchKey} />
             <View style={{
                 flexDirection: 'row', backgroundColor: 'white',
                 marginTop: 5, paddingHorizontal: 5
@@ -106,7 +109,7 @@ export default function ListTutor({ }) {
             </View>
             <FlatList
                 ref={listRef}
-                data={data}
+                data={data.filter(filter)}
                 renderItem={({ item }) => <Tutor item={item} token={token} navigation={navigation} />}
                 keyExtractor={item => item.id.toString()}
                 refreshing={false}

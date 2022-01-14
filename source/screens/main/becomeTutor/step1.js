@@ -125,7 +125,7 @@ function MyScreenContent({ navigation }) {
             return
         navigation.navigate('BecomeTutor2', {
             data: {
-                avatar, name, country, birthday: birthday.toLocaleDateString(), education, interests, experience, profession, bio, targetStudent, specialties
+                avatar, name, country, birthday: birthday.toLocaleDateString(), education, interests, experience, profession, bio, targetStudent, specialties, languages
             }
         })
     }

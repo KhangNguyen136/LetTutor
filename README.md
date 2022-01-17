@@ -1,13 +1,12 @@
 # Project: Hotel Manager
 
--   **Description**: English elearning one by one with tutors.
+-   **Description**: learn English online with one-on-one tutors, mobile app of elearning system https://sandbox.app.lettutor.com/
 -   **Build with**: React native (JS), redux, realm, axios, jitsi, material UI.
 -   **Flatform**: android, ios.
 -   **Dev**: Nguyen Tan Khang.
 -   **Run project**: 
     - 'Yarn install'.
     - 'Yarn start'.
-    - Run on simulator or your device by QR code.
 
 ## Main functions:
 -   **Authentication**: 

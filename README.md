@@ -1,4 +1,4 @@
-# Project: Hotel Manager
+# Project: LetTutor
 
 -   **Description**: learn English online with one-on-one tutors, mobile app of elearning system https://sandbox.app.lettutor.com/
 -   **Build with**: React native (JS), redux, realm, axios, jitsi, material UI.

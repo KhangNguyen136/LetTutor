@@ -6,9 +6,9 @@ import Card from '../../../components/card';
 import { MyButton, GetIcon } from '../../../components/button';
 import { ScrollView } from 'react-native-gesture-handler';
 import Tag from '../../../components/tag';
-import { Rating } from 'react-native-ratings';
 import { getListTag } from '../../../bussiness/course';
 import ListTag from '../../../components/list/listTag';
+import { getLevelTitle } from '../../../bussiness/course';
 
 export default function CourseDetail({ navigation, route }) {
     const { data } = route.params
@@ -35,7 +35,7 @@ export default function CourseDetail({ navigation, route }) {
                             <Text style={globalStyles.titleName} >{data.name}</Text>
                             <View style={styles.rowContainer} >
                                 <Text style={globalStyles.title2} >Level: </Text>
-                                <Tag item={data.level} />
+                                <Tag item={getLevelTitle(data.level)} />
                             </View>
                             <View style={styles.rowContainer} >
                                 <Text style={globalStyles.title2} >Couse length:  </Text>

@@ -116,7 +116,7 @@ export default function ListUpcoming({ route }) {
                         <TouchableOpacity onPress={editRequest} ><Text style={{ ...styles.imp, color: '#3399ff' }}>Edit</Text></TouchableOpacity>
                     </View>
                     <TextCard>
-                        <MyViewMoreText content={item.studentRequest != null ? item.studentRequest : noRequest} numberOfLine={3} />
+                        <MyViewMoreText textStyle={item.studentRequest == null ? { color: 'gray' } : {}} content={item.studentRequest != null ? item.studentRequest : noRequest} numberOfLine={3} />
                     </TextCard>
                     <View style={{ marginHorizontal: 5 }} >
                         {item.tutorReview != null ?

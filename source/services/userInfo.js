@@ -46,10 +46,11 @@ export async function becomeTutor(data, token) {
             if (key == 'avatar' || key == 'video')
                 continue;
             if (key == 'languages') {
-                var result = '';
-                data[key].forEach(item => result += item + ', ')
-                params.append(key, result.substring(0, result.length - 2))
-                console.log('languages: ' + result);
+                // var result = '';
+                // data[key].forEach(item => result += item + ', ')
+                // params.append(key, result.substring(0, result.length - 2))
+                // console.log('languages: ' + result);
+                params.append(key, ['Vietnamese', 'English'])
                 continue
             }
             if (key == 'specialties') {
@@ -66,19 +67,23 @@ export async function becomeTutor(data, token) {
             params.append(key, data[key]);
         }
         const videoInfo = data.video;
+        console.log(videoInfo);
         params.append('video', {
-            name: videoInfo.fileName,
+            // name: videoInfo.fileName,
+            name: 'introVideo.mp4',
             uri: videoInfo.uri,
             type: videoInfo.type
         })
         const imageInfo = data.avatar;
+        console.log(imageInfo)
         params.append('avatar', {
             name: imageInfo.fileName,
             uri: imageInfo.uri,
             type: imageInfo.type
         })
+        params.append('price', 5000);
         console.log(params);
-        const res = await axios.post(serverUrl + 'tutor/', params, {
+        const res = await axios.post(serverUrl + 'tutor/register', params, {
             headers: { 'Authorization': 'Bearer ' + token },
         })
         return res;

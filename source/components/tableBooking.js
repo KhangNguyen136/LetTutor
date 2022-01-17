@@ -168,7 +168,7 @@ const Reverse = () => {
 function initDataShow() {
     return ({
         title: getListDates(),
-        section: initSectionSchedule(8, 17),
+        section: initSectionSchedule(14, 35),
         data: Array(7).fill(Array(48).fill(null))
 
     })

@@ -12,21 +12,34 @@ import { GetIcon } from '../../../components/button';
 import { loggedOut } from '../../../redux/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetDB } from '../../../bussiness/UserInfoServices';
-import { resetData } from '../../../redux/userInfoSlice';
+import { resetData, setBecomeTutorState } from '../../../redux/userInfoSlice';
 import { getUserInfo } from '../../../services/userInfo';
+import LoadingIndicator from '../../../components/loadingIndicator';
 
 export default function OtherScreen({ navigation, route }) {
     const dispatch = useDispatch();
     const userInfo = useSelector(state => state.userInfoState);
+    console.log(userInfo);
+    const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState({});
     React.useEffect(() => {
         getData();
     }, [])
     const getData = async () => {
         const res = await getUserInfo(userInfo.tokens.access.token);
+        console.log(res);
         if (res != null) {
             setData(res);
-            console.log(res.feedbacks)
+            dispatch(setBecomeTutorState(res));
+        }
+        setLoading(false);
+    }
+    const toBecomeTutor = () => {
+        if (userInfo.isApproving) {
+            navigation.navigate('BecomeTutor3');
+        }
+        else {
+            navigation.navigate('BecomeTutor1');
         }
     }
     const logOut = async () => {
@@ -42,6 +55,10 @@ export default function OtherScreen({ navigation, route }) {
     }
     return (
         <SafeAreaView style={globalStyles.container} >
+            {
+                loading &&
+                <LoadingIndicator />
+            }
             <ScrollView>
                 <Card>
                     <View  >
@@ -65,8 +82,8 @@ export default function OtherScreen({ navigation, route }) {
                 {/* <OtherButton title={'Messages'} iconName={'message1'} iconSource={'AntDesign'} so onPress={() => navigation.navigate('Message')} color={'#E348A6'} /> */}
 
                 {
-                    true &&
-                    (<OtherButton title={'Become tutor'} iconName={'teach'} iconSource={'MaterialCommunityIcons'} onPress={() => navigation.navigate('BecomeTutor1')} color={'#0984e3'} />)
+                    !userInfo.isTutor &&
+                    (<OtherButton title={'Become tutor'} iconName={'teach'} iconSource={'MaterialCommunityIcons'} onPress={toBecomeTutor} color={'#0984e3'} />)
 
                 }
                 <OtherButton title={'My reviews'} iconName={'feedback'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('ViewFeedback', { data: data.feedbacks })} color={'#e17055'} />

@@ -4,10 +4,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { GetIcon, MyButton, MyIconButtonLeft, MyIconButtonRight } from '../../components/button';
 import ListRecommendedTutor from '../../components/list/listRecommendedTutor';
 import { globalStyles } from '../../styles/globalStyles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getNext, getTotal, getUpcomingSchedule } from '../../services/schedule';
+import LoadingIndicator from '../../components/loadingIndicator';
+import { getUserInfo } from '../../services/userInfo';
 
 export default function HomeScreen({ navigation }) {
+    const [loading, setLoading] = React.useState(true);
     const [total, setTotal] = React.useState(0);
     const [upcomingData, setUpcomingData] = React.useState(null);
     const userInfo = useSelector(state => state.userInfoState);
@@ -33,6 +36,7 @@ export default function HomeScreen({ navigation }) {
         setTotal(totalRes * 25);
         const upcomingRes = await getUpcomingSchedule(token);
         setUpcomingData(upcomingRes.rows[0]);
+        setLoading(false);
     }
     const toStudyRoom = () => {
         navigation.navigate('StudyRoom', { data: upcomingData })
@@ -47,6 +51,10 @@ export default function HomeScreen({ navigation }) {
     }
     return (
         <SafeAreaView style={globalStyles.container} >
+            {
+                loading &&
+                <LoadingIndicator />
+            }
             <LessonOverview />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 5, alignItems: 'center' }} >
                 <View style={{ padding: 0.5, borderBottomColor: 'black', borderBottomWidth: 1 }}>

@@ -13,7 +13,6 @@ export default function Booking({ navigation, route }) {
     const userInfo = useSelector(state => state.userInfoState);
     const token = userInfo.tokens.access.token;
     const { item, tutor, callBack } = route.params;
-    console.log(item);
     const [sucess, setSucess] = React.useState(false);
     const [balance, setBalance] = React.useState(0);
     const [loading, setLoading] = React.useState(true);
@@ -46,7 +45,6 @@ export default function Booking({ navigation, route }) {
         //         ])
         //     return
         // }
-
         const res = await bookingLesson([item.id], note, token);
         if (res) {
             setSucess(true);
@@ -90,7 +88,7 @@ export default function Booking({ navigation, route }) {
                     <View style={styles.rowItem} >
                         <GetIcon iconName={'clockcircleo'} source={'AntDesign'} size={18} />
                         <Text style={globalStyles.title2}>Booking time:</Text>
-                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{startTime.toString().substring(16, 22)} - {endTime.toString().substring(16, 22)}</Text>
+                        <Text style={{ marginLeft: 4, fontSize: 16 }} >{startTime.toString().substring(16, 21)} - {endTime.toString().substring(16, 21)}</Text>
                     </View>
                     <View style={globalStyles.verticalDivide} />
                     <View style={styles.rowItem} >

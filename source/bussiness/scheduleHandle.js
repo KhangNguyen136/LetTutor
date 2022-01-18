@@ -4,7 +4,7 @@ export function initSectionSchedule(start = 0, end = 47) {
     while (startID < end) {
         const h = parseInt(startID / 2);
         const hStr = h < 10 ? '0' + h : h;
-        if (h % 2 == 0)
+        if (startID % 2 == 0)
             result.push(hStr + ':00 - ' + hStr + ':25');
         else
             result.push(hStr + ':30 - ' + hStr + ':55');

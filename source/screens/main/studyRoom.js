@@ -1,25 +1,28 @@
 import React from 'react';
 import { Text, SafeAreaView, View, StyleSheet } from 'react-native';
-import Card from '../../components/card';
 import JitsiMeet, { JitsiMeetView } from 'react-native-jitsi-meet'
 import { useSelector } from 'react-redux';
-
-const testURL = 'https://meet.jit.si/GoldenCollegesLobbyOnline';
+import { Buffer } from 'buffer';
+const server = "https://meet.tutoring.letstudy.io";
 
 export default function StudyRoom({ navigation, route }) {
     const { data } = route.params;
     const userInfo = useSelector(state => state.userInfoState);
+    const token = userInfo.tokens.access.token;
+    console.log(token);
     const scheduleDetailInfo = data.scheduleDetailInfo;
     const startTime = new Date(scheduleDetailInfo.startPeriodTimestamp);
     const endTime = new Date(scheduleDetailInfo.endPeriodTimestamp);
-    // const today = new Date();
+    const meetingInfo = decode(data.studentMeetingLink)
+
     const waitTime = startTime.valueOf() - Date.now();
     const [timerCount, setTimer] = React.useState(parseInt(waitTime / 1000));
     const onConferenceTerminated = (nativeEvent) => {
         console.log('Terminated');
+        // JitsiMeet.endCall();
+        navigation.replace('History')
         /* Conference terminated event */
     }
-
     const onConferenceJoined = (nativeEvent) => {
         console.log('Joined');
 
@@ -39,17 +42,22 @@ export default function StudyRoom({ navigation, route }) {
                 return lastTimerCount - 1
             })
         }, 1000) //each count lasts for a second
-
+        const options = {
+            audioMuted: false,
+            audioOnly: false,
+            videoMuted: false,
+            token: token,
+        }
         //cleanup the interval on complete
         let timeOut = setTimeout(() => {
-            const url = data.studentMeetingLink; // can also be only room name and will connect to jitsi meet servers
-            console.log(url);
+            const url = 'https://meet.lettutor.com/' + meetingInfo.roomName; // can also be only room name and will connect to jitsi meet servers
             const userInfoCall = { displayName: userInfo.name, email: userInfo.email, avatar: userInfo.avatar };
-            JitsiMeet.call(testURL, userInfoCall);
+            JitsiMeet.call(url, userInfoCall, options.meetFeatureFlags);
             /* You can also use JitsiMeet.audioCall(url) for audio only call */
             /* You can programmatically end the call with JitsiMeet.endCall() */
         }, 1000);
         return () => {
+            console.log('Clear');
             clearTimeout(timeOut)
             clearInterval(interval)
             JitsiMeet.endCall();
@@ -83,6 +91,13 @@ export default function StudyRoom({ navigation, route }) {
         </SafeAreaView>
     )
 }
+
+function decode(data) {
+    const code = data.split('.');
+    // console.log(code)
+    const decode = Buffer.from(code[1], 'base64').toString('ascii');
+    return JSON.parse(decode)
+}
 const styles = StyleSheet.create({
     title: {
         fontSize: 17,
@@ -96,7 +111,32 @@ const styles = StyleSheet.create({
         left: 0, top: 0, right: 0, bottom: 0
     },
     alert: {
-        backgroundColor: 'white', opacity: 0.5, borderRadius: 13,
-        alignItems: 'center', padding: 10, margin: 10, position: 'absolute', zIndex: 2
+        backgroundColor: 'white', opacity: 1, borderRadius: 13,
+        alignItems: 'center', padding: 10, margin: 10, position: 'absolute', zIndex: 2,
+        borderColor: 'black', borderWidth: 0.5
     }
 })
+
+const meetFeatureFlags = {
+    addPeopleEnabled: true,
+    calendarEnabled: true,
+    callIntegrationEnabled: true,
+    chatEnabled: true,
+    closeCaptionsEnabled: true,
+    inviteEnabled: true,
+    androidScreenSharingEnabled: true,
+    liveStreamingEnabled: true,
+    meetingNameEnabled: true,
+    meetingPasswordEnabled: true,
+    pipEnabled: true,
+    kickOutEnabled: true,
+    conferenceTimerEnabled: true,
+    videoShareButtonEnabled: true,
+    recordingEnabled: true,
+    reactionsEnabled: true,
+    raiseHandEnabled: true,
+    tileViewEnabled: true,
+    toolboxAlwaysVisible: false,
+    toolboxEnabled: true,
+    welcomePageEnabled: false,
+}

@@ -41,7 +41,7 @@ function MainStack({ navigation }) {
             <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ title: 'Change Password' }} />
             <Stack.Screen name="AdvancedSetting" component={AdvancedSetting} options={{ title: 'Setting' }} />
             <Stack.Screen name="StudyRoom" component={StudyRoom} options={{ title: 'Meeting room' }} />
-            <Stack.Screen name="TutorInfo" component={TutorInfo} />
+            <Stack.Screen name="TutorInfo" component={TutorInfo} options={{ title: 'Tutor details' }} />
             <Stack.Screen name="Report" component={ReportScreen} />
             <Stack.Screen name="Reviews" component={Reviews} />
             <Stack.Screen name="BecomeTutor1" component={BecomeTutor1} options={{ title: 'Complete profile' }} />

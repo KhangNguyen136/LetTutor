@@ -7,6 +7,7 @@ import { formatBookingTable, initSectionSchedule } from '../bussiness/scheduleHa
 import { getScheduleByID } from '../services/tutor';
 import LoadingIndicator from './loadingIndicator';
 import { getUserInfo } from '../services/userInfo';
+import { checkAfter2h } from '../bussiness/date';
 // import BookingDialog from './booking/bookingDialog';
 const today = new Date()
 export default function TableBooking({ tutor, token, userId }) {
@@ -81,7 +82,9 @@ export default function TableBooking({ tutor, token, userId }) {
                 return Booked()
             return Reverse()
         }
-        return (<BookBtn item={item} tutor={tutor} navigation={navigation} />)
+        if (checkAfter2h(new Date(item.startPeriodTimestamp)))
+            return (<BookBtn item={item} tutor={tutor} navigation={navigation} />)
+        return (<Text style={{ fontWeight: '600', color: 'gray', alignSelf: 'center' }}>Book</Text>)
     }
 
     return (

@@ -1,14 +1,10 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image } from 'react-native';
-import { Rating } from 'react-native-ratings';
 import ListTag from './listTag';
 import { useNavigation } from '@react-navigation/core';
 import Card from '../card';
 import Tag from '../tag';
-import { serverUrl } from '../../const';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
-import errorHandle from '../../bussiness/errorHanle';
 import { Searchbar } from 'react-native-paper';
 import Filter from '../filter';
 import LoadMore from '../list/loadMoreButton';

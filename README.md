@@ -34,11 +34,6 @@
 <img src="https://i.imgur.com/1esXjsB.png" width="300" height="650">
 </p>
 
--   **List tutors**: 
-<p align="center"> 
-<img src="https://i.imgur.com/1esXjsB.png" width="300" height="650">
-</p>
-
 -   **Tutor details**: 
 <p align="center"> 
 <img src="https://i.imgur.com/QzAHgdX.png" width="300" height="650">

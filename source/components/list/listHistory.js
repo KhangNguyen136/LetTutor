@@ -53,6 +53,10 @@ export default function ListHistory({ }) {
                             </View>
                         </View>
                     </View>
+                    {
+                        item.scoreByTutor != null &&
+                        <Text style={{ ...styles.imp, marginLeft: 5 }}>Mark by tutor: {item.scoreByTutor}</Text>
+                    }
                     <Text style={{ ...styles.imp, marginLeft: 5 }}>Request: </Text>
                     <TextCard>
                         <MyViewMoreText content={item.studentRequest != null ? item.studentRequest : noRequest} numberOfLine={3} />

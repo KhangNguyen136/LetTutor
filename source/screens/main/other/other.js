@@ -27,7 +27,6 @@ export default function OtherScreen({ navigation, route }) {
     }, [])
     const getData = async () => {
         const res = await getUserInfo(userInfo.tokens.access.token);
-        console.log(res);
         if (res != null) {
             setData(res);
             dispatch(setBecomeTutorState(res));

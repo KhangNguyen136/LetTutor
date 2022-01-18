@@ -17,6 +17,8 @@ import { saveTokenToDB, saveUserInfoToDB } from '../../bussiness/UserInfoService
 import { validateEmail, checkPassword } from '../../bussiness/validInput';
 import { setUserInfoAction, setTokens } from '../../redux/userInfoSlice';
 import errorHandle from '../../bussiness/errorHanle';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin'
+import { signInWithGoogle } from '../../services/socialAuth';
 
 export default function Login(props) {
     const [loading, setLoading] = React.useState(false)
@@ -26,6 +28,11 @@ export default function Login(props) {
     const [passError, setPassError] = React.useState('')
     const { navigation } = props;
     const dispatch = useDispatch();
+    React.useEffect(() => {
+        GoogleSignin.configure({
+            webClientId: '1002184791709-vmt8r2ovg4qapp5cp00gvahos9o2634q.apps.googleusercontent.com',
+        })
+    }, [])
     const SaveUseInfo = async (data) => {
         try {
             saveTokenToDB(data.tokens);
@@ -128,7 +135,7 @@ export default function Login(props) {
                     </View>
                     <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: '500' }} > Or continue with </Text>
                     <LoginWithButton type={'facebook'} />
-                    <LoginWithButton type={'google'} />
+                    <LoginWithButton type={'google'} onPress={signInWithGoogle} />
                     <LoginWithButton type={'phone'} />
                     {loading &&
                         <LoadingIndicator />

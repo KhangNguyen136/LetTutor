@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1002184791709",
+    "project_id": "letuttor",
+    "storage_bucket": "letuttor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002184791709:android:1d66ab2266d55eb382e674",
+        "android_client_info": {
+          "package_name": "com.khangnguyen136.lettutor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002184791709-9gaf9sss18qhbbr7cns11ag1b3p1i3tk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khangnguyen136.lettutor",
+            "certificate_hash": "5994de989d4097b693eeca0acfced8c3a2895632"
+          }
+        },
+        {
+          "client_id": "1002184791709-vmt8r2ovg4qapp5cp00gvahos9o2634q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhDb3dbZxc1MPtzlYN7geqrUn0h2T8AKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002184791709-vmt8r2ovg4qapp5cp00gvahos9o2634q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1002184791709-t2apfo7np05d5schtc14qfh301pssn50.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.khangnguyen136.lettutor"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

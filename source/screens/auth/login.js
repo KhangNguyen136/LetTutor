@@ -13,12 +13,13 @@ import axios from 'axios';
 import { serverUrl } from '../../const';
 import { loggedIn } from '../../redux/authSlice';
 import { useDispatch } from 'react-redux';
-import { saveTokenToDB, saveUserInfoToDB } from '../../bussiness/UserInfoServices';
+
 import { validateEmail, checkPassword } from '../../bussiness/validInput';
 import { setUserInfoAction, setTokens } from '../../redux/userInfoSlice';
 import errorHandle from '../../bussiness/errorHanle';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin'
 import { signInWithGoogle } from '../../services/socialAuth';
+import { saveTokenToDB } from '../../services/database';
 
 export default function Login(props) {
     const [loading, setLoading] = React.useState(false)
@@ -35,7 +36,7 @@ export default function Login(props) {
     }, [])
     const SaveUseInfo = async (data) => {
         try {
-            saveTokenToDB(data.tokens);
+            saveTokenToDB(data.tokens.access.token, data.tokens.refresh.token);
             dispatch(setUserInfoAction(data.user));
             dispatch(setTokens(data.tokens))
             setLoading(false);
@@ -107,7 +108,6 @@ export default function Login(props) {
                             }
                             setUsername(value)
                         }} />
-
                     <Text style={styles.error} >{usernameError}</Text>
                     <PasswordTextInput title={'Password'} placeholder={'Enter password'} value={password}
                         onChangeValue={(value) => {

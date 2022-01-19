@@ -29,12 +29,11 @@ export const userInfoSlice = createSlice({
             state.name = data.name;
             state.email = data.email;
             state.avatar = data.avatar;
-            console.log('Update user info action', data);
+            console.log('Update user info action');
         },
         setBecomeTutorState: (state, action) => {
             const data = action.payload;
             if (data.tutorInfo != null) {
-                console.log('tutoInfo not null')
                 state.isTutor = data.tutorInfo.isActived;
                 state.isApproving = true;
             }

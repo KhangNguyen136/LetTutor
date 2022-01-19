@@ -11,10 +11,10 @@ import * as Linking from 'expo-linking';
 import { GetIcon } from '../../../components/button';
 import { loggedOut } from '../../../redux/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetDB } from '../../../bussiness/UserInfoServices';
 import { resetData, setBecomeTutorState } from '../../../redux/userInfoSlice';
 import { getUserInfo } from '../../../services/userInfo';
 import LoadingIndicator from '../../../components/loadingIndicator';
+import { ResetDB } from '../../../services/database';
 
 export default function OtherScreen({ navigation, route }) {
     const dispatch = useDispatch();
@@ -43,7 +43,7 @@ export default function OtherScreen({ navigation, route }) {
     }
     const logOut = async () => {
         try {
-            resetDB();
+            ResetDB();
             dispatch(resetData());
             dispatch(loggedOut())
             showMessage({ type: 'success', message: 'Log out successful' });

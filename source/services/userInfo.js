@@ -41,8 +41,6 @@ export async function becomeTutor(data, token) {
     try {
         const params = new FormData()
         for (var key in data) {
-            console.log({ key })
-            console.log(data[key])
             if (key == 'avatar' || key == 'video')
                 continue;
             if (key == 'languages') {
@@ -67,7 +65,6 @@ export async function becomeTutor(data, token) {
             params.append(key, data[key]);
         }
         const videoInfo = data.video;
-        console.log(videoInfo);
         params.append('video', {
             // name: videoInfo.fileName,
             name: 'introVideo.mp4',
@@ -75,7 +72,6 @@ export async function becomeTutor(data, token) {
             type: videoInfo.type
         })
         const imageInfo = data.avatar;
-        console.log(imageInfo)
         params.append('avatar', {
             name: imageInfo.fileName,
             uri: imageInfo.uri,

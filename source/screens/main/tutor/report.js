@@ -8,6 +8,7 @@ import { globalStyles } from '../../../styles/globalStyles';
 import { Checkbox } from 'react-native-paper';
 import { reportTutor } from '../../../services/tutor';
 import { showMessage } from 'react-native-flash-message';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function ReportScreen({ navigation, route }) {
     const { data, token } = route.params;
@@ -35,6 +36,41 @@ export default function ReportScreen({ navigation, route }) {
             navigation.goBack();
         }
     }
+    const select1 = () => {
+        if (!report1)
+            setDescription(0);
+        else
+            removeDescription(0)
+        setReport1(!report1)
+    }
+    const select2 = () => {
+        if (!report2)
+            setDescription(1);
+        else
+            removeDescription(1);
+        setReport2(!report2)
+    }
+    const select3 = () => {
+        if (!report3)
+            setDescription(2)
+        else
+            removeDescription(2);
+        setReport3(!report3)
+    }
+    const select4 = () => {
+        if (!report4)
+            setDescription(3)
+        else
+            removeDescription(3);
+        setReport4(!report4)
+    }
+    const select5 = () => {
+        if (!report5)
+            setDescription(4)
+        else
+            removeDescription(4);
+        setReport5(!report5)
+    }
     return (
         <SafeAreaView style={globalStyles.container} >
             <Card>
@@ -43,62 +79,31 @@ export default function ReportScreen({ navigation, route }) {
                 </View>
                 <Text style={styles.title}>You are reporting {data.User.name}</Text>
                 <Text style={styles.title}>Help us understand what's happening!</Text>
-                <View style={styles.checkBoxRow}>
-                    <Checkbox status={report1 ? 'checked' : 'unchecked'} onPress={() => {
-                        if (!report1)
-                            setDescription(0);
-                        else
-                            removeDescription(0)
-                        setReport1(!report1)
-                    }} />
+                <TouchableOpacity style={styles.checkBoxRow} onPress={select1} >
+                    <Checkbox status={report1 ? 'checked' : 'unchecked'} onPress={select1} />
                     <Text style={styles.itemContent}> This tutor is annoying me </Text>
-                </View>
-                <View style={styles.checkBoxRow}>
-
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.checkBoxRow} onPress={select2}  >
                     <Checkbox status={report2 ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            if (!report2)
-                                setDescription(1);
-                            else
-                                removeDescription(1);
-                            setReport2(!report2)
-                        }} />
+                        onPress={select2} />
                     <Text style={styles.itemContent}>This profile is pretending be someone or is fake</Text>
-                </View>
-                <View style={styles.checkBoxRow}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.checkBoxRow} onPress={select3}>
                     <Checkbox status={report3 ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            if (!report3)
-                                setDescription(2)
-                            else
-                                removeDescription(2);
-                            setReport3(!report3)
-                        }} />
+                        onPress={select3} />
                     <Text style={styles.itemContent}>Inappropriate profile photo</Text>
-                </View>
-                <View style={styles.checkBoxRow}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.checkBoxRow} onPress={select4}>
                     <Checkbox status={report4 ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            if (!report4)
-                                setDescription(3)
-                            else
-                                removeDescription(3);
-                            setReport4(!report4)
-                        }} />
+                        onPress={select4} />
                     <Text style={styles.itemContent}>This tutor didn't appear at lesson</Text>
-                </View>
-                <View style={styles.checkBoxRow}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.checkBoxRow} onPress={select5} >
 
                     <Checkbox status={report5 ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            if (!report5)
-                                setDescription(4)
-                            else
-                                removeDescription(4);
-                            setReport5(!report5)
-                        }} />
+                        onPress={select5} />
                     <Text style={styles.itemContent}>This tutor's behavior is not appropriate</Text>
-                </View>
+                </TouchableOpacity>
                 <TextInput multiline={true} style={styles.textInput} placeholder={'Let us know details about the problem'} value={description} onChangeText={setDescript} />
                 <MyButton title={'Send'} onPress={send}
                     moreStyle={{ ...globalStyles.authBtnContainer, width: '44%' }} />
@@ -131,7 +136,7 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     checkBoxRow: {
-        flexDirection: 'row', alignItems: 'center',
+        flexDirection: 'row', alignItems: 'center'
     },
     itemContent: {
         fontSize: 15, fontWeight: '600'

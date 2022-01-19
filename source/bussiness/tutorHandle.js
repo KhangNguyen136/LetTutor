@@ -45,3 +45,17 @@ export function updateFavorTutor(tutors, id) {
     return tutors;
 }
 
+import { languages } from "../constant";
+
+export function getLanguageTitle(data) {
+    const resutl = [];
+    data.forEach(item => {
+        if (languages[item] != undefined) {
+            resutl.push(languages[item]);
+        }
+        else {
+            resutl.push(item)
+        }
+    })
+    return resutl;
+}

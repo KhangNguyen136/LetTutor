@@ -12,11 +12,11 @@ export default function LoadMore({ onPress, loading, isEmpty }) {
                 //On Click of button load more data
                 style={styles.loadMoreBtn}>
                 <Text style={styles.btnText}>Load More</Text>
-                {loading ? (
+                {/* {loading ? (
                     <ActivityIndicator
                         color="white"
                         style={{ marginLeft: 8, height: 18 }} />
-                ) : null}
+                ) : null} */}
             </TouchableOpacity>
         </View>
     );

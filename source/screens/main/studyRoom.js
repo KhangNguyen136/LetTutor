@@ -9,7 +9,6 @@ export default function StudyRoom({ navigation, route }) {
     const { data } = route.params;
     const userInfo = useSelector(state => state.userInfoState);
     const token = userInfo.tokens.access.token;
-    console.log(token);
     const scheduleDetailInfo = data.scheduleDetailInfo;
     const startTime = new Date(scheduleDetailInfo.startPeriodTimestamp);
     const endTime = new Date(scheduleDetailInfo.endPeriodTimestamp);
@@ -101,7 +100,8 @@ function decode(data) {
 const styles = StyleSheet.create({
     title: {
         fontSize: 17,
-        fontWeight: '600'
+        fontWeight: '600',
+        margin: 5
     },
     meetView: {
         flex: 1,
@@ -113,7 +113,8 @@ const styles = StyleSheet.create({
     alert: {
         backgroundColor: 'white', opacity: 1, borderRadius: 13,
         alignItems: 'center', padding: 10, margin: 10, position: 'absolute', zIndex: 2,
-        borderColor: 'black', borderWidth: 0.5
+        borderColor: 'black', borderWidth: 0.5, width: '80%', height: '50%',
+        justifyContent: 'center'
     }
 })
 

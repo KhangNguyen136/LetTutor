@@ -51,14 +51,14 @@ function TabBarIcon({ focused, routeName, color, size }) {
             iconSource = 'Ionicons'
             break;
         default:
-            if (focused) {
-                iconName = 'settings'
-                iconSource = 'Ionicons'
-            }
-            else {
-                iconName = 'setting'
-                iconSource = 'AntDesign'
-            }
+            // if (focused) {
+            iconName = 'more-horizontal'
+            iconSource = 'Feather'
+        // }
+        // else {
+        //     iconName = 'setting'
+        //     iconSource = 'AntDesign'
+        // }
     }
     return (
         <GetIcon iconName={iconName} size={size} color={color} source={iconSource} />

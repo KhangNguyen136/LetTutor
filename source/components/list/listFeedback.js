@@ -1,10 +1,8 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, Text, View, StyleSheet, Image } from 'react-native';
-import { GetIcon, MyButton } from '../button';
 import { useNavigation } from '@react-navigation/core';
-import { outputDate } from '../../styles/outputDate';
 import Card from '../card';
-import { Rating } from 'react-native-ratings';
+import StarRating from 'react-native-star-rating';
 
 export default function ListFeedback({ data, search, filter = 'All' }) {
     const filterData = (item) => {
@@ -23,11 +21,8 @@ export default function ListFeedback({ data, search, filter = 'All' }) {
                         <View style={{ flex: 1, margin: 5 }} >
                             <Text style={{ fontSize: 15, fontWeight: '500', margin: 3 }} >{item.firstInfo.name}</Text>
                             <Text style={{ margin: 4 }} >{date.toUTCString().substring(0, 22)}</Text>
-                            <Rating readonly={true}
-                                startingValue={item.rating}
-                                style={{ margin: 4, alignSelf: 'flex-start' }}
-                                imageSize={20}
-                            />
+                            <StarRating disabled={true} maxStars={5} rating={item.rating} fullStarColor='#f9ca24'
+                                starSize={18} containerStyle={{ marginVertical: 3, alignSelf: 'flex-start' }} />
                         </View>
                     </View>
                     <Card>
@@ -60,76 +55,3 @@ const styles = StyleSheet.create({
     }
 
 })
-
-const dataTest = [
-    {
-        id: 0,
-        name: 'John',
-        date: new Date(),
-        rating: 4,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-    {
-        id: 1,
-        name: 'Anna',
-        date: new Date(),
-        rating: 5,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-    {
-        id: 2,
-        name: 'Kelvin',
-        date: new Date(),
-        rating: 3,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-    {
-        id: 3,
-        name: 'Jack',
-        date: new Date(),
-        rating: 4,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-    {
-        id: 4,
-        name: 'Jenny',
-        date: new Date(),
-        rating: 5,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-    {
-        id: 5,
-        name: 'Paul',
-        date: new Date(),
-        rating: 3,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-    {
-        id: 6,
-        name: 'Julia',
-        date: new Date(),
-        rating: 5,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-    {
-        id: 7,
-        name: 'Ino',
-        date: new Date(),
-        rating: 4,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-    {
-        id: 8,
-        name: 'Roy',
-        date: new Date(),
-        rating: 3,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-    {
-        id: 9,
-        name: 'Yang',
-        date: new Date(),
-        rating: 5,
-        comment: 'Thank you for booking my class. I hope to see you again soon. Keep learning and improve yourself everyday, you will get what you want.'
-    },
-]

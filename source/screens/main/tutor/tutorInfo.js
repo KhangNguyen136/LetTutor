@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, SafeAreaView, Image, ScrollView, View, TouchableOpacity } from 'react-native';
 import { GetIcon } from '../../../components/button';
 import Card from '../../../components/card';
-import { Rating } from 'react-native-ratings';
+import StarRating from 'react-native-star-rating';
 import { globalStyles } from '../../../styles/globalStyles';
 import { FlagButton, CountryList } from 'react-native-country-picker-modal';
 import IconBtn from '../../../components/iconBtn';
@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import errorHanle from '../../../bussiness/errorHanle';
 import LoadingIndicator from '../../../components/loadingIndicator';
 import { favorAction } from '../../../services/tutor';
+import { getLanguageTitle } from '../../../bussiness/tutorHandle';
 export default function TutorInfo({ navigation, route }) {
     const id = route.params.id;
     const userInfo = useSelector(state => state.userInfoState);
@@ -65,9 +66,10 @@ export default function TutorInfo({ navigation, route }) {
                                 {
                                     data.rating == 0 ?
                                         (<Text>No reviews yet</Text>) :
-                                        (<Rating readonly={true} startingValue={data.avgRating}
-                                            style={{ marginVertical: 3, alignSelf: 'flex-start' }}
-                                            imageSize={16} />)
+                                        (
+                                            <StarRating disabled={true} starSize={20} containerStyle={{ marginTop: 4, alignSelf: 'flex-start' }}
+                                                maxStars={5} rating={data.avgRating} fullStarColor='#f9ca24' />
+                                        )
                                 }
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1 }}>
@@ -102,7 +104,7 @@ export default function TutorInfo({ navigation, route }) {
                     <Card>
                         <View style={{ padding: 5 }} >
                             <Text style={{ ...globalStyles.title1, marginBottom: 3 }} >Languages: </Text>
-                            <ListTag tags={data.languages.split(',')} />
+                            <ListTag tags={getLanguageTitle(data.languages.split(','))} />
                         </View>
                         <View style={{ padding: 5 }}>
                             <Text style={{ ...globalStyles.title1, marginBottom: 3 }} >Specialties: </Text>

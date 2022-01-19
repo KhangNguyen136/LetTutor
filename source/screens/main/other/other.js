@@ -91,7 +91,7 @@ export default function OtherScreen({ navigation, route }) {
                 <OtherButton title={'Ebook'} iconName={'book'} iconSource={'Entypo'} onPress={() => navigation.navigate('Ebook')} color={'#00b894'} />
                 {/* <OtherButton title={'Buy lesson'} iconName={'shop'} iconSource={'MaterialIcons'} onPress={() => navigation.navigate('BuyLesson')} color={'#0984e3'} /> */}
 
-                <OtherButton title={'Advanced setting'} iconName={'setting'} iconSource={'AntDesign'} onPress={() => navigation.navigate('AdvancedSetting')} color={'#2d3436'} />
+                <OtherButton title={'Setting'} iconName={'setting'} iconSource={'AntDesign'} onPress={() => navigation.navigate('AdvancedSetting')} color={'#2d3436'} />
 
                 <OtherButton title={'Website'} iconName={'web'} iconSource={'MaterialCommunityIcons'} color={'#2F62E4'}
                     onPress={() => Linking.openURL('https://github.com/KhangNguyen136/LetTutor')} />

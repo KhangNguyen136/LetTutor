@@ -1,12 +1,11 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { IconButton } from './button';
-import { Rating } from 'react-native-ratings';
+import StarRating from 'react-native-star-rating';
 import ListTag from './list/listTag';
 import Card from './card';
 import { getListLabel } from './../bussiness/specialies';
 import { FlagButton } from 'react-native-country-picker-modal';
-import { DataTable, Searchbar } from 'react-native-paper';
 import { favorAction } from '../services/tutor';
 
 export function Tutor({ item, navigation, token }) {
@@ -30,11 +29,8 @@ export function Tutor({ item, navigation, token }) {
                         <Text style={{ fontWeight: 'bold', fontSize: 15 }}  >{item.name}</Text>
                         <FlagButton {...{ countryCode: item.country, onOpen: toDetail }} containerButtonStyle={{ margin: 0, padding: 0 }} withCountryNameButton />
                         {item.rating != undefined ?
-                            <Rating readonly={true}
-                                startingValue={item.rating}
-                                style={{ marginVertical: 1, alignSelf: 'flex-start' }}
-                                imageSize={20}
-                            />
+                            <StarRating disabled={true} maxStars={5} rating={item.rating} fullStarColor='#f9ca24'
+                                starSize={18} containerStyle={{ marginBottom: 3, alignSelf: 'flex-start' }} />
                             :
                             <Text style={{ fontWeight: '600', fontSize: 14 }} >No review yet</Text>
                         }

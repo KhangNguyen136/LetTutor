@@ -43,11 +43,11 @@ export default function ListTutor({ }) {
     const filter = (item) => {
         return item.name.toLowerCase().includes(searchKey.toLowerCase());
     }
-    const search = async (topicParam, preTestParam) => {
+    const search = async (searchParam, topicParam, preTestParam, perPage = itemPerPage) => {
         setLoading(true);
         const params = {
             page: 1,
-            perPage: itemPerPage
+            perPage
         }
         const specialies = getSpecialies(topicParam, preTestParam);
         if (specialies.length != 0)
@@ -55,6 +55,8 @@ export default function ListTutor({ }) {
                 specialties: specialies,
                 date: new Date().toString()
             }
+        if (searchParam != '')
+            params.search = searchParam
         console.log(params);
         const favour = await getListTutor(1, 1, token);
         const res = await searchTutor(token, params);
@@ -75,15 +77,21 @@ export default function ListTutor({ }) {
                 specialties: specialies,
                 date: new Date().toString()
             }
+        if (searchKey != '')
+            params.search = searchKey
         console.log(params);
         return params;
     }
 
     const getData = async () => {
         setLoading(true);
+        const res = await searchTutor(token, getParams());
+        if (res.rows.length == 0) {
+            setLoading(false);
+            return;
+        }
         const favour = await getListTutor(1, 1, token);
         // setFavourData(favour.favoriteTutor);
-        const res = await searchTutor(token, getParams());
         const result = handleListTutor(res.rows, favour.favoriteTutor);
         setOffset(offset + 1);
         setData(prs => prs.concat(result))
@@ -93,27 +101,33 @@ export default function ListTutor({ }) {
 
     return (
         <View style={{ flex: 1 }} >
-            <Searchbar placeholder="Search by tutor's name" value={searchKey} onChangeText={setSearchKey} />
+            <Searchbar placeholder="Search by tutor's name" value={searchKey} onChangeText={(value) => {
+                if (value == '')
+                    search('', topic, preTest)
+                setSearchKey(value)
+            }}
+                onIconPress={() => search(searchKey, topic, preTest)} />
             <View style={{
                 flexDirection: 'row', backgroundColor: 'white',
                 marginTop: 5, paddingHorizontal: 5
             }} >
                 <Filter data={listTopic} value={topic} title={'Select topic'} didSelect={(item) => {
                     setTopic(item);
-                    search(item, preTest);
+                    search(searchKey, item, preTest);
                 }} />
                 <Filter data={listPreTest} value={preTest} title={'Select test'} didSelect={(item) => {
                     setPreTest(item);
-                    search(topic, item);
+                    search(searchKey, topic, item);
                 }} />
             </View>
             <FlatList
                 ref={listRef}
-                data={data.filter(filter)}
+                data={data}
                 renderItem={({ item }) => <Tutor item={item} token={token} navigation={navigation} />}
                 keyExtractor={item => item.id.toString()}
                 refreshing={false}
                 onRefresh={getData}
+                // onRefresh={() => search(topic, preTest, itemPerPage * (offset - 1))}
                 ListEmptyComponent={() => <NoData loading={loading} />}
                 ListFooterComponent={() => <LoadMore onPress={getData} loading={loading} isEmpty={data.length == 0} />}
             />
@@ -136,8 +150,6 @@ const getSpecialies = (topic, preTest) => {
         result.push(preTest.key);
     return result;
 }
-
-const numberOfItemsPerPageList = [2, 3, 4];
 
 const styles = StyleSheet.create({
     img: {

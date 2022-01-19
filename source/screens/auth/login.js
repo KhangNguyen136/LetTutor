@@ -38,6 +38,7 @@ export default function Login(props) {
             saveTokenToDB(data.tokens);
             dispatch(setUserInfoAction(data.user));
             dispatch(setTokens(data.tokens))
+            setLoading(false);
             dispatch(loggedIn());
             showMessage({
                 type: 'success', message: 'Login successful'
@@ -59,8 +60,8 @@ export default function Login(props) {
         } catch (error) {
             console.log(error)
             errorHandle(error)
+            setLoading(false);
         }
-        setLoading(false);
     }
 
     CheckInput = (email, pass) => {

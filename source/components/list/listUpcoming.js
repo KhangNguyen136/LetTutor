@@ -169,7 +169,7 @@ export default function ListUpcoming({ route }) {
                 numberOfItemsPerPageList={numberOfItemsPerPageList}
                 numberOfItemsPerPage={itemPerPage}
                 onItemsPerPageChange={setItemPerPage}
-                selectPageDropdownLabel={'Tutor/page'}
+                selectPageDropdownLabel={'item/page'}
             />
             {
                 loading &&

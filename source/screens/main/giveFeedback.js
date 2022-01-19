@@ -4,11 +4,11 @@ import { MyButton } from '../../components/button';
 import Card from '../../components/card';
 import { globalStyles } from '../../styles/globalStyles';
 import { GetIcon } from '../../components/button';
-import { Rating } from 'react-native-ratings';
-
+import StarRating from 'react-native-star-rating'
 export default function GiveFeedback({ navigation, route }) {
     const { data } = route.params
-    const isEdit = data.rating != -1
+    const isEdit = data.rating != -1;
+    const [rating, setRating] = React.useState(null);
     return (
         <SafeAreaView style={globalStyles.container} >
             <Card>
@@ -43,11 +43,7 @@ export default function GiveFeedback({ navigation, route }) {
                     <View style={globalStyles.verticalDivide} />
                     <View style={styles.rowItem} >
                         <Text style={globalStyles.title2} >Rate: </Text>
-                        <Rating
-                            startingValue={isEdit ? data.rating : 0}
-                            style={{ margin: 3, alignSelf: 'flex-start' }}
-                            imageSize={20}
-                        />
+                        <StarRating maxStars={5} rating={rating} />
                     </View>
                     <View style={globalStyles.verticalDivide} />
                     <View style={{ flexDirection: 'row', alignItems: 'flex-start', margin: 3, marginTop: 10 }} >

@@ -32,7 +32,7 @@ export default function ForgotPassword({ navigation }) {
         setLoading(false)
     }
     const onChange = (text) => {
-        setEmail(text);
+        setEmail(text.toLowerCase());
         if (text == '') {
             setError('Please enter your email');
         }

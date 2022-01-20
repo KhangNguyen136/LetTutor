@@ -7,7 +7,7 @@
 -   **Run project**: 
     - 'Yarn install'.
     - 'Yarn start'.
--   **Link demo**: https://drive.google.com/file/d/1j6McmbsknhPYjTIEXxcDliJTe8jLLVdC/view?usp=sharing
+-   **Link demo**: https://drive.google.com/file/d/1PRkyIKeudu2W-ZYS-fNwoULi11OYuk7F/view?usp=sharing
 
 ## Main functions:
 -   **Authentication**: 

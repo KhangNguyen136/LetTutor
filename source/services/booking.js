@@ -20,7 +20,6 @@ export async function editRequest(studentRequest, bookedId, token) {
 }
 
 export async function cancelLesson(scheduleDetailIds, token) {
-    console.log(scheduleDetailIds);
     try {
         axios.delete()
         const res = await axios.delete(serverUrl + 'booking',

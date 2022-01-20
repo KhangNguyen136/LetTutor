@@ -1,7 +1,7 @@
 # Project: LetTutor
 
 -   **Description**: learn English online with one-on-one tutors, mobile app of elearning system https://sandbox.app.lettutor.com/
--   **Build with**: React native (JS), redux, realm, axios, jitsi, material UI.
+-   **Build with**: React native (JS), redux, sqlite, axios, jitsi, material UI.
 -   **Flatform**: android, ios.
 -   **Dev**: Nguyen Tan Khang.
 -   **Run project**: 

@@ -65,17 +65,17 @@ export default function StudyRoom({ navigation, route }) {
 
     const toTimeString = (time) => {
         const hour = parseInt((time / 3600) % 24)
-        const strH = hour > 10 ? ` ${hour}` : ` 0${hour}`;
+        const strH = hour < 10 ? ` 0${hour}` : ` ${hour}`;
         const minute = parseInt((time % 3600) / 60)
-        const strM = minute > 10 ? minute : `0${minute}`;
+        const strM = minute < 10 ? `0${minute}` : minute;
         const second = (time % 3600) % 60
-        const strS = second > 10 ? second : `0${second}`;
+        const strS = second < 10 ? `0${second}` : second;
         const day = parseInt(time / 3600 / 24);
         const strDay = day > 1 ? `${day} days` : day > 0 ? `${day} day` : '';
         return (strDay + strH + ' : ' + strM + " : " + strS)
     }
     return (
-        <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', position: 'relative' }} >
+        <SafeAreaView style={{ flex: 1, alignItems: 'center', position: 'relative' }} >
             {waitTime > 0 &&
                 <View style={styles.alert} >
                     <Text style={styles.title} >The lesson will be started after:</Text>
@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
     alert: {
         backgroundColor: 'white', opacity: 1, borderRadius: 13,
         alignItems: 'center', padding: 10, margin: 10, position: 'absolute', zIndex: 2,
-        borderColor: 'black', borderWidth: 0.5, width: '80%', height: '50%',
-        justifyContent: 'center'
+        borderColor: 'black', borderWidth: 0.5,
+        // justifyContent: 'center'
     }
 })
 

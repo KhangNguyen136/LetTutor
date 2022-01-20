@@ -6,9 +6,9 @@ import appStore from './source/appStore';
 import { Provider as PaperProvider } from 'react-native-paper'
 
 export default function App() {
-  React.useEffect(() => {
-    LogBox.ignoreAllLogs();
-  }, [])
+  // React.useEffect(() => {
+  //   LogBox.ignoreAllLogs();
+  // }, [])
   return (
     <Provider store={appStore}>
       <PaperProvider >
